@@ -1,17 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Install required dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+```
+
+Run the development server:
+
+```bash
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -20,17 +18,46 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Commit Message Convention
 
-To learn more about Next.js, take a look at the following resources:
+This website follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Format
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`<type>(optional scope): <description>`
+Example: `feat(pre-event): add speakers section`
 
-## Deploy on Vercel
+### 1. Type
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Available types are:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- feat → Changes about addition or removal of a feature. Ex: `feat: add table on landing page`, `feat: remove table from landing page`
+- fix → Bug fixing, followed by the bug. Ex: `fix: illustration overflows in mobile view`
+- docs → Update documentation (README.md)
+- style → Updating style, and not changing any logic in the code (reorder imports, fix whitespace, remove comments)
+- chore → Installing new dependencies, or bumping deps
+- refactor → Changes in code, same output, but different approach
+- ci → Update github workflows, husky
+- test → Update testing suite, cypress files
+- revert → when reverting commits
+- perf → Fixing something regarding performance (deriving state, using memo, callback)
+
+### 2. Optional Scope
+
+Labels per page Ex: `feat(pre-event): add date label`
+
+\*If there is no scope needed, you don't need to write it
+
+### 3. Description
+
+Description must fully explain what is being done.
+
+Add BREAKING CHANGE in the description if there is a significant change.
+
+**If there are multiple changes, then commit one by one**
+
+- After colon, there are a single space Ex: `feat: add something`
+- When using `fix` type, state the issue Ex: `fix: file size limiter not working`
+- Use imperative, and present tense: "change" not "changed" or "changes"
+- Don't use capitals in front of the sentence
+- Don't add full stop (.) at the end of the sentence
