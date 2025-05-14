@@ -6,58 +6,69 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/layout/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        yellow: {
+          100: '#E5DBA6',
+          200: '#E0C47D',
+          300: '#E5B853',
+          400: '#DEA72A',
         },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+        pink: {
+          100: '#F9DDD8',
+          200: '#F3BABA',
+          300: '#EA9AB2',
+          400: '#E27396',
         },
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+        green: {
+          100: '#658E78',
+          200: '#4C8168',
+          300: '#337357',
+          400: '#346341',
+          500: '#384731',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+        blue: {
+          100: '#8FBFDA',
+          200: '#6DA0E1',
+          300: '#2F80E4',
+          400: '#1158AF',
         },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+        purple: {
+          100: '#EEE2DF',
+          200: '#DEC1DB',
+          300: '#AC7BD1',
         },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+        black: {
+          100: '#ADB5BD',
+          200: '#343A40',
+          300: '#28282B',
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+        additions: {
+          pink: '#E01C8E',
+          purple: {
+            100: '#5B61B2',
+            200: '#662D91',
+            300: '#4C1796',
+          },
+          brown: {
+            100: '#A34343',
+            200: '#9C3022',
+          },
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
+        neutral: {
+          main: '#FFFFFF',
         },
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+      fontFamily: {
+        Lora: ['var(--font-Lora)'],
+        OZWizard: ['var(--font-OZWizard)'],
+        Cinzel: ['var(--font-Cinzel)'],
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [],
 };
 export default config;
