@@ -36,3 +36,10 @@ export const CinzelFont = Cinzel({
   display: 'swap',
   variable: '--font-Cinzel',
 });
+
+export const CinzelDecoFont = Cinzel({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-CinzelDecorative',
+});

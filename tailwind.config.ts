@@ -66,6 +66,7 @@ const config: Config = {
         Lora: ['var(--font-Lora)'],
         OZWizard: ['var(--font-OZWizard)'],
         Cinzel: ['var(--font-Cinzel)'],
+        CinzelDecorative: ['var(--font-CinzelDecorative)'],
       },
     },
   },
