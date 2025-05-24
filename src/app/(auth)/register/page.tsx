@@ -31,7 +31,7 @@ export default function page() {
               weight="bold"
               className="text-additions-brown-50 max-md:text-3xl"
             >
-              Sign In
+              Register
             </Typography>
             <Typography className="text-additions-brown-50">
               Silahkan masukkan data akun anda
@@ -44,6 +44,18 @@ export default function page() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <Input
+                label="Nama Lengkap"
+                required
+                id="fullname"
+                sizes="lg"
+                type="text"
+                placeholder="Enter your Email"
+                validation={{
+                  required: 'This field is required',
+                }}
+                className="bg-neutral-main"
+              />
+              <Input
                 label="Email"
                 required
                 id="email"
@@ -55,28 +67,30 @@ export default function page() {
                 }}
                 className="bg-neutral-main"
               />
-              <div>
-                <Input
-                  label="Password"
-                  required
-                  id="password"
-                  sizes="lg"
-                  type="password"
-                  placeholder="Enter your Password"
-                  validation={{
-                    required: 'This field is required',
-                  }}
-                  className="mb-2 bg-neutral-main"
-                />
-                <Link
-                  href="/forgot-password"
-                  className="block w-full text-end text-yellow-200 hover:text-yellow-300"
-                >
-                  <Typography className="font-medium">
-                    Lupa Password ?
-                  </Typography>
-                </Link>
-              </div>
+              <Input
+                label="Password"
+                required
+                id="password"
+                sizes="lg"
+                type="password"
+                placeholder="Enter your Password"
+                validation={{
+                  required: 'This field is required',
+                }}
+                className="mb-2 bg-neutral-main"
+              />
+              <Input
+                label="Konfirmasi Password"
+                required
+                id="password"
+                sizes="lg"
+                type="password"
+                placeholder="Enter your Password"
+                validation={{
+                  required: 'This field is required',
+                }}
+                className="mb-2 bg-neutral-main"
+              />
 
               <div className="space-y-2 md:space-y-4 md:pt-2">
                 <Button
@@ -87,10 +101,10 @@ export default function page() {
                 </Button>
 
                 <Typography variant="p" className="text-center text-white">
-                  Belum punya akun?{' '}
-                  <Link href="/register">
+                  Sudah punya akun?{' '}
+                  <Link href="/login">
                     <span className="font-bold text-yellow-200 hover:text-yellow-300">
-                      Sign Up
+                      Sign In
                     </span>
                   </Link>
                 </Typography>

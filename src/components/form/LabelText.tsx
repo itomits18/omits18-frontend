@@ -15,7 +15,7 @@ export default function LabelText({
       <Typography
         variant="p"
         weight="bold"
-        className={cn('text-white-500', labelTextClasname)}
+        className={cn('text-neutral-main', labelTextClasname)}
       >
         {children} {required && <span className="text-red-500">*</span>}
       </Typography>

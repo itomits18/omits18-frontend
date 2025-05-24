@@ -18,7 +18,7 @@ export default function AuthBg({ children }: { children: React.ReactNode }) {
         alt="castle"
         className="absolute inset-x-0 top-0 mx-auto w-[70%] bg-cover max-lg:hidden"
       />
-      <section className="relative min-h-screen max-w-full overflow-hidden bg-[url('/images/auth/background-mobile.png')] bg-cover lg:min-h-[130vh] lg:bg-[url('/images/auth/background-desktop.png')] 2xl:min-h-[150vh]">
+      <section className="relative flex min-h-screen max-w-full items-center justify-end overflow-hidden bg-[url('/images/auth/background-mobile.png')] bg-cover max-md:py-10 lg:min-h-[130vh] lg:bg-[url('/images/auth/background-desktop.png')] 2xl:min-h-[150vh]">
         <Image
           src="/images/auth/flower.png"
           width={272}
