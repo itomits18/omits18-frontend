@@ -65,10 +65,7 @@ export default function Input({
   return (
     <div className="w-full space-y-2">
       {label && (
-        <LabelText
-          required={validation?.required ? true : false}
-          labelTextClasname={(theme === 'dark' && 'text-black-main') as string}
-        >
+        <LabelText required={validation?.required ? true : false}>
           {label}
         </LabelText>
       )}
@@ -132,7 +129,7 @@ export default function Input({
                   LeftIcon && 'pl-9',
                   RightIcon && 'pr-9',
                   readOnly ? 'cursor-not-allowed bg-gray-100' : 'bg-white',
-                  'focus:border-white-50 focus:border-2 focus:outline-none focus:ring-0',
+                  'focus:outline-none focus:ring-0',
                   hasValue
                     ? 'border-black-400 text-black-400 border-2'
                     : 'focus:border-0 focus:outline-none',
@@ -156,7 +153,7 @@ export default function Input({
               {type === 'password' && (
                 <div
                   className={cn(
-                    'absolute right-0 top-0 flex h-full items-center pr-3 text-lg text-gray-900',
+                    'absolute right-0 top-0 flex h-full cursor-pointer items-center pr-3 text-lg opacity-40',
                     rightIconClassName,
                   )}
                   onClick={() => setShowPassword(!showPassword)}
