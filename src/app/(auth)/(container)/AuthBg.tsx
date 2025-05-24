@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
-export default function AuthBg() {
+export default function AuthBg({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Image
@@ -85,6 +85,8 @@ export default function AuthBg() {
             'lg:left-[450px] lg:top-80 lg:w-[25%] xl:left-[500px] xl:top-96 2xl:left-[550px] 2xl:top-[450px] 2xl:w-[20%]',
           )}
         />
+
+        {children}
       </section>
     </>
   );
