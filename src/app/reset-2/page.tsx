@@ -106,7 +106,7 @@ export default function ResetPassword() {
 
         <FormProvider {...methods}>
           <form
-            className="mt-2 w-full space-y-4 md:space-y-6"
+            className="mt-2 w-full space-y-2 md:space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             <input
@@ -117,11 +117,13 @@ export default function ResetPassword() {
               required
             />
 
-            <h5 className="text-sm md:text-lg mb-3">
+            <h5 className="text-sm md:text-lg mb-3 mt-1">
               *Password harus lebih dari 8 karakter berisi huruf besar, kecil,
               dan angka
             </h5>
-            <h3 className="text-xl md:text-2xl md:mt-5">Konfirmasi Password</h3>
+            <h3 className="text-xl md:text-2xl md:mt-4 mb-1">
+              Konfirmasi Password
+            </h3>
 
             <input
               type="password"
@@ -135,7 +137,7 @@ export default function ResetPassword() {
               <button
                 type="submit"
                 className="bg-[#E5B853] text-white py-2 rounded-md hover:bg-[#F6D588] 
-                transition-colors md:mt-3"
+                transition-colors md:mt-0"
               >
                 Reset Password
               </button>
