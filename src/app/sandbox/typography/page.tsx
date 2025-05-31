@@ -1,7 +1,12 @@
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
 
-const fontVariants = ['Lora', 'OZWizard', 'Cinzel'] as const;
+const fontVariants = [
+  'Lora',
+  'OZWizard',
+  'Cinzel',
+  'CinzelDecorative',
+] as const;
 
 const fontWeights = ['regular', 'medium', 'bold'] as const; // lora
 const CinzelWeights = ['regular', 'bold', 'black'] as const; // cinzel

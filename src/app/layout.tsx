@@ -1,4 +1,4 @@
-import { CinzelFont, LoraFont, OZWizard } from '@/lib/font';
+import { CinzelDecoFont, CinzelFont, LoraFont, OZWizard } from '@/lib/font';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${OZWizard.variable} ${LoraFont.variable} ${CinzelFont.variable} antialiased`}
+        className={`${OZWizard.variable} ${LoraFont.variable} ${CinzelFont.variable} ${CinzelDecoFont.variable} antialiased`}
       >
         {children}
       </body>

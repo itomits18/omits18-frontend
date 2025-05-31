@@ -18,6 +18,7 @@ export enum TypographyVariant {
 
 enum FontVariant {
   Cinzel,
+  CinzelDecorative,
   OZWizard,
   Lora,
 }
@@ -64,6 +65,7 @@ export default function Typography<T extends React.ElementType>({
         font === 'OZWizard' ? 'Cowardly_Lion' : 'regular',
         [
           font === 'Cinzel' && 'font-Cinzel',
+          font === 'CinzelDecorative' && 'font-CinzelDecorative',
           font === 'OZWizard' && 'font-OZWizard',
           font === 'Lora' && 'font-Lora',
         ],
