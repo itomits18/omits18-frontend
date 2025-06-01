@@ -5,10 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'OMITS 18th',
   description:
-    'Olimpiade Matematika ITS atau OMITS merupakan olimpiade bergengsi tingkat nasional yang diselenggarakan untuk siswa jenjang SD, SMP, dan SMA sederajat serta untuk mahasiswa.',
-  icons: {
-    icon: '/favicon.ico',
-  },
+    'Olimpiade Matematika ITS atau OMITS merupakan olimpiade bergengsi tingkat nasional yang diselenggarakan untuk siswa jenjang SD, SMP, dan SMA sederajat serta untuk mahasiswa',
 };
 
 export default function RootLayout({
