@@ -17,6 +17,7 @@ interface FileUploadProps {
   ) => void;
   supportFiles?: string[];
   isRequired?: boolean;
+  sizes?: 'sm' | 'lg';
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -99,6 +100,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       <div
         className={cn(
           'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
+          'py-3',
           uploadStatus === 'success'
             ? 'bg-green-200'
             : uploadStatus === 'error'
@@ -114,7 +116,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               if (!file && isRequired) return 'File is required';
               if (file) {
                 const fileExtension = file.name.split('.').pop()?.toLowerCase();
-                const maxFileSize = 3 * 1024;
+                const maxFileSize = 3 * 1024 * 1024;
                 if (!supportFiles.includes(fileExtension || '')) {
                   return `Invalid file format. Allowed formats: ${supportFiles.join(
                     ', ',
@@ -148,7 +150,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 : 'text-gray-600',
           )}
         >
-          {fileName || 'Upload here'}
+          {fileName || 'Upload disini'}
         </span>
 
         <div>
