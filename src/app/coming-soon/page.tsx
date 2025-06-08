@@ -13,7 +13,7 @@ export default function page() {
   }, []);
 
   return (
-    <section className="relative min-h-screen max-w-full overflow-x-hidden bg-gradient-to-b from-purple-300 via-pink-400 via-50% to-yellow-200 max-lg:overflow-hidden lg:min-h-screen xl:min-h-[120vh]">
+    <section className="relative min-h-screen max-w-full overflow-x-hidden bg-linear-to-b from-purple-300 via-pink-400 via-50% to-yellow-200 max-lg:overflow-hidden lg:min-h-screen xl:min-h-[120vh]">
       <Image
         src="/images/coming-soon/witch.png"
         width={100}
@@ -119,7 +119,7 @@ export default function page() {
           width={124}
           height={166}
           alt="wind"
-          className="absolute -bottom-5 -left-5 z-[25] w-[25%] md:w-[20%] lg:hidden"
+          className="absolute -bottom-5 -left-5 z-25 w-[25%] md:w-[20%] lg:hidden"
         />
 
         <Image
@@ -127,7 +127,7 @@ export default function page() {
           width={124}
           height={166}
           alt="wind"
-          className="absolute -bottom-5 -right-5 z-[25] w-[25%] md:w-[20%] lg:hidden"
+          className="absolute -bottom-5 -right-5 z-25 w-[25%] md:w-[20%] lg:hidden"
         />
 
         <Image

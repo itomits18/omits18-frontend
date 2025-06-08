@@ -1,6 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-yellow-100: #e5dba6;
+  --color-yellow-200: #e0c47d;
+  --color-yellow-300: #e5b853;
+  --color-yellow-400: #dea72a;
+
+  --color-pink-100: #f9ddd8;
+  --color-pink-200: #f3baba;
+  --color-pink-300: #ea9ab2;
+  --color-pink-400: #e27396;
+
+  --color-green-100: #658e78;
+  --color-green-200: #4c8168;
+  --color-green-300: #337357;
+  --color-green-400: #346341;
+  --color-green-500: #384731;
+
+  --color-blue-100: #8fbfda;
+  --color-blue-200: #6da0e1;
+  --color-blue-300: #2f80e4;
+  --color-blue-400: #1158af;
+
+  --color-purple-100: #eee2df;
+  --color-purple-200: #dec1db;
+  --color-purple-300: #ac7bd1;
+
+  --color-black-100: #adb5bd;
+  --color-black-200: #343a40;
+  --color-black-300: #28282b;
+
+  --color-additions-pink: #e01c8e;
+
+  --color-additions-purple-100: #5b61b2;
+  --color-additions-purple-200: #662d91;
+  --color-additions-purple-300: #4c1796;
+
+  --color-additions-brown-100: #a34343;
+  --color-additions-brown-200: #9c3022;
+
+  --color-neutral-main: #ffffff;
+
+  --font-Lora: var(--font-Lora);
+  --font-OZWizard: var(--font-OZWizard);
+  --font-Cinzel: var(--font-Cinzel);
+  --font-Cinzel-decorative: var(--font-CinzelDecorative);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 ::-webkit-scrollbar {
   width: 10px;
