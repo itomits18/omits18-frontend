@@ -85,7 +85,7 @@ export function SelectInput({
             <SelectTrigger
               id={id}
               className={cn(
-                'bg-white-50 w-full rounded-lg text-[#8F8B8A] focus:outline-none focus:ring-2',
+                'bg-white-50 w-full rounded-lg text-[#8F8B8A] focus:outline-hidden focus:ring-2',
                 size === 'lg' ? 'px-6 py-5' : 'px-3 py-2',
                 error && 'border-2 border-red-500',
                 hasValue &&

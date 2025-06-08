@@ -129,7 +129,7 @@ export default function DashboardLayout({
   }, [path]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
+    <section className="relative min-h-screen w-full overflow-x-hidden bg-linear-to-b from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
       <Image
         src="/images/dashboard/layout/assets-bl.png"
         width={930}
@@ -180,7 +180,7 @@ export default function DashboardLayout({
       <div className="z-20 flex w-full px-8 py-6 lg:space-x-8 lg:px-12 lg:py-10 xl:space-x-10 xl:px-16">
         <div
           className={cn(
-            'bg-black-main/30 absolute top-0 z-[52] min-h-screen w-full transition-all duration-200 lg:hidden',
+            'bg-black-main/30 absolute top-0 z-52 min-h-screen w-full transition-all duration-200 lg:hidden',
             open ? 'block opacity-100' : 'hidden opacity-0',
           )}
           onClick={handleClickNav}
@@ -189,7 +189,7 @@ export default function DashboardLayout({
         <div
           className={cn(
             'relative h-fit flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-fit lg:px-8 lg:py-14',
-            'left-0 top-0 z-[53] min-h-screen px-6 py-12 max-lg:absolute lg:flex',
+            'left-0 top-0 z-53 min-h-screen px-6 py-12 max-lg:absolute lg:flex',
             'max-lg:scrollbar-hide transition-all duration-200 max-lg:max-h-screen max-lg:overflow-y-scroll',
             open ? 'max-lg:left-0' : 'max-lg:-left-96',
           )}

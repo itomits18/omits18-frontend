@@ -132,10 +132,10 @@ export default function Input({
                   LeftIcon && 'pl-9',
                   RightIcon && 'pr-9',
                   readOnly ? 'cursor-not-allowed bg-gray-100' : 'bg-white',
-                  'focus:border-white-50 focus:border-2 focus:outline-none focus:ring-0',
+                  'focus:border-white-50 focus:border-2 focus:outline-hidden focus:ring-0',
                   hasValue
                     ? 'border-black-400 text-black-400 border-2'
-                    : 'focus:border-0 focus:outline-none',
+                    : 'focus:border-0 focus:outline-hidden',
                   error &&
                     'border-none ring-2 ring-inset ring-red-300 placeholder:text-gray-500 focus:ring-red-300',
                   className,
