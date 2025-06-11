@@ -1,19 +1,8 @@
 'use client';
 import Input from '@/components/form/Input';
+import { SelectInput } from '@/components/form/SelectInput';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Controller,
-  FormProvider,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 const regionOptions = [
   { value: 'offline_1', label: 'Offline 1 - Surabaya, Gresik, dan Bangkalan' },
@@ -81,12 +70,9 @@ interface FormPage1Props {
 }
 
 export default function FormPage1({ onSubmit }: FormPage1Props) {
-  const methods = useForm<FormValues>();
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = methods;
+  const methods = useForm<FormValues>({
+    mode: 'onTouched',
+  });
 
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
     onSubmit(data);
@@ -94,109 +80,36 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="space-y-1">
-            <label
-              htmlFor="bundle"
-              className="font-Lora text-lg font-bold text-gray-900"
-            >
-              Bundle <span className="text-red-500">*</span>
-            </label>
-            <Controller
-              name="bundle"
-              control={control}
-              rules={{ required: 'This field is required.' }}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="font-Lora text-black-300 placeholder:text-black-100">
-                    <SelectValue placeholder="Pilih Bundle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {bundleOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.bundle && (
-              <p className="text-sm text-red-600">{errors.bundle.message}</p>
-            )}
-          </div>
-          <div className="space-y-1">
-            <label
-              htmlFor="jenjangKompetisi"
-              className="font-Lora text-lg font-bold text-gray-900"
-            >
-              Jenjang Kompetisi <span className="text-red-500">*</span>
-            </label>
-            <Controller
-              name="jenjangKompetisi"
-              control={control}
-              rules={{ required: 'This field is required.' }}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="font-Lora text-black-300 placeholder:text-black-100">
-                    <SelectValue placeholder="Pilih Jenjang Kompetisi" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {jenjangKompetisiOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.jenjangKompetisi && (
-              <p className="text-sm text-red-600">
-                {errors.jenjangKompetisi.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-1">
-            <label
-              htmlFor="region"
-              className="font-Lora text-lg font-bold text-gray-900"
-            >
-              Region <span className="text-red-500">*</span>
-            </label>
-            <Controller
-              name="region"
-              control={control}
-              rules={{ required: 'This field is required.' }}
-              render={({ field }) => (
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="font-Lora text-black-300 placeholder:text-black-100">
-                    <SelectValue placeholder="Pilih Region" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {regionOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.region && (
-              <p className="text-sm text-red-600">{errors.region.message}</p>
-            )}
-          </div>
+      <form
+        onSubmit={methods.handleSubmit(onValidSubmit)}
+        className="space-y-4"
+      >
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-end">
+          <SelectInput
+            id="bundle"
+            label="Bundle"
+            placeholder="Pilih Bundle"
+            options={bundleOptions}
+            validation={{ required: 'Bundle wajib diisi.' }}
+            className="bg-neutral-main"
+          />
+
+          <SelectInput
+            id="jenjangKompetisi"
+            label="Jenjang Kompetisi"
+            placeholder="Pilih Jenjang Kompetisi"
+            options={jenjangKompetisiOptions}
+            validation={{ required: 'Jenjang kompetisi wajib diisi.' }}
+          />
+
+          <SelectInput
+            id="region"
+            label="Region"
+            placeholder="Pilih Region"
+            options={regionOptions}
+            validation={{ required: 'Region wajib diisi.' }}
+          />
+
           <Input
             label="Nomor Wali"
             required
@@ -204,11 +117,10 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             placeholder="Masukkan nomor wali"
-            validation={{
-              required: 'This field is required',
-            }}
+            validation={{ required: 'Nomor wali wajib diisi.' }}
             className="bg-neutral-main"
           />
+
           <Input
             label="Kode Pos"
             required
@@ -216,32 +128,30 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             placeholder="Masukkan kode pos"
-            validation={{
-              required: 'This field is required',
-            }}
+            validation={{ required: 'Kode pos wajib diisi.' }}
             className="bg-neutral-main"
           />
+
           <Input
             label="Nama Sekolah"
             id="namaSekolah"
+            required
             sizes={'sm'}
             type="text"
             placeholder="Masukkan nama Sekolah"
-            validation={{
-              required: 'This field is required',
-            }}
+            validation={{ required: 'Nama sekolah wajib diisi.' }}
             className="bg-neutral-main"
           />
+
           <div className="md:col-span-2">
             <Input
               label="Alamat Sekolah"
               id="alamatSekolah"
+              required
               sizes={'sm'}
               type="text"
               placeholder="Masukkan alamat Sekolah"
-              validation={{
-                required: 'This field is required',
-              }}
+              validation={{ required: 'Alamat sekolah wajib diisi.' }}
               className="bg-neutral-main"
             />
           </div>

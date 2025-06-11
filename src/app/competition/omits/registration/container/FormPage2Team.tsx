@@ -121,6 +121,7 @@ export default function FormPage2Team({
               validation={{
                 required: `Bukti NISN Peserta ${index} wajib diisi`,
               }}
+              className="py-0 md:py-2"
             />
           </div>
         </div>

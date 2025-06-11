@@ -80,61 +80,113 @@ export default function page() {
       <div className="flex w-full flex-col gap-4">
         <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
           <div className="hidden items-start justify-center md:flex">
-            <Link
-              href="/omits-class"
-              className="transform rounded-2xl transition duration-300 ease-in-out hover:scale-105"
-            >
+            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
               <Image
-                src="/images/competition/dashboard/omits-class.png"
+                src="/images/competition/dashboard/bg-omits-class-desktop.png"
                 alt="OMITS Class"
                 width={244}
                 height={460}
-                className="rounded-2xl"
+                className="z-0 object-cover"
               />
-            </Link>
+              <div className="absolute inset-0 z-10 mt-12 flex flex-col items-center p-4">
+                <Typography
+                  variant="h5"
+                  font="CinzelDecorative"
+                  weight="bold"
+                  className="text-shadow mb-2 text-center text-[#EEE2DF]"
+                >
+                  OMITS ClASS
+                </Typography>
+                <Link
+                  href="/omits-class"
+                  className="rounded-md bg-[#565098] px-4 py-2 font-Lora text-sm font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
+                >
+                  Lihat detail
+                </Link>
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
-            <Link
-              href="/omits"
-              className="transform rounded-2xl transition duration-300 ease-in-out hover:scale-105"
-            >
+            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
               <Image
-                src="/images/competition/dashboard/omits.png"
+                src="/images/competition/dashboard/bg-omits.png"
                 alt="OMITS"
                 width={473}
                 height={212}
-                className="rounded-2xl"
+                className="z-0 object-cover"
               />
-            </Link>
-            <Link
-              href="/mission"
-              className="transform rounded-2xl transition duration-300 ease-in-out hover:scale-105"
-            >
+              <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
+                <Typography
+                  variant="h5"
+                  font="CinzelDecorative"
+                  weight="bold"
+                  className="text-shadow text-[#EEE2DF] max-md:text-xl md:mb-2"
+                >
+                  OMITS
+                </Typography>
+                <Link
+                  href="/omits"
+                  className="rounded-md bg-green-400 px-2 py-1 font-Lora text-xs text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-green-600 md:px-4 md:py-2 md:text-sm md:font-semibold"
+                >
+                  Lihat detail
+                </Link>
+              </div>
+            </div>
+            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
               <Image
-                src="/images/competition/dashboard/mission.png"
+                src="/images/competition/dashboard/bg-mission.png"
                 alt="Mission"
                 width={473}
                 height={212}
-                className="rounded-2xl"
+                className="z-0 object-cover"
               />
-            </Link>
+              <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
+                <Typography
+                  variant="h5"
+                  font="CinzelDecorative"
+                  weight="bold"
+                  className="text-shadow text-[#EEE2DF] max-md:text-xl md:mb-2"
+                >
+                  MISSION
+                </Typography>
+                <Link
+                  href="/mission"
+                  className="rounded-md bg-[#30669B] px-2 py-1 font-Lora text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#408cd8] md:px-4 md:py-2 md:text-sm"
+                >
+                  Lihat detail
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="flex justify-center md:hidden">
-          <Link
-            href="/omits-class"
-            className="transform rounded-2xl transition duration-300 ease-in-out hover:scale-105"
-          >
+          <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
             <Image
-              src="/images/competition/dashboard/omits-class-mobile.png"
+              src="/images/competition/dashboard/bg-omits-class-mobile.png"
               alt="OMITS Class Mobile"
-              width={309}
-              height={149}
-              className="rounded-2xl"
+              width={473}
+              height={212}
+              className="z-0 object-cover"
             />
-          </Link>
+            <div className="absolute inset-0 z-10 ml-3 mt-0 flex flex-col items-start p-4">
+              <Typography
+                variant="h5"
+                font="CinzelDecorative"
+                weight="bold"
+                className="text-shadow text-[#EEE2DF] max-md:text-xl"
+              >
+                OMITS CLASS
+              </Typography>
+              <Link
+                href="/omits-class"
+                className="rounded-md bg-[#565098] px-2 py-1 font-Lora text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
+              >
+                Lihat detail
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
