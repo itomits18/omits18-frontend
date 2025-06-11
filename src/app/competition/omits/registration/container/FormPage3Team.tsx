@@ -135,6 +135,7 @@ type PesertaTab =
   | 'peserta3'
   | 'peserta4'
   | 'peserta5';
+
 const tabLabels: { key: PesertaTab; label: string }[] = [
   { key: 'peserta1', label: 'Peserta 1' },
   { key: 'peserta2', label: 'Peserta 2' },
