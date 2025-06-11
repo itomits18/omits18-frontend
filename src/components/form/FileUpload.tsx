@@ -100,10 +100,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
         className={cn(
           'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
           uploadStatus === 'success'
-            ? 'bg-white-50 border-gray-300'
+            ? 'bg-green-200'
             : uploadStatus === 'error'
-              ? 'border-red-300 bg-red-50'
-              : 'bg-white-50 border-gray-300',
+              ? 'border-additions-brown-100 bg-additions-brown-100'
+              : 'bg-neutral-main',
           className,
         )}
       >

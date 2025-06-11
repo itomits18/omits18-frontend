@@ -66,8 +66,8 @@ const USER = {
 const ADMIN = {
   navigation: [
     {
-      title: 'Graph',
-      link: '/admin/graph',
+      title: 'Insight',
+      link: '/admin/insight',
       icon: (
         <ChartColumnIncreasing size={24} className="text-additions-brown-200" />
       ),
@@ -242,7 +242,10 @@ export default function DashboardLayout({
                     <Link href={link.link} className="">
                       <div
                         key={k}
-                        className="flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]"
+                        className={cn(
+                          'flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]',
+                          path.startsWith(link.link) && 'bg-[#F9DDD8]',
+                        )}
                       >
                         {link.icon}
                         <Typography
