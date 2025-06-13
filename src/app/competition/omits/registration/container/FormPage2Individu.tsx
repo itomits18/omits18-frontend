@@ -33,18 +33,21 @@ export default function FormPage2Individu({
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
+              labelTextClassname="text-black-300"
               id="namaLengkap_1"
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
               validation={{ required: 'Nama lengkap tidak boleh kosong.' }}
             />
             <Input
+              labelTextClassname="text-black-300"
               id="nomorTelepon_1"
               label="Nomor Telepon Siswa"
               placeholder="Masukkan nomor telepon"
               validation={{ required: 'Nomor telepon tidak boleh kosong.' }}
             />
             <Input
+              labelTextClassname="text-black-300"
               id="nomorNISN_1"
               label="Nomor NISN"
               placeholder="Masukkan nomor NISN"
@@ -59,6 +62,7 @@ export default function FormPage2Individu({
                 validation={{
                   required: 'Kartu Pelajar wajib diupload.',
                 }}
+                labelTextClassName="text-black-300"
               />
             </div>
           </div>

@@ -189,7 +189,7 @@ export default function DashboardLayout({
         <div
           className={cn(
             'relative h-fit flex-shrink-0 flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-[300px] lg:px-8 lg:py-14 xl:min-w-fit',
-            'left-0 top-0 z-[53] min-h-screen px-6 py-12 max-lg:absolute lg:flex',
+            'left-0 top-0 z-50 min-h-screen px-6 py-12 max-lg:absolute max-md:z-[53] lg:flex',
             'max-lg:scrollbar-hide transition-all duration-200 max-lg:max-h-screen max-lg:overflow-y-scroll',
             open ? 'max-lg:left-0' : 'max-lg:-left-96',
           )}
@@ -274,7 +274,7 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        <div className="z-40 w-0 flex-1 overflow-hidden lg:pr-8 xl:pr-0">
+        <div className="z-50 w-0 flex-1 overflow-hidden lg:pr-8 xl:pr-0">
           {children}
         </div>
       </div>

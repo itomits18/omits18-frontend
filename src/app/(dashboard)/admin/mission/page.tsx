@@ -125,8 +125,8 @@ export default function page() {
     {
       accessorKey: 'detail',
       header: 'Detail',
-      cell: () => (
-        <Link href={'/'}>
+      cell: (info) => (
+        <Link href={'/admin/mission/' + info.row.original.id}>
           <Typography className="underline">Lihat Detail</Typography>
         </Link>
       ),

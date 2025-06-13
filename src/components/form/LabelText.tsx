@@ -1,9 +1,10 @@
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
+
 export default function LabelText({
   children,
-  labelTextClasname,
+  labelTextClasname = '',
   required,
 }: {
   children: ReactNode;
@@ -15,7 +16,9 @@ export default function LabelText({
       <Typography
         variant="p"
         weight="bold"
-        className={cn('text-neutral-main', labelTextClasname)}
+        className={cn(
+          labelTextClasname ? labelTextClasname : 'text-neutral-main',
+        )}
       >
         {children} {required && <span className="text-red-500">*</span>}
       </Typography>

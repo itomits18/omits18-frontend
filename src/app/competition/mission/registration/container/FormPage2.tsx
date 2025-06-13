@@ -92,6 +92,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
               <Input
                 id="email_1"
                 label="Email"
+                labelTextClassname="text-black-300"
                 type="email"
                 placeholder="Masukkan email"
                 validation={{ required: 'Email Peserta 1 wajib diisi' }}
@@ -99,12 +100,14 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
               <Input
                 id="namaLengkap_1"
                 label="Nama Lengkap"
+                labelTextClassname="text-black-300"
                 placeholder="Masukkan nama lengkap"
                 validation={{ required: 'Nama Lengkap Peserta 1 wajib diisi' }}
               />
               <Input
                 id="nomorIdentitas_1"
                 label="Nomor Identitas"
+                labelTextClassname="text-black-300"
                 placeholder="Masukkan nomor Identitas"
                 validation={{
                   required: 'Nomor Identitas Peserta 1 wajib diisi',
@@ -113,6 +116,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
               <Input
                 id="nomorTelepon_1"
                 label="Nomor Telepon Peserta"
+                labelTextClassname="text-black-300"
                 type="tel"
                 placeholder="Masukkan nomor telepon"
                 validation={{ required: 'Nomor Telepon Peserta 1 wajib diisi' }}
@@ -124,6 +128,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 label="Bukti Nomor Identitas"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
+                labelTextClassName="text-black-300"
                 validation={{
                   required: 'Kartu Identitas Peserta 1 wajib diisi',
                 }}
@@ -135,31 +140,34 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
         <div
           className={isMobile || activeTab === 'peserta2' ? 'block' : 'hidden'}
         >
-          <div className="space-y-4 pt-4 md:pt-0">
+          <div className="space-y-2 pt-4 md:pt-0">
             {isMobile && (
               <div className="rounded bg-blue-300 py-2 text-center font-Lora text-lg font-semibold text-white">
                 Data Peserta 2
               </div>
             )}
 
-            <div className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <Input
                 id="email_2"
                 label="Email"
                 type="email"
                 placeholder="Masukkan email"
+                labelTextClassname="text-black-300"
                 validation={{ required: 'Email Peserta 2 wajib diisi' }}
               />
               <Input
                 id="namaLengkap_2"
                 label="Nama Lengkap"
                 placeholder="Masukkan nama lengkap"
+                labelTextClassname="text-black-300"
                 validation={{ required: 'Nama Lengkap Peserta 2 wajib diisi' }}
               />
               <Input
                 id="nomorIdentitas_2"
                 label="Nomor Identitas"
                 placeholder="Masukkan nomor Identitas"
+                labelTextClassname="text-black-300"
                 validation={{
                   required: 'Nomor Identitas Peserta 2 wajib diisi',
                 }}
@@ -169,6 +177,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 label="Nomor Telepon Peserta"
                 type="tel"
                 placeholder="Masukkan nomor telepon"
+                labelTextClassname="text-black-300"
                 validation={{ required: 'Nomor Telepon Peserta 2 wajib diisi' }}
               />
             </div>
@@ -178,6 +187,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 label="Bukti Nomor Identitas"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
+                labelTextClassName="text-black-300"
                 validation={{
                   required: 'Kartu Identitas Peserta 2 wajib diisi',
                 }}

@@ -22,6 +22,7 @@ export type InputProps = {
   leftIcon?: LucideIconType;
   rightIconClassName?: string;
   leftIconClassName?: string;
+  labelTextClassname?: string;
   theme?: string;
   sizes?: 'sm' | 'lg';
 } & React.ComponentPropsWithoutRef<'input'>;
@@ -41,6 +42,7 @@ export default function Input({
   rightIconClassName,
   leftIconClassName,
   helperTextClassName,
+  labelTextClassname,
   sizes = 'lg',
   theme = 'light',
   ...rest
@@ -65,7 +67,10 @@ export default function Input({
   return (
     <div className="w-full space-y-2">
       {label && (
-        <LabelText required={validation?.required ? true : false}>
+        <LabelText
+          required={validation?.required ? true : false}
+          labelTextClasname={labelTextClassname}
+        >
           {label}
         </LabelText>
       )}

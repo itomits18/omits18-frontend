@@ -3,7 +3,7 @@ import 'yet-another-react-lightbox/styles.css';
 import * as React from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 
-import { ImageStore } from '@/app/(dashboard)/admin/MISSION/[id]/page';
+import { ImageStore } from '@/app/(dashboard)/admin/mission/[id]/page';
 import Typography from '@/components/Typography';
 import { Trash } from 'lucide-react';
 import LabelText from './LabelText';
@@ -41,7 +41,9 @@ export default function ImagePreview({
 
   return (
     <div className="flex flex-col space-y-2">
-      {label && <LabelText>{label}</LabelText>}
+      {label && (
+        <LabelText labelTextClasname="text-black-300">{label}</LabelText>
+      )}
       <li
         className="flex h-fit w-full cursor-pointer items-center justify-between gap-2 rounded-lg bg-green-200 px-3 py-3 transition-all duration-200 hover:bg-green-300"
         onClick={() => setIsOpen(true)}

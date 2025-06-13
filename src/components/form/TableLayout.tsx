@@ -112,13 +112,13 @@ export default function TableLayout<T extends object>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="overflow-hidden border"
+                        className="overflow-hidden truncate border"
                       >
                         <Typography
                           as="h6"
                           variant="t"
                           weight="medium"
-                          className="mx-auto max-w-[250px] break-words"
+                          className="mx-auto max-w-[250px] truncate break-words"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

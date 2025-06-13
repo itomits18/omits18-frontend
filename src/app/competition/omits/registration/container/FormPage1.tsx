@@ -119,6 +119,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             placeholder="Masukkan nomor wali"
             validation={{ required: 'Nomor wali wajib diisi.' }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
 
           <Input
@@ -130,6 +131,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             placeholder="Masukkan kode pos"
             validation={{ required: 'Kode pos wajib diisi.' }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
 
           <Input
@@ -141,6 +143,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             placeholder="Masukkan nama Sekolah"
             validation={{ required: 'Nama sekolah wajib diisi.' }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
 
           <div className="md:col-span-2">
@@ -153,6 +156,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
               placeholder="Masukkan alamat Sekolah"
               validation={{ required: 'Alamat sekolah wajib diisi.' }}
               className="bg-neutral-main"
+              labelTextClassname="text-black-300"
             />
           </div>
         </div>

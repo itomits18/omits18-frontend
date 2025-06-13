@@ -17,6 +17,7 @@ interface FileUploadProps {
   ) => void;
   supportFiles?: string[];
   isRequired?: boolean;
+  labelTextClassName?: string;
   sizes?: 'sm' | 'lg';
 }
 
@@ -27,6 +28,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   className,
   helpertext,
   onStatusChange,
+  labelTextClassName,
   supportFiles = ['png', 'jpeg', 'jpg'],
   isRequired = false,
 }) => {
@@ -91,7 +93,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <div className="w-full space-y-2">
       {label && (
-        <LabelText required={isRequired}>
+        <LabelText required={isRequired} labelTextClasname={labelTextClassName}>
           {label}
           {/* {isRequired && <span className="text-red-500">*</span>} */}
         </LabelText>
@@ -144,7 +146,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           className={cn(
             'pointer-events-none',
             uploadStatus === 'success'
-              ? 'text-black-400'
+              ? 'text-neutral-main'
               : uploadStatus === 'error'
                 ? 'text-red-500'
                 : 'text-gray-600',
@@ -158,7 +160,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             <X
               className={cn(
                 'absolute right-[4%] top-1/4 h-5 w-5',
-                uploadStatus === 'error' ? 'text-red-500' : 'text-black-300',
+                uploadStatus === 'error' ? 'text-red-500' : 'text-neutral-main',
               )}
               onClick={resetFile}
             />

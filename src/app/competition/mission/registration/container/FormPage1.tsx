@@ -86,6 +86,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
               required: 'This field is required',
             }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
           <Input
             label="Nama Kampus"
@@ -97,6 +98,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
               required: 'This field is required',
             }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
           <Input
             label="Alamat Kampus"
@@ -108,6 +110,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
               required: 'This field is required',
             }}
             className="bg-neutral-main"
+            labelTextClassname="text-black-300"
           />
         </div>
 

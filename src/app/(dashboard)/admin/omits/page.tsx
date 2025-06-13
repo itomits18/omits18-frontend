@@ -71,7 +71,7 @@ export default function page() {
   const columnDefs: ColumnDef<Pendaftar>[] = [
     {
       id: 'id',
-      accessorKey: 'no',
+      accessorKey: 'id',
       header: 'No',
       size: 5,
       cell: (info) => pagination.pageIndex * 10 + info.row.index + 1,
@@ -125,8 +125,8 @@ export default function page() {
     {
       accessorKey: 'detail',
       header: 'Detail',
-      cell: () => (
-        <Link href={'/'}>
+      cell: (info) => (
+        <Link href={'/admin/omits/' + info.row.original.id}>
           <Typography className="underline">Lihat Detail</Typography>
         </Link>
       ),

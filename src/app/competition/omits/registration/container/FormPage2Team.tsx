@@ -86,6 +86,7 @@ export default function FormPage2Team({
         <div className={`space-y-4 ${index > 1 ? 'pt-6 md:pt-0' : 'md:pt-0'}`}>
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
             <Input
+              labelTextClassname="text-black-300"
               id={`namaLengkap_${index}` as keyof FormTeamValues}
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
@@ -95,6 +96,7 @@ export default function FormPage2Team({
               sizes="sm"
             />
             <Input
+              labelTextClassname="text-black-300"
               id={`nomorTelepon_${index}` as keyof FormTeamValues}
               label="Nomor Telepon Siswa"
               type="tel"
@@ -105,6 +107,7 @@ export default function FormPage2Team({
               sizes="sm"
             />
             <Input
+              labelTextClassname="text-black-300"
               id={`nomorNISN_${index}` as keyof FormTeamValues}
               label="Nomor NISN"
               placeholder="Masukkan NISN"
@@ -122,6 +125,7 @@ export default function FormPage2Team({
                 required: `Bukti NISN Peserta ${index} wajib diisi`,
               }}
               className="py-0 md:py-2"
+              labelTextClassName="text-black-300"
             />
           </div>
         </div>
