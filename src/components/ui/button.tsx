@@ -20,7 +20,7 @@ const buttonVariants = cva(
           'bg-additions-brown-100 hover:bg-additions-brown-200 disabled:bg-red-900',
       },
       size: {
-        default: 'px-5 py-2 rounded-md',
+        default: 'px-5 py-2 rounded-md text-[14px] leading-[24px]',
         sm: 'px-4 py-1 rounded-md text-[12px] leading-[18px]',
         md: 'px-5 py-2 rounded-md text-[14px] leading-[24px]',
         lg: 'px-6 py-4 rounded-md text-[16px] leading-[24px]',
@@ -45,7 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(
           buttonVariants({ variant, size, className }),
-          'font-Lora font-medium',
+          'font-Lora',
         )}
         ref={ref}
         {...props}
