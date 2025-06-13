@@ -1,7 +1,8 @@
 'use client';
 
 import Typography from '@/components/Typography';
-import { Check, X, XCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Check, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -9,38 +10,25 @@ import { useState } from 'react';
 export default function page() {
   const [isRegistered, _setIsRegistered] = useState(false);
   return (
-    <section className="flex w-full max-w-7xl flex-col items-center gap-8 rounded-xl bg-[#FFFDF0] p-6 md:mt-16 xl:mt-0">
+    <section className="flex w-fit flex-col items-center gap-8 rounded-xl bg-[#FFFDF0] p-8 max-lg:w-full lg:px-12">
       <div className="flex flex-col items-center gap-1">
-        <div className="relative mb-2">
+        {/* <div className="relative mb-2">
           {!isRegistered && (
             <div className="absolute -top-5 left-1/2 z-10 -translate-x-1/2 max-md:hidden">
               <XCircle color="white" fill="black" size={24} />
             </div>
           )}
-        </div>
+        </div> */}
         <Image
-          src="/images/competition/dashboard/witch.png"
-          alt="witch-logo"
-          width={40}
-          height={42}
+          src="/images/competition/dashboard/title.png"
+          alt="assets"
+          width={655}
+          height={276}
+          className="mx-auto w-full scale-110 max-md:w-[80%]"
         />
-        <Typography
-          variant="h6"
-          font="OZWizard"
-          className="text-center text-additions-brown-200"
-        >
-          Let&apos;s be part of
-        </Typography>
-        <Typography
-          variant="h3"
-          font="CinzelDecorative"
-          weight="bold"
-          className="text-center text-additions-brown-200 max-md:text-3xl"
-        >
-          Twisted Path
-        </Typography>
       </div>
-      <div className="h-8 text-center">
+
+      <div className="hidden h-8 text-center">
         {' '}
         {isRegistered ? (
           <div className="flex items-center justify-center gap-1">
@@ -77,10 +65,12 @@ export default function page() {
           </div>
         )}
       </div>
-      <div className="flex w-full flex-col gap-4">
-        <div className="flex flex-col items-center md:flex-row md:items-start md:justify-center md:gap-8">
+
+      <div className="flex flex-col gap-4">
+        <div className="flex w-fit flex-col items-center md:flex-row md:items-start md:justify-center">
           <div className="hidden items-start justify-center md:flex">
-            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
+            {/* omits class */}
+            <div className="relative hidden transform overflow-hidden rounded-2xl shadow-lg">
               <Image
                 src="/images/competition/dashboard/bg-omits-class-desktop.png"
                 alt="OMITS Class"
@@ -107,8 +97,8 @@ export default function page() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
+          <div className="flex flex-col gap-8 max-md:gap-4 2xl:flex-row">
+            <div className="relative transform overflow-hidden rounded-md shadow-lg lg:rounded-xl">
               <Image
                 src="/images/competition/dashboard/bg-omits.png"
                 alt="OMITS"
@@ -125,15 +115,18 @@ export default function page() {
                 >
                   OMITS
                 </Typography>
-                <Link
-                  href="/omits"
-                  className="rounded-md bg-green-400 px-2 py-1 font-Lora text-xs text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-green-600 md:px-4 md:py-2 md:text-sm md:font-semibold"
-                >
-                  Lihat detail
+                <Link href="/omits">
+                  <Button
+                    variant="green"
+                    size="md"
+                    className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                  >
+                    Lihat detail
+                  </Button>
                 </Link>
               </div>
             </div>
-            <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative transform overflow-hidden rounded-md shadow-lg lg:rounded-xl">
               <Image
                 src="/images/competition/dashboard/bg-mission.png"
                 alt="Mission"
@@ -150,19 +143,23 @@ export default function page() {
                 >
                   MISSION
                 </Typography>
-                <Link
-                  href="/mission"
-                  className="rounded-md bg-[#30669B] px-2 py-1 font-Lora text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#408cd8] md:px-4 md:py-2 md:text-sm"
-                >
-                  Lihat detail
+                <Link href="/mission">
+                  <Button
+                    variant="blue"
+                    size="md"
+                    className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                  >
+                    Lihat detail
+                  </Button>
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center md:hidden">
-          <div className="relative transform overflow-hidden rounded-2xl shadow-lg">
+        {/* omitsclass mobile */}
+        <div className="hidden justify-center">
+          <div className="relative transform overflow-hidden rounded-xl shadow-lg">
             <Image
               src="/images/competition/dashboard/bg-omits-class-mobile.png"
               alt="OMITS Class Mobile"
