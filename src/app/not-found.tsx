@@ -1,4 +1,5 @@
 import Typography from '@/components/Typography';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export default function NotFound() {
@@ -175,7 +176,7 @@ export default function NotFound() {
         font="Cinzel"
         weight="bold"
         variant="h2"
-        className="absolute left-[50%] top-[50%] z-50 -translate-x-1/2 whitespace-nowrap text-center text-2xl text-white max-md:text-2xl md:top-[65%] md:text-4xl"
+        className="absolute left-[50%] top-[50%] z-50 -translate-x-1/2 whitespace-nowrap text-center text-white max-md:text-3xl md:top-[65%] md:text-4xl"
       >
         Page Not Found
       </Typography>
@@ -184,14 +185,17 @@ export default function NotFound() {
         font="Lora"
         weight="bold"
         variant="h6"
-        className="absolute left-[50%] top-[55%] z-50 -translate-x-1/2 text-center text-base text-white max-md:text-base md:top-[72%] md:text-2xl"
+        className="absolute left-[50%] top-[55%] z-50 w-[80%] -translate-x-1/2 text-center text-base text-white max-md:text-base md:top-[72%] md:text-2xl"
       >
         Halaman yang kamu cari tidak ditemukan
       </Typography>
 
-      <button className="absolute left-[50%] top-[65%] z-50 -translate-x-1/2 rounded-sm bg-purple-500 px-5 py-2 font-Lora text-white hover:bg-purple-300 md:top-[80%]">
+      <Button
+        variant="purple"
+        className="absolute left-[50%] top-[65%] z-50 -translate-x-1/2 font-Lora text-white md:top-[80%]"
+      >
         Kembali ke beranda
-      </button>
+      </Button>
     </div>
   );
 }
