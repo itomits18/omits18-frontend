@@ -17,10 +17,12 @@
     "@commitlint/config-conventional": "^19.8.0",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.2",
+    "@tanstack/react-table": "^8.21.3",
     "aos": "^2.3.4",
     "axios": "^1.8.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-react": "^8.6.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "lucide-react": "^0.479.0",
@@ -32,7 +34,9 @@
     "react-hook-form": "^7.56.4",
     "react-responsive": "^10.0.1",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "universal-cookie": "^8.0.1",
+    "yet-another-react-lightbox": "^3.23.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

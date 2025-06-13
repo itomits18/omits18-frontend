@@ -66,8 +66,8 @@ const USER = {
 const ADMIN = {
   navigation: [
     {
-      title: 'Graph',
-      link: '/admin/graph',
+      title: 'Insight',
+      link: '/admin/insight',
       icon: (
         <ChartColumnIncreasing size={24} className="text-additions-brown-200" />
       ),
@@ -172,12 +172,12 @@ export default function DashboardLayout({
           width={193}
           height={186}
           alt="assets images"
-          className="absolute inset-x-0 top-4 mx-auto w-[12%]"
+          className="absolute inset-x-0 top-4 mx-auto w-[12%] md:w-[8%]"
         />
       </div>
 
       {/* desktop */}
-      <div className="z-20 flex w-full px-8 py-6 lg:space-x-8 lg:px-12 lg:py-10 xl:space-x-10 xl:px-16">
+      <div className="z-20 flex px-8 py-6 lg:space-x-8 lg:px-0 lg:py-10 xl:space-x-10 xl:px-16">
         <div
           className={cn(
             'bg-black-main/30 absolute top-0 z-[52] min-h-screen w-full transition-all duration-200 lg:hidden',
@@ -188,7 +188,7 @@ export default function DashboardLayout({
         {/* sidebar */}
         <div
           className={cn(
-            'relative h-fit flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-fit lg:px-8 lg:py-14',
+            'relative h-fit flex-shrink-0 flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-[300px] lg:px-8 lg:py-14 xl:min-w-fit',
             'left-0 top-0 z-[53] min-h-screen px-6 py-12 max-lg:absolute lg:flex',
             'max-lg:scrollbar-hide transition-all duration-200 max-lg:max-h-screen max-lg:overflow-y-scroll',
             open ? 'max-lg:left-0' : 'max-lg:-left-96',
@@ -242,7 +242,10 @@ export default function DashboardLayout({
                     <Link href={link.link} className="">
                       <div
                         key={k}
-                        className="flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]"
+                        className={cn(
+                          'flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]',
+                          path.startsWith(link.link) && 'bg-[#F9DDD8]',
+                        )}
                       >
                         {link.icon}
                         <Typography
@@ -270,7 +273,10 @@ export default function DashboardLayout({
             </Button>
           </div>
         </div>
-        <div className="z-40 w-full">{children}</div>
+
+        <div className="z-40 w-0 flex-1 overflow-hidden lg:pr-8 xl:pr-0">
+          {children}
+        </div>
       </div>
     </section>
   );

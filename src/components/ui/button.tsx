@@ -17,7 +17,7 @@ const buttonVariants = cva(
         purple:
           'bg-purple-300 hover:bg-additions-purple-200 disabled:bg-purple-900',
         brown:
-          'bg-additions-brown-100 hover:bg-aditions-brown-200 disabled:bg-red-900',
+          'bg-additions-brown-100 hover:bg-additions-brown-200 disabled:bg-red-900',
       },
       size: {
         default: 'px-5 py-2 rounded-md',
