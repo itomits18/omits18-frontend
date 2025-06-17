@@ -148,20 +148,18 @@ export default function Footer() {
             <p className="text-xl md:text-2xl text-[#E5DBA6] font-bold mb-3 font-OZWizard">
               Kompetisi
             </p>
-            <div>
-              <ul>
-                <li>
-                  <a href="#" className="hover:underline block">
-                    OMITS
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline block">
-                    MISSION
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <ul>
+              <li>
+                <a href="#" className="hover:underline block">
+                  OMITS
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline block">
+                  MISSION
+                </a>
+              </li>
+            </ul>
           </div>
 
           {/* Contact Info */}
