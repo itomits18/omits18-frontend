@@ -49,7 +49,7 @@ export default function page() {
                 id="fullname"
                 sizes="lg"
                 type="text"
-                placeholder="Enter your Email"
+                placeholder="Masukkan nama lengkap"
                 validation={{
                   required: 'This field is required',
                 }}
@@ -61,7 +61,7 @@ export default function page() {
                 id="email"
                 sizes="lg"
                 type="email"
-                placeholder="Enter your Email"
+                placeholder="Masukkan email"
                 validation={{
                   required: 'This field is required',
                 }}
@@ -73,7 +73,7 @@ export default function page() {
                 id="password"
                 sizes="lg"
                 type="password"
-                placeholder="Enter your Password"
+                placeholder="Masukkan password"
                 validation={{
                   required: 'This field is required',
                 }}
@@ -85,7 +85,7 @@ export default function page() {
                 id="password"
                 sizes="lg"
                 type="password"
-                placeholder="Enter your Password"
+                placeholder="Konfirmasi password"
                 validation={{
                   required: 'This field is required',
                 }}

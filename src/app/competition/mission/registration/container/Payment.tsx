@@ -34,6 +34,32 @@ const PaymentItem = ({
 
 export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
+  const mainItemPrice = 135000;
+
+  let ppn = 0;
+  const biayaAdmin = 400;
+  let ppnLabel = 'PPN';
+
+  if (paymentMethod === 'qris') {
+    ppn = mainItemPrice * 0.007;
+    ppnLabel = 'PPN (0.7%)';
+  } else {
+    ppn = 4000;
+    ppnLabel = 'PPN';
+  }
+
+  const subTotal = mainItemPrice + ppn + biayaAdmin;
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })
+      .format(amount)
+      .replace('Rp', 'Rp ');
+  };
 
   return (
     <div className="w-full rounded-2xl bg-white p-6 shadow-lg">
@@ -102,14 +128,22 @@ export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
         <p className="col-span-2 text-right">Harga</p>
       </div>
       <div className="mb-2 font-Lora text-sm text-black-200">
-        <PaymentItem item="MISSION - Team" quantity={1} price="Rp65.000" />
-        <PaymentItem item="PPN 11%" price="Rp4.000" />
-        <PaymentItem item="Biaya Admin" price="Rp500" />
+        <PaymentItem
+          item="MISSION - Team"
+          quantity={1}
+          price={formatCurrency(mainItemPrice)}
+        />
+        <PaymentItem item={ppnLabel} price={formatCurrency(ppn)} />
+        {biayaAdmin > 0 && (
+          <PaymentItem item="Biaya Admin" price={formatCurrency(biayaAdmin)} />
+        )}
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
         <p className="font-Lora font-semibold text-black-200">Subtotal</p>
-        <p className="font-Lora text-2xl font-bold text-blue-400">Rp69.500</p>
+        <p className="font-Lora text-2xl font-bold text-blue-400">
+          {formatCurrency(subTotal)}
+        </p>
       </div>
 
       <Button

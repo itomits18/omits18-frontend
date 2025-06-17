@@ -3,12 +3,15 @@
 import Typography from '@/components/Typography';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import { DataAkun } from '@/contents/AkunTesting';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import AuthBg from '../(container)/AuthBg';
 
 export default function page() {
-  const methods = useForm({
+  const router = useRouter();
+  const methods = useForm<{ email: string; password: string }>({
     mode: 'onBlur',
     // resolver: zodResolver(LoginSchema),
   });
@@ -17,8 +20,17 @@ export default function page() {
 
   // const { mutate, isPending } = useLoginMutation();
 
-  const onSubmit = () => {
-    // mutate(data);
+  const onSubmit = (data: { email: string; password: string }) => {
+    const findData = DataAkun.find(
+      (x) => data.email === x.email && data.password === x.password,
+    );
+    localStorage.setItem('akun', String(findData?.id) || '0');
+
+    if (findData?.id === 4) {
+      return router.push('/admin');
+    } else {
+      return router.push('/dashboard');
+    }
   };
 
   return (

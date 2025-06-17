@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 type FormIndividuValues = {
+  email_1?: string;
   namaLengkap_1?: string;
   nomorNISN_1?: string;
   nomorTelepon_1?: string;
@@ -32,6 +33,14 @@ export default function FormPage2Individu({
       <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-8">
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              id="email_1"
+              label="Email"
+              labelTextClassname="text-black-300"
+              type="email"
+              placeholder="Masukkan email"
+              validation={{ required: 'Email Peserta wajib diisi' }}
+            />
             <Input
               labelTextClassname="text-black-300"
               id="namaLengkap_1"

@@ -151,7 +151,7 @@ export default function FormPage3({ formData, onSubmit }: FormPage3Props) {
                 value={formData.namaLengkap_1}
               />
               <DisplayField
-                label="Nomor NISN"
+                label="Nomor Identitas"
                 value={formData.nomorIdentitas_1}
               />
               <DisplayField
@@ -175,7 +175,7 @@ export default function FormPage3({ formData, onSubmit }: FormPage3Props) {
                 value={formData.namaLengkap_2}
               />
               <DisplayField
-                label="Nomor NISN"
+                label="Nomor Identitas"
                 value={formData.nomorIdentitas_2}
               />
               <DisplayField

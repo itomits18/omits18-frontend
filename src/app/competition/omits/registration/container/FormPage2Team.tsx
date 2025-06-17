@@ -14,22 +14,27 @@ import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 type FormTeamValues = {
+  email_1?: string;
   namaLengkap_1?: string;
   nomorNISN_1?: string;
   nomorTelepon_1?: string;
   buktiNISN_1?: any;
+  email_2?: string;
   namaLengkap_2?: string;
   nomorNISN_2?: string;
   nomorTelepon_2?: string;
   buktiNISN_2?: any;
+  email_3?: string;
   namaLengkap_3?: string;
   nomorNISN_3?: string;
   nomorTelepon_3?: string;
   buktiNISN_3?: any;
+  email_4?: string;
   namaLengkap_4?: string;
   nomorNISN_4?: string;
   nomorTelepon_4?: string;
   buktiNISN_4?: any;
+  email_5?: string;
   namaLengkap_5?: string;
   nomorNISN_5?: string;
   nomorTelepon_5?: string;
@@ -87,6 +92,17 @@ export default function FormPage2Team({
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
             <Input
               labelTextClassname="text-black-300"
+              id={`email_${index}` as keyof FormTeamValues}
+              label="Email"
+              placeholder="Masukkan email"
+              type="email"
+              validation={{
+                required: `Nama Lengkap Peserta ${index} wajib diisi`,
+              }}
+              sizes="sm"
+            />
+            <Input
+              labelTextClassname="text-black-300"
               id={`namaLengkap_${index}` as keyof FormTeamValues}
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
@@ -116,17 +132,19 @@ export default function FormPage2Team({
               }}
               sizes="sm"
             />
-            <FileUpload
-              id={`buktiNISN_${index}` as keyof FormTeamValues}
-              label="Bukti NISN"
-              isRequired={true}
-              supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
-              validation={{
-                required: `Bukti NISN Peserta ${index} wajib diisi`,
-              }}
-              className="py-0 md:py-2"
-              labelTextClassName="text-black-300"
-            />
+            <div className="md:col-span-2">
+              <FileUpload
+                id={`buktiNISN_${index}` as keyof FormTeamValues}
+                label="Bukti NISN"
+                isRequired={true}
+                supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
+                validation={{
+                  required: `Bukti NISN Peserta ${index} wajib diisi`,
+                }}
+                className="py-3"
+                labelTextClassName="text-black-300"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -103,15 +103,11 @@ const ParticipantDetail = ({
   participantNumber: number;
   formData: any;
 }) => {
+  const email = formData[`email_${participantNumber}`];
   const namaLengkap = formData[`namaLengkap_${participantNumber}`];
-  const nomorIdentitas =
-    formData[`nomorIdentitas_${participantNumber}`] ||
-    formData[`nomorNISN_${participantNumber}`];
+  const nomorNisn = formData[`nomorNISN_${participantNumber}`];
   const nomorTeleponPeserta = formData[`nomorTelepon_${participantNumber}`];
-  const buktiIdentitas =
-    formData[`buktiNomorIdentitas_${participantNumber}`] ||
-    formData[`kartuIdentitas_${participantNumber}`] ||
-    formData[`buktiNISN_${participantNumber}`];
+  const buktiNisn = formData[`buktiNISN_${participantNumber}`];
 
   if (!namaLengkap) {
     return null;
@@ -119,11 +115,12 @@ const ParticipantDetail = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <DisplayField label="Email" value={email} />
       <DisplayField label="Nama Lengkap" value={namaLengkap} />
-      <DisplayField label="Nomor Identitas" value={nomorIdentitas} />
+      <DisplayField label="Nomor NISN" value={nomorNisn} />
       <DisplayField label="Nomor Telepon Peserta" value={nomorTeleponPeserta} />
-      <div className="md:col-span-1">
-        <DisplayFileField label="Bukti Nomor Identitas" file={buktiIdentitas} />
+      <div className="md:col-span-2">
+        <DisplayFileField label="Bukti Nomor NISN" file={buktiNisn} />
       </div>
     </div>
   );
@@ -185,7 +182,7 @@ export default function FormPage3Team({
             Informasi Pendaftar
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <DisplayField label="Tipe Pendaftaran" value={bundleDisplayLabel} />
+            <DisplayField label="Bundle" value={bundleDisplayLabel} />
             <DisplayField
               label="Jenjang Kompetisi"
               value={formData.jenjangKompetisi}
@@ -273,7 +270,11 @@ export default function FormPage3Team({
       </div>
 
       <div className="order-1 w-full lg:order-2 lg:w-2/5">
-        <Payment onSubmit={onSubmit} bundleType={formData.bundle} />
+        <Payment
+          onSubmit={onSubmit}
+          bundleType={formData.bundle}
+          jenjangKompetisiType={formData.jenjangKompetisi}
+        />
       </div>
     </div>
   );

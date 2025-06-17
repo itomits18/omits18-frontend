@@ -5,23 +5,27 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Landmark, QrCode } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 interface PaymentSummaryProps {
   onSubmit: () => void;
   bundleType: 'Individu' | 'bundle' | string;
+  jenjangKompetisiType: 'SD' | 'SMP' | 'SMA' | string;
 }
 
 const PaymentItem = ({
   item,
   quantity,
   price,
+  className,
 }: {
   item: string;
   quantity?: number | string;
   price: string;
+  className?: string;
 }) => (
-  <div className="grid grid-cols-6 gap-1 py-2 text-sm">
+  <div className={cn('grid grid-cols-6 gap-1 py-2 text-sm', className)}>
     {' '}
     <p className="col-span-3 truncate text-left text-gray-700">{item}</p>
     <p className="col-span-1 text-center text-gray-700">
@@ -34,19 +38,45 @@ const PaymentItem = ({
 export default function PaymentSummary({
   onSubmit,
   bundleType,
+  jenjangKompetisiType,
 }: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
-  let mainItemLabel = 'OMITS - Individu';
-  let mainItemPrice = 65000;
-  const quantityForMainItem = 1;
-  if (bundleType === 'bundle') {
-    mainItemLabel = 'OMITS - Team (Bundle 5 Org)';
-    mainItemPrice = 65000 * 5;
+  let mainItemLabel = `OMITS - Individu (${jenjangKompetisiType})`;
+  let basePrice = 0;
+  let mainItemPrice = 0;
+  let quantityForMainItem: number | string = 1;
+  if (jenjangKompetisiType === 'SD') {
+    basePrice = 65000;
+  } else if (jenjangKompetisiType === 'SMP') {
+    basePrice = 70000;
+  } else if (jenjangKompetisiType === 'SMA') {
+    basePrice = 75000;
+  } else {
+    basePrice = 65000;
   }
 
-  const ppn = 4000;
-  const biayaAdmin = 500;
-  const subTotal = mainItemPrice + ppn + biayaAdmin;
+  mainItemPrice = basePrice;
+  const diskonBundle = 25000;
+  if (bundleType === 'bundle') {
+    mainItemLabel = `OMITS - Team (Bundle 5 Org) - ${jenjangKompetisiType}`;
+    mainItemPrice = basePrice * 5;
+    quantityForMainItem = '1 Tim';
+  }
+
+  const priceAfterDiscount =
+    bundleType === 'bundle' ? mainItemPrice - diskonBundle : mainItemPrice;
+
+  let ppn = 0;
+  const biayaAdmin = 400;
+  let ppnLabel = 'PPN';
+  if (paymentMethod === 'qris') {
+    ppn = priceAfterDiscount * 0.007;
+    ppnLabel = 'PPN (0.7%)';
+  } else {
+    ppn = 4000;
+    ppnLabel = 'PPN';
+  }
+  const subTotal = priceAfterDiscount + ppn + biayaAdmin;
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -130,8 +160,16 @@ export default function PaymentSummary({
           quantity={quantityForMainItem}
           price={formatCurrency(mainItemPrice)}
         />
-        <PaymentItem item="PPN 11%" price={formatCurrency(ppn)} />
-        <PaymentItem item="Biaya Admin" price={formatCurrency(biayaAdmin)} />
+        {bundleType === 'bundle' && (
+          <PaymentItem
+            item="Diskon Bundle"
+            price={`- ${formatCurrency(diskonBundle)}`}
+          />
+        )}
+        <PaymentItem item={ppnLabel} price={formatCurrency(ppn)} />
+        {biayaAdmin > 0 && (
+          <PaymentItem item="Biaya Admin" price={formatCurrency(biayaAdmin)} />
+        )}
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
@@ -141,12 +179,17 @@ export default function PaymentSummary({
         </p>
       </div>
 
-      <Button
-        onClick={onSubmit}
-        className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
+      <Link
+        href={'https://app.midtrans.com/payment-links/1749868535858'}
+        target="_blank"
       >
-        Bayar
-      </Button>
+        <Button
+          onClick={onSubmit}
+          className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
+        >
+          Bayar
+        </Button>
+      </Link>
     </div>
   );
 }

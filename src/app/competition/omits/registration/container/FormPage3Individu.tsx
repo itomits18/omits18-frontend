@@ -114,7 +114,7 @@ export default function FormPage3Individu({
             Informasi Pendaftar
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <DisplayField label="Tipe Pendaftaran" value={bundleDisplayLabel} />
+            <DisplayField label="Bundle" value={bundleDisplayLabel} />
             <DisplayField
               label="Jenjang Kompetisi"
               value={formData.jenjangKompetisi}
@@ -143,13 +143,14 @@ export default function FormPage3Individu({
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <DisplayField label="Email" value={formData.email_1} />
             <DisplayField label="Nama Lengkap" value={formData.namaLengkap_1} />
             <DisplayField
               label="Nomor Telepon Siswa"
               value={formData.nomorTelepon_1}
             />
             <DisplayField label="Nomor NISN" value={formData.nomorNISN_1} />
-            <div className="md:col-span-1">
+            <div className="md:col-span-2">
               <DisplayFileField
                 label="Bukti Nomor NISN"
                 file={formData.buktiNISN}
@@ -160,7 +161,11 @@ export default function FormPage3Individu({
       </div>
 
       <div className="order-1 w-full lg:order-2 lg:w-2/5">
-        <Payment onSubmit={onSubmit} bundleType={formData.bundle} />
+        <Payment
+          onSubmit={onSubmit}
+          bundleType={formData.bundle}
+          jenjangKompetisiType={formData.jenjangKompetisi}
+        />
       </div>
     </div>
   );
