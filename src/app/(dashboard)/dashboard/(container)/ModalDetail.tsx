@@ -1,16 +1,22 @@
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
 
-import React, { SetStateAction } from 'react';
+import Typography from '@/components/Typography';
+import React, { SetStateAction, useState } from 'react';
+import DetailPendaftar from './DetailPendaftar';
+import PesertaDetail from './PesertaDetail';
+import WizardProgress from './WizardProgress';
 
 type ModalType = {
+  type: 'omits' | 'mission';
   id: string;
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
 };
 
-export default function ModalConfirm({ id, open, setOpen }: ModalType) {
+export default function ModalConfirm({ type, open, setOpen }: ModalType) {
+  const [progress, _setProgress] = useState(3);
+
   return (
     <>
       <div
@@ -21,24 +27,29 @@ export default function ModalConfirm({ id, open, setOpen }: ModalType) {
       ></div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="bg-neutral-main p-32">
-          {id === '2' ? (
-            <Image
-              src="/images/competition/dashboard/detail-1.png"
-              width={1200}
-              height={835}
-              alt="assets"
-              className="w-full scale-[1.7]"
-            />
-          ) : (
-            <Image
-              src="/images/competition/dashboard/detail-bundling.png"
-              width={1200}
-              height={835}
-              alt="assets"
-              className="w-full scale-[1.7]"
-            />
-          )}
+        <DialogContent className="scrollbar-hide h-[650px] max-h-screen max-w-full overflow-y-auto rounded-xl bg-neutral-main py-12 max-md:max-w-[90%] md:w-[80%] lg:h-[90%] lg:max-w-[857px] xl:h-[650px]">
+          <div className="flex flex-col space-y-4 overflow-x-hidden">
+            <Typography
+              font="Cinzel"
+              variant="h1"
+              weight="bold"
+              className={cn(
+                'mx-auto max-md:text-5xl',
+                type === 'omits' ? 'text-green-300' : 'text-[#244D80]',
+              )}
+            >
+              {type}
+            </Typography>
+
+            <div className="w-full text-justify md:mx-auto">
+              <WizardProgress progress={progress} type={type} />
+            </div>
+
+            <div className="mx-auto w-[80%] pt-10 max-md:w-full md:pt-20">
+              <DetailPendaftar type={type} />
+              <PesertaDetail type={type} number={1} />
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>

@@ -10,6 +10,7 @@ import {
 import { cn } from '@/lib/utils';
 import { AlignJustify, ChevronDown, XCircle } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -149,8 +150,8 @@ export default function Navbar() {
           >
             <span className="text-violet-30">Sign In</span>
           </Button>
-          <Button size="lg" variant="blue" className="w-full">
-            Login
+          <Button asChild size="lg" variant="blue" className="w-full">
+            <Link href={'/login'}>Login</Link>
           </Button>
         </div>
       </div>
@@ -168,8 +169,10 @@ export default function Navbar() {
         >
           Sign Up
         </Typography>
-        <Button variant="blue" size="lg" className="px-12 py-3">
-          <span className="text-xl">Login</span>
+        <Button asChild variant="blue" size="lg" className="px-12 py-3">
+          <Link href={'/login'}>
+            <span className="text-xl">Login</span>
+          </Link>
         </Button>
       </div>
     </section>
