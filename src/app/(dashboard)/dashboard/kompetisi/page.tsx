@@ -7,10 +7,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ModalDetail from '../(container)/ModalDetail';
+import { eventType } from '../(container)/WizardProgress';
 
 export default function page() {
   const [isRegistered, _setIsRegistered] = useState(false);
-  const [modalDetail, setModalDetail] = useState(false);
+  const [modalDetail, setModalDetail] = useState(true);
+  const [modalType, setModalType] = useState('omits');
 
   const [dataID, setDataID] = useState('');
 
@@ -150,7 +152,10 @@ export default function page() {
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                        onClick={() => setModalDetail(true)}
+                        onClick={() => {
+                          setModalType('omits');
+                          setModalDetail(true);
+                        }}
                       >
                         Lihat Detail
                       </Button>
@@ -220,7 +225,12 @@ export default function page() {
         </div>
       </section>
 
-      <ModalDetail id={dataID} open={modalDetail} setOpen={setModalDetail} />
+      <ModalDetail
+        id={dataID}
+        open={modalDetail}
+        setOpen={setModalDetail}
+        type={modalType as eventType}
+      />
     </>
   );
 }

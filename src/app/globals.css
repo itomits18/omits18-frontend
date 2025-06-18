@@ -16,3 +16,8 @@
   border-radius: 32px;
   background-clip: content-box;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

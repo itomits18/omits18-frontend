@@ -5,6 +5,7 @@ import Lightbox from 'yet-another-react-lightbox';
 
 import { ImageStore } from '@/app/(dashboard)/admin/mission/[id]/page';
 import Typography from '@/components/Typography';
+import { cn } from '@/lib/utils';
 import { Trash } from 'lucide-react';
 import LabelText from './LabelText';
 
@@ -14,7 +15,7 @@ type FilePreviewProps = {
   name: string;
   link: string;
   readOnly?: boolean;
-  deleteFile: React.Dispatch<React.SetStateAction<ImageStore>>;
+  deleteFile?: React.Dispatch<React.SetStateAction<ImageStore>>;
 };
 
 export default function ImagePreview({
@@ -27,10 +28,13 @@ export default function ImagePreview({
 }: FilePreviewProps) {
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    deleteFile((pre) => ({
-      ...pre,
-      [id]: '',
-    }));
+
+    if (readOnly && deleteFile) {
+      deleteFile((pre) => ({
+        ...pre,
+        [id]: '',
+      }));
+    }
   };
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -45,7 +49,12 @@ export default function ImagePreview({
         <LabelText labelTextClasname="text-black-300">{label}</LabelText>
       )}
       <li
-        className="flex h-fit w-full cursor-pointer items-center justify-between gap-2 rounded-lg bg-green-200 px-3 py-3 transition-all duration-200 hover:bg-green-300"
+        className={cn(
+          'flex h-fit w-full cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-3 transition-all duration-200',
+          readOnly
+            ? 'bg-black-100 hover:bg-gray-400'
+            : 'bg-green-200 hover:bg-green-300',
+        )}
         onClick={() => setIsOpen(true)}
       >
         <div className="flex flex-row gap-1">
@@ -54,7 +63,7 @@ export default function ImagePreview({
           </Typography>
         </div>
 
-        {readOnly && (
+        {!readOnly && (
           // onclick method
           <div
             className="rounded-full bg-green-400 p-2 transition-all duration-200 hover:bg-green-200"
