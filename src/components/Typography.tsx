@@ -61,7 +61,6 @@ export default function Typography<T extends React.ElementType>({
       id={id}
       className={cn(
         // *=============== Font Type ==================
-        'text-black',
         font === 'OZWizard' ? 'Cowardly_Lion' : 'regular',
         [
           font === 'Cinzel' && 'font-Cinzel',
