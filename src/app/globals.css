@@ -38,6 +38,7 @@
   --color-additions-purple-200: #662d91;
   --color-additions-purple-300: #4c1796;
 
+  --color-additions-brown-50: #eee2df;
   --color-additions-brown-100: #a34343;
   --color-additions-brown-200: #9c3022;
 
@@ -46,7 +47,7 @@
   --font-Lora: var(--font-Lora);
   --font-OZWizard: var(--font-OZWizard);
   --font-Cinzel: var(--font-Cinzel);
-  --font-Cinzel-decorative: var(--font-CinzelDecorative);
+  --font-CinzelDecorative: var(--font-CinzelDecorative);
 }
 
 /*
