@@ -24,7 +24,10 @@
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.2",
     "@radix-ui/react-visually-hidden": "^1.2.3",
+<<<<<<< HEAD
     "@tanstack/react-query": "^5.80.10",
+=======
+>>>>>>> 81c65a7 (feat: add hero section)
     "@tanstack/react-table": "^8.21.3",
     "aos": "^2.3.4",
     "auto-zustand-selectors-hook": "^3.0.1",
