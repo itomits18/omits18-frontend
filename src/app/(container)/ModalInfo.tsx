@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export default function ModalInfo() {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
