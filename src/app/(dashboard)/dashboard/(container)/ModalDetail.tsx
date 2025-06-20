@@ -12,6 +12,9 @@ import React, { SetStateAction, useState } from 'react';
 import DetailPendaftar from './DetailPendaftar';
 import PesertaDetail from './PesertaDetail';
 import WizardProgress from './WizardProgress';
+import { DialogPortal } from '@radix-ui/react-dialog';
+
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
