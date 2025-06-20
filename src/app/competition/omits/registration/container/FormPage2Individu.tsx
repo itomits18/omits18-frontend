@@ -62,7 +62,7 @@ export default function FormPage2Individu({
               placeholder="Masukkan nomor NISN"
               validation={{ required: 'Nomor NISN tidak boleh kosong.' }}
             />
-            <div className="md:col-span-1">
+            <div className="md:col-span-2">
               <FileUpload
                 id="buktiNISN"
                 label="Bukti NISN"
