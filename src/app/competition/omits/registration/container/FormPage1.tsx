@@ -71,7 +71,7 @@ interface FormPage1Props {
 
 export default function FormPage1({ onSubmit }: FormPage1Props) {
   const methods = useForm<FormValues>({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
@@ -84,7 +84,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
         onSubmit={methods.handleSubmit(onValidSubmit)}
         className="space-y-4"
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-end">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
           <SelectInput
             id="bundle"
             label="Bundle"
@@ -92,22 +92,11 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             options={bundleOptions}
             validation={{ required: 'Bundle wajib diisi.' }}
             className="bg-neutral-main"
-          />
-
-          <SelectInput
-            id="jenjangKompetisi"
-            label="Jenjang Kompetisi"
-            placeholder="Pilih Jenjang Kompetisi"
-            options={jenjangKompetisiOptions}
-            validation={{ required: 'Jenjang kompetisi wajib diisi.' }}
-          />
-
-          <SelectInput
-            id="region"
-            label="Region"
-            placeholder="Pilih Region"
-            options={regionOptions}
-            validation={{ required: 'Region wajib diisi.' }}
+            helperText={
+              methods.watch('bundle') === 'bundle' &&
+              'Penting: Pastikan seluruh peserta berasal dari sekolah yang sama.*'
+            }
+            helperTextClassName="font-semibold text-red-500"
           />
 
           <Input
@@ -134,6 +123,24 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             labelTextClassname="text-black-300"
           />
 
+          <Input
+            label="Region"
+            id="region"
+            sizes={'sm'}
+            type="text"
+            disabled
+            value="Offline 1 - Surabaya, Gresik, dan Bangkalan"
+            // value=""
+            className="bg-neutral-main cursor-not-allowed"
+            labelTextClassname="text-black-300"
+          />
+          <SelectInput
+            id="jenjangKompetisi"
+            label="Jenjang Kompetisi"
+            placeholder="Pilih Jenjang Kompetisi"
+            options={jenjangKompetisiOptions}
+            validation={{ required: 'Jenjang kompetisi wajib diisi.' }}
+          />
           <Input
             label="Nama Sekolah"
             id="namaSekolah"

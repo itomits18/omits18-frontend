@@ -29,7 +29,7 @@ const Pencapaian = [
 export default function Hero() {
   return (
     <section
-      className="pb-20"
+      className="relative pb-20"
       style={{
         backgroundImage:
           'linear-gradient(to bottom, #4244AB, #6DA0E1, 10%, #DEC1DB, 65%, #8FBFDA)',
@@ -166,6 +166,70 @@ export default function Hero() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex min-h-[60vh] justify-center md:min-h-[80vh]">
+        <Image
+          src="/images/landing/tentang/awan-atas.png"
+          width={2358}
+          height={1142}
+          alt="assets"
+          className="absolute bottom-20 -left-10"
+        />
+        <Image
+          src="/images/landing/tentang/awan-bawah.png"
+          width={2358}
+          height={1142}
+          alt="assets"
+          className="absolute -right-10 bottom-10 z-20"
+        />
+        <Image
+          src="/images/landing/tentang/awan-bawah.png"
+          width={2358}
+          height={1142}
+          alt="assets"
+          className="absolute bottom-10 -left-10 z-20"
+        />
+        <Image
+          src="/images/landing/tentang/awan-bawah-mobile.png"
+          width={2358}
+          height={1142}
+          alt="assets"
+          className="absolute bottom-0 -left-10 z-20 scale-125"
+        />
+        <Image
+          src="/images/landing/tentang/awan-bawah-mobile.png"
+          width={2358}
+          height={1142}
+          alt="assets"
+          className="absolute bottom-0 -left-10 z-20 scale-125"
+        />
+
+        <div className="absolute bottom-15 w-[80%]">
+          <div className="relative flex justify-center">
+            <Image
+              src="/images/landing/tentang/omits-atas.png"
+              width={696}
+              height={390}
+              alt="assets"
+              className="animated-vertical absolute bottom-35 w-[50%] md:w-[30%]"
+            />
+
+            <Image
+              src="/images/landing/tentang/omits-bawah.png"
+              width={696}
+              height={390}
+              alt="assets"
+              className="absolute bottom-20 w-[50%]"
+            />
+            <Image
+              src="/images/landing/tentang/batu.png"
+              width={2195}
+              height={907}
+              alt="assets"
+            />
           </div>
         </div>
       </section>

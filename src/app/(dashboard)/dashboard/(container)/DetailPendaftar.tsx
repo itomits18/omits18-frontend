@@ -17,8 +17,8 @@ export default function DetailPendaftar({ type }: { type: string }) {
     <Collapsible open={collapse} onOpenChange={setCollapse}>
       <CollapsibleTrigger
         className={cn(
-          'relative z-20 flex w-full justify-between rounded-xl px-8 py-4 text-neutral-main',
-          'focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
+          'text-neutral-main relative z-20 flex w-full justify-between rounded-xl px-8 py-4',
+          'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
             : 'bg-gradient-to-r from-[#4580B2] to-[#1D374C]',
@@ -37,7 +37,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Jenjang
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              MISSION
+              SD
             </Typography>
           </div>
 
@@ -46,7 +46,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Region
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              Offline 1
+              Offline 1 - Surabaya, Gresik, dan Bangkalan
             </Typography>
           </div>
 
@@ -55,7 +55,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Nama Sekolah
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              SMAN 1 BATAM
+              SDN 1 Surabaya
             </Typography>
           </div>
 
@@ -66,10 +66,9 @@ export default function DetailPendaftar({ type }: { type: string }) {
             <Typography
               variant="t"
               weight="bold"
-              className="text-justify text-black-300"
+              className="text-black-300 text-justify"
             >
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Molestiae, quos.
+              Kec. Sukolilo, Surabaya, Jawa Timur
             </Typography>
           </div>
 

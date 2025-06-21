@@ -11,7 +11,7 @@ import { eventType } from '../(container)/WizardProgress';
 
 export default function page() {
   const [isRegistered, _setIsRegistered] = useState(false);
-  const [modalDetail, setModalDetail] = useState(true);
+  const [modalDetail, setModalDetail] = useState(false);
   const [modalType, setModalType] = useState('omits');
 
   const [dataID, setDataID] = useState('');
@@ -101,7 +101,7 @@ export default function page() {
                   </Typography>
                   <Link
                     href="/omits-class"
-                    className="rounded-md bg-[#565098] px-4 py-2 font-Lora text-sm font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
+                    className="font-Lora rounded-md bg-[#565098] px-4 py-2 text-sm font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
                   >
                     Lihat detail
                   </Link>
@@ -118,7 +118,7 @@ export default function page() {
                   height={212}
                   className="z-0 object-cover"
                 />
-                <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
+                <div className="absolute inset-0 z-10 mt-3 ml-3 flex flex-col items-start p-4 max-md:mt-0">
                   <Typography
                     variant="h5"
                     font="CinzelDecorative"
@@ -139,16 +139,15 @@ export default function page() {
                     </Link>
                   ) : (
                     <div className="flex space-x-2">
-                      <Link href="/competition/omits/registration">
-                        <Button
-                          variant="green"
-                          size="md"
-                          className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                        >
-                          Daftar Sekarang
-                        </Button>
-                      </Link>
                       <Button
+                        disabled
+                        variant="green"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                      >
+                        Daftar Sekarang
+                      </Button>
+                      {/* <Button
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
@@ -158,7 +157,7 @@ export default function page() {
                         }}
                       >
                         Lihat Detail
-                      </Button>
+                      </Button> */}
                     </div>
                   )}
                 </div>
@@ -171,7 +170,7 @@ export default function page() {
                   height={212}
                   className="z-0 object-cover"
                 />
-                <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
+                <div className="absolute inset-0 z-10 mt-3 ml-3 flex flex-col items-start p-4 max-md:mt-0">
                   <Typography
                     variant="h5"
                     font="CinzelDecorative"
@@ -180,15 +179,19 @@ export default function page() {
                   >
                     MISSION
                   </Typography>
-                  <Link href="/competition/mission/registration">
+                  <div className="flex space-x-2">
                     <Button
                       variant="blue"
                       size="md"
                       className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                      onClick={() => {
+                        setModalType('mission');
+                        setModalDetail(true);
+                      }}
                     >
-                      Daftar Sekarang
+                      Lihat Detail
                     </Button>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -204,7 +207,7 @@ export default function page() {
                 height={212}
                 className="z-0 object-cover"
               />
-              <div className="absolute inset-0 z-10 ml-3 mt-0 flex flex-col items-start p-4">
+              <div className="absolute inset-0 z-10 mt-0 ml-3 flex flex-col items-start p-4">
                 <Typography
                   variant="h5"
                   font="CinzelDecorative"
@@ -215,7 +218,7 @@ export default function page() {
                 </Typography>
                 <Link
                   href="/omits-class"
-                  className="rounded-md bg-[#565098] px-2 py-1 font-Lora text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
+                  className="font-Lora rounded-md bg-[#565098] px-2 py-1 text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
                 >
                   Lihat detail
                 </Link>

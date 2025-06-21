@@ -219,14 +219,14 @@ export default function DashboardLayout({
                   weight="bold"
                   className="text-additions-brown-100"
                 >
-                  Admin ITS
+                  John Smith
                 </Typography>
                 <Typography
                   variant="bs"
                   weight="medium"
                   className="text-[#D19891]"
                 >
-                  emailadmin@its.id
+                  johnsmith@gmail.com
                 </Typography>
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function DashboardLayout({
                   {(path.startsWith('/dashboard') ? USER : ADMIN)[
                     nav as keyof NavigationType
                   ].map((link, k) => (
-                    <Link href={link.link} className="">
+                    <Link key={k} href={link.link} className="">
                       <div
                         key={k}
                         className={cn(

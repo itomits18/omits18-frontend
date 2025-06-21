@@ -67,13 +67,13 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-end">
-          <SelectInput
+          {/* <SelectInput
             id="region"
             label="Region"
             placeholder="Pilih Region"
             options={regionOptions}
             validation={{ required: 'Region wajib diisi.' }}
-          />
+          /> */}
 
           <Input
             label="Kode Pos"
@@ -100,18 +100,21 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
           />
-          <Input
-            label="Alamat Kampus"
-            id="alamatKampus"
-            sizes={'sm'}
-            type="text"
-            placeholder="Masukkan alamat kampus"
-            validation={{
-              required: 'This field is required',
-            }}
-            className="bg-neutral-main"
-            labelTextClassname="text-black-300"
-          />
+
+          <div className="md:col-span-2">
+            <Input
+              label="Alamat Kampus"
+              id="alamatKampus"
+              sizes={'sm'}
+              type="text"
+              placeholder="Masukkan alamat kampus"
+              validation={{
+                required: 'This field is required',
+              }}
+              className="bg-neutral-main"
+              labelTextClassname="text-black-300"
+            />
+          </div>
         </div>
 
         <div className="flex justify-end pt-4">

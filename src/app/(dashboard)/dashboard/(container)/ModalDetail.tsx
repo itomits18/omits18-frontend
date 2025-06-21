@@ -1,4 +1,9 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
 import Typography from '@/components/Typography';
@@ -6,6 +11,9 @@ import React, { SetStateAction, useState } from 'react';
 import DetailPendaftar from './DetailPendaftar';
 import PesertaDetail from './PesertaDetail';
 import WizardProgress from './WizardProgress';
+import { DialogPortal } from '@radix-ui/react-dialog';
+
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 type ModalType = {
   type: 'omits' | 'mission';
@@ -18,17 +26,15 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
   const [progress, _setProgress] = useState(3);
 
   return (
-    <>
-      <div
-        className={cn(
-          'absolute left-0 top-0 z-20 min-h-screen w-full bg-black-200/20 transition-all duration-200',
-          open ? 'block opacity-100' : 'hidden opacity-0',
-        )}
-      ></div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogPortal>
+        <DialogOverlay className="bg-black-200/30 fixed inset-0 z-50 backdrop-blur-sm" />
+        <DialogContent className="scrollbar-hide bg-neutral-main h-[650px] max-h-screen max-w-full overflow-y-auto rounded-xl py-12 max-md:max-w-[90%] md:w-[80%] lg:h-[90%] lg:max-w-[857px] xl:h-[650px]">
+          <VisuallyHidden asChild>
+            <DialogTitle>Modal Title</DialogTitle>
+          </VisuallyHidden>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="scrollbar-hide h-[650px] max-h-screen max-w-full overflow-y-auto rounded-xl bg-neutral-main py-12 max-md:max-w-[90%] md:w-[80%] lg:h-[90%] lg:max-w-[857px] xl:h-[650px]">
-          <div className="flex flex-col space-y-4 overflow-x-hidden">
+          <div className="scrollbar-hide flex flex-col space-y-4 overflow-x-hidden">
             <Typography
               font="Cinzel"
               variant="h1"
@@ -48,10 +54,11 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
             <div className="mx-auto w-[80%] pt-10 max-md:w-full md:pt-20">
               <DetailPendaftar type={type} />
               <PesertaDetail type={type} number={1} />
+              <PesertaDetail type={type} number={2} />
             </div>
           </div>
         </DialogContent>
-      </Dialog>
-    </>
+      </DialogPortal>
+    </Dialog>
   );
 }
