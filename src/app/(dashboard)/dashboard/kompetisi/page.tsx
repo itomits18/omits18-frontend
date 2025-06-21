@@ -149,7 +149,7 @@ export default function page() {
                   height={212}
                   className="z-0 object-cover"
                 />
-                <div className="absolute inset-0 z-10 mt-3 ml-3 flex flex-col items-start p-4 max-md:mt-0">
+                <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
                   <Typography
                     variant="h5"
                     font="CinzelDecorative"
@@ -171,6 +171,14 @@ export default function page() {
                         </Button>
                       </Link> */}
                       <Button
+                        disabled
+                        variant="green"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                      >
+                        Daftar Sekarang
+                      </Button>
+                      {/* <Button
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
@@ -180,7 +188,7 @@ export default function page() {
                         }}
                       >
                         Lihat Detail
-                      </Button>
+                      </Button> */}
                     </div>
                   ) : (
                     // bukan daftar omits
@@ -217,7 +225,7 @@ export default function page() {
                   height={212}
                   className="z-0 object-cover"
                 />
-                <div className="absolute inset-0 z-10 mt-3 ml-3 flex flex-col items-start p-4 max-md:mt-0">
+                <div className="absolute inset-0 z-10 ml-3 mt-3 flex flex-col items-start p-4 max-md:mt-0">
                   <Typography
                     variant="h5"
                     font="CinzelDecorative"
@@ -284,7 +292,7 @@ export default function page() {
                 height={212}
                 className="z-0 object-cover"
               />
-              <div className="absolute inset-0 z-10 mt-0 ml-3 flex flex-col items-start p-4">
+              <div className="absolute inset-0 z-10 ml-3 mt-0 flex flex-col items-start p-4">
                 <Typography
                   variant="h5"
                   font="CinzelDecorative"
