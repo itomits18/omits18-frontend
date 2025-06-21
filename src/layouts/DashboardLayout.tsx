@@ -241,7 +241,6 @@ export default function DashboardLayout({
                   ].map((link, k) => (
                     <Link key={k} href={link.link} className="">
                       <div
-                        key={k}
                         className={cn(
                           'flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]',
                           path.startsWith(link.link) && 'bg-[#F9DDD8]',

@@ -33,7 +33,7 @@ export default function StatisticSection() {
                 >
                   <div
                     className={cn(
-                      'flex w-full flex-col items-center justify-center space-y-1 rounded-lg py-4 text-neutral-main',
+                      'text-neutral-main flex w-full flex-col items-center justify-center space-y-1 rounded-lg py-4',
                       bgColor[bg as StatusType],
                     )}
                   >
@@ -55,16 +55,17 @@ export default function StatisticSection() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="pl-8 text-black-200" />
-          <CarouselNext className="pr-8 text-black-200" />
+          <CarouselPrevious className="text-black-200 pl-8" />
+          <CarouselNext className="text-black-200 pr-8" />
         </Carousel>
       </div>
 
-      {Object.keys(bgColor).map((bg) => {
+      {Object.keys(bgColor).map((bg, i) => {
         return (
           <div
+            key={i}
             className={cn(
-              'flex w-full flex-col items-center justify-center space-y-1 rounded-lg py-4 text-neutral-main max-xl:hidden',
+              'text-neutral-main flex w-full flex-col items-center justify-center space-y-1 rounded-lg py-4 max-xl:hidden',
               bgColor[bg as StatusType],
             )}
           >

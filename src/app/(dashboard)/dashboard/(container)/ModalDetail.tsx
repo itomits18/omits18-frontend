@@ -7,11 +7,11 @@ import {
 import { cn } from '@/lib/utils';
 
 import Typography from '@/components/Typography';
+import { DialogPortal } from '@radix-ui/react-dialog';
 import React, { SetStateAction, useState } from 'react';
 import DetailPendaftar from './DetailPendaftar';
 import PesertaDetail from './PesertaDetail';
 import WizardProgress from './WizardProgress';
-import { DialogPortal } from '@radix-ui/react-dialog';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 

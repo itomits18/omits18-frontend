@@ -83,7 +83,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
         >
           <div className="space-y-2">
             {isMobile && (
-              <div className="rounded bg-blue-300 py-2 text-center font-Lora text-lg font-semibold text-white">
+              <div className="font-Lora rounded bg-blue-300 py-2 text-center text-lg font-semibold text-white">
                 Data Peserta 1
               </div>
             )}
@@ -142,7 +142,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
         >
           <div className="space-y-2 pt-4 md:pt-0">
             {isMobile && (
-              <div className="rounded bg-blue-300 py-2 text-center font-Lora text-lg font-semibold text-white">
+              <div className="font-Lora rounded bg-blue-300 py-2 text-center text-lg font-semibold text-white">
                 Data Peserta 2
               </div>
             )}
@@ -191,6 +191,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 validation={{
                   required: 'Kartu Identitas Peserta 2 wajib diisi',
                 }}
+                helpertext="Maksimal ukuran file yang diunggah adalah 3 MB."
               />
             </div>
           </div>
@@ -200,13 +201,13 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
           <Button
             type="button"
             onClick={onBack}
-            className="font-lora w-full bg-black-100 py-3 text-xs text-white hover:bg-gray-400 md:text-lg"
+            className="font-lora bg-black-100 w-full py-3 text-xs text-white hover:bg-gray-400 md:text-lg"
           >
             Kembali
           </Button>
           <Button
             type="submit"
-            className="w-full bg-blue-400 py-3 font-Lora text-xs text-white hover:bg-blue-700 md:text-lg"
+            className="font-Lora w-full bg-blue-400 py-3 text-xs text-white hover:bg-blue-700 md:text-lg"
           >
             Selanjutnya
           </Button>
