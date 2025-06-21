@@ -129,12 +129,12 @@ export default function Input({
                 disabled={readOnly}
                 onChange={(e) => setHasValue(!!e.target.value)}
                 className={cn(
-                  'border-white-50 h-full w-full rounded-md border px-3 py-2.5 text-base caret-gray-900 disabled:bg-gray-50 disabled:text-gray-400',
+                  'h-full w-full rounded-md border px-3 py-2.5 text-base caret-gray-900 disabled:bg-gray-50 disabled:text-gray-400',
                   sizes === 'lg' ? 'px-6 py-3' : 'px-3 py-2',
                   LeftIcon && 'pl-9',
                   RightIcon && 'pr-9',
                   readOnly ? 'cursor-not-allowed bg-gray-100' : 'bg-white',
-                  'focus:border-white-50 focus:border-2 focus:ring-0 focus:outline-hidden',
+                  'focus:border-black-100 focus:border-2 focus:ring focus:outline-hidden',
                   hasValue
                     ? 'border-black-400 text-black-400 border-2'
                     : 'focus:border-0 focus:outline-hidden',

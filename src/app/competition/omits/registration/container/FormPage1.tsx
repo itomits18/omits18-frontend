@@ -1,7 +1,10 @@
 'use client';
+import useGetRegion from '@/app/competition/hooks/useGetRegion';
 import Input from '@/components/form/Input';
 import { SelectInput } from '@/components/form/SelectInput';
 import { Button } from '@/components/ui/button';
+import { regionOptions } from '@/contents/ListRegions';
+import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 const bundleOptions = [
@@ -30,9 +33,15 @@ interface FormPage1Props {
 }
 
 export default function FormPage1({ onSubmit }: FormPage1Props) {
+  const [kodepos, setKodepos] = useState('');
   const methods = useForm<FormValues>({
     mode: 'onChange',
   });
+
+  const { data } = useGetRegion(kodepos);
+  const region = regionOptions.find(
+    (x) => x.value.toUpperCase() === data?.region,
+  );
 
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
     onSubmit(data);
@@ -81,6 +90,11 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             validation={{ required: 'Kode pos wajib diisi.' }}
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
+            onChange={(e) => {
+              setTimeout(() => {
+                setKodepos(e.target.value);
+              }, 3000);
+            }}
           />
 
           <Input
@@ -89,7 +103,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             disabled
-            value="Offline 1 - Surabaya, Gresik, dan Bangkalan"
+            value={data ? region?.label : ''}
             // value=""
             className="bg-neutral-main cursor-not-allowed"
             labelTextClassname="text-black-300"

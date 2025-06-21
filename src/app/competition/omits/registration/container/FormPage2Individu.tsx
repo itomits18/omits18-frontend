@@ -72,6 +72,7 @@ export default function FormPage2Individu({
                   required: 'Kartu Pelajar wajib diupload.',
                 }}
                 labelTextClassName="text-black-300"
+                helpertext="Maksimal ukuran file yang diunggah adalah 3 MB."
               />
             </div>
           </div>

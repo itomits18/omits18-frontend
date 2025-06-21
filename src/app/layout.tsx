@@ -1,6 +1,7 @@
 import { CinzelDecoFont, CinzelFont, LoraFont, OZWizard } from '@/lib/font';
 import type { Metadata } from 'next';
 import './globals.css';
+import Providers from './Providers';
 
 export const metadata: Metadata = {
   title: 'OMITS 18th',
@@ -18,7 +19,7 @@ export default function RootLayout({
       <body
         className={`${OZWizard.variable} ${LoraFont.variable} ${CinzelFont.variable} ${CinzelDecoFont.variable} antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
