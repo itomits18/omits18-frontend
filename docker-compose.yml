@@ -1,0 +1,28 @@
+services:
+  nextjs_app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nextjs_app
+    environment:
+      - NODE_ENV=production
+    expose:
+      - "3000"
+    networks:
+      - appnet
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro,z
+    depends_on:
+      - nextjs_app
+    networks:
+      - appnet
+
+networks:
+  appnet:
