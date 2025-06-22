@@ -34,30 +34,29 @@ export default function FormPage2Individu({
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
-              id="email_1"
-              label="Email"
               labelTextClassname="text-black-300"
-              type="email"
-              placeholder="Masukkan email"
-              validation={{ required: 'Email Peserta wajib diisi' }}
+              id="detail.0.email"
+              label="Email"
+              placeholder="Masukkan nama lengkap"
+              validation={{ required: 'Nama lengkap tidak boleh kosong.' }}
             />
             <Input
               labelTextClassname="text-black-300"
-              id="namaLengkap_1"
+              id="detail.0.namaLengkap"
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
               validation={{ required: 'Nama lengkap tidak boleh kosong.' }}
             />
             <Input
               labelTextClassname="text-black-300"
-              id="nomorTelepon_1"
+              id="detail.0.nomorTelepon"
               label="Nomor Telepon Siswa"
               placeholder="Masukkan nomor telepon"
               validation={{ required: 'Nomor telepon tidak boleh kosong.' }}
             />
             <Input
               labelTextClassname="text-black-300"
-              id="nomorNISN_1"
+              id="detail.0.nomorNISN"
               label="Nomor NISN"
               placeholder="Masukkan nomor NISN"
               validation={{ required: 'Nomor NISN tidak boleh kosong.' }}

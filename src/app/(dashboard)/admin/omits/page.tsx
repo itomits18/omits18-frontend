@@ -18,6 +18,10 @@ import {
 import Link from 'next/link';
 import * as React from 'react';
 import StatisticSection from '../(container)/StatisticSection';
+import useGetAllParticipants, {
+  GetParticipants,
+} from '../hooks/useGetAllParticipants';
+import { Metadata } from '@/types/api';
 
 type metadataType = {
   take: number;
@@ -29,6 +33,8 @@ type metadataType = {
   filter: string;
   filter_by: string;
 };
+
+type Participant = GetParticipants['participants'][number];
 
 export default function page() {
   const filterTypeList = [
@@ -57,43 +63,39 @@ export default function page() {
   });
 
   const [_data, setData] = React.useState([]);
-  // const [metadata, setMetadata] = React.useState({
-  //   take: 10,
-  //   page: pagination.pageIndex,
-  //   total_data: 0,
-  //   total_page: 0,
-  //   sort: 'asc',
-  //   sort_by: 'created_at',
-  //   filter: '',
-  //   filter_by: 'name',
-  // });
+  const [metadata, setMetadata] = React.useState<Metadata>({
+    order_by: 'created_at',
+    sort_by: 'asc',
+    limit: 10,
+    page: 1,
+    type: 'OMITS',
+  });
 
-  const columnDefs: ColumnDef<Pendaftar>[] = [
+  const { data } = useGetAllParticipants(metadata);
+
+  console.log(data);
+
+  const columnDefs: ColumnDef<Participant>[] = [
     {
-      id: 'id',
-      accessorKey: 'id',
+      id: 'no',
       header: 'No',
-      size: 5,
-      cell: (info) => pagination.pageIndex * 10 + info.row.index + 1,
+      cell: (info) =>
+        pagination.pageIndex * pagination.pageSize + info.row.index + 1,
     },
     {
       accessorKey: 'name',
       header: 'Nama',
     },
     {
-      accessorKey: 'tanggal',
-      header: 'Tanggal',
-      cell: (info) => {
-        const date = new Date(info.getValue() as string);
-        return date.toLocaleDateString('id-ID');
-      },
+      accessorKey: 'participant_detail.type',
+      header: 'Tipe',
     },
     {
-      accessorKey: 'sekolah',
+      accessorKey: 'instance_name',
       header: 'Sekolah',
     },
     {
-      accessorKey: 'status_pendaftar',
+      accessorKey: 'participant_detail.status',
       header: 'Status Pendaftar',
       cell: (info) => {
         const status = info.getValue() as string;
@@ -123,7 +125,7 @@ export default function page() {
       },
     },
     {
-      accessorKey: 'detail',
+      id: 'id',
       header: 'Detail',
       cell: (info) => (
         <Link href={'/admin/omits/' + info.row.original.id}>
@@ -198,7 +200,7 @@ export default function page() {
   ]);
 
   const table = useReactTable({
-    data: pendaftarData,
+    data: data?.items.participants || [],
     columns: columnDefs,
     // pageCount: metadata.total_page,
     pageCount: 1,
@@ -262,7 +264,7 @@ export default function page() {
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
       <StatisticSection />
       <TableLayout
-        data={pendaftarData}
+        data={data?.items.participants || []}
         table={table}
         headerCustom={<HeaderCustom />}
         setPagination={setPagination}

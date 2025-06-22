@@ -4,8 +4,9 @@ import Input from '@/components/form/Input';
 import { SelectInput } from '@/components/form/SelectInput';
 import { Button } from '@/components/ui/button';
 import { regionOptions } from '@/contents/ListRegions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },
@@ -26,6 +27,13 @@ export type FormValues = {
   kodePos?: string;
   namaSekolah?: string;
   alamatSekolah?: string;
+  detail?: {
+    email?: string;
+    namaLengkap?: string;
+    nomorTelepon?: string;
+    nomorNISN?: string;
+    buktiNISN?: string;
+  }[];
 };
 
 interface FormPage1Props {
@@ -36,14 +44,39 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
   const [kodepos, setKodepos] = useState('');
   const methods = useForm<FormValues>({
     mode: 'onChange',
+    defaultValues: {
+      bundle: '',
+      jenjangKompetisi: '',
+      nomorWali: '',
+      region: '',
+      kodePos: '',
+      namaSekolah: '',
+      alamatSekolah: '',
+    },
   });
+  const [debouncedKodepos] = useDebounce(kodepos, 2000); // delay 500ms
 
-  const { data } = useGetRegion(kodepos);
+  const { data, isLoading, status } = useGetRegion(debouncedKodepos);
   const region = regionOptions.find(
     (x) => x.value.toUpperCase() === data?.region,
   );
 
+  useEffect(() => {
+    if (region) {
+      methods.setValue('region', region.label);
+    }
+  }, [region]);
+
+  useEffect(() => {
+    const getData = localStorage.getItem('om_sd1');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData) || '{}');
+    }
+  }, [methods.reset]);
+
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
+    localStorage.setItem('om_sd1', JSON.stringify(data));
     onSubmit(data);
   };
 
@@ -81,19 +114,17 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
           />
 
           <Input
-            label="Kode Pos"
+            label="Kode Pos Sekolah"
             required
             id="kodePos"
             sizes={'sm'}
             type="text"
-            placeholder="Masukkan kode pos"
+            placeholder="Masukkan kode pos sekolah"
             validation={{ required: 'Kode pos wajib diisi.' }}
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
             onChange={(e) => {
-              setTimeout(() => {
-                setKodepos(e.target.value);
-              }, 3000);
+              setKodepos(e.target.value);
             }}
           />
 
@@ -103,7 +134,15 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             disabled
-            value={data ? region?.label : ''}
+            value={
+              !kodepos
+                ? ''
+                : status === 'error'
+                  ? 'Tidak Cocok.'
+                  : data && isLoading
+                    ? region?.label
+                    : 'Mecocokkan Region...'
+            }
             // value=""
             className="bg-neutral-main cursor-not-allowed"
             labelTextClassname="text-black-300"
@@ -114,6 +153,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             placeholder="Pilih Jenjang Kompetisi"
             options={jenjangKompetisiOptions}
             validation={{ required: 'Jenjang kompetisi wajib diisi.' }}
+            defaultValue={methods.getValues().jenjangKompetisi}
           />
           <Input
             label="Nama Sekolah"

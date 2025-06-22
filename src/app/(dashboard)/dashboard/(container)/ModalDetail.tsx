@@ -15,8 +15,6 @@ import WizardProgress from './WizardProgress';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-
 type ModalType = {
   type: 'omits' | 'mission';
   id: string;

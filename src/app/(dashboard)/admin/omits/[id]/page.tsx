@@ -12,6 +12,9 @@ import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ModalConfirm from '../../(container)/ModalConfirm';
 import { ImageStore } from '../../mission/[id]/page';
+import useGetDetailParticipants from '../../hooks/useGetDetailParticipants';
+import useGetRegion from '@/app/competition/hooks/useGetRegion';
+import { regionOptions } from '@/contents/ListRegions';
 
 export default function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -26,6 +29,13 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
   const [isEdit, setIsEdit] = useState(false);
 
   const DetailPendaftar = detailPendaftar.find((x) => x.id === id);
+
+  const { data, isLoading } = useGetDetailParticipants(id);
+  const { data: DataRegion } = useGetRegion(data?.postal.toString() || '1');
+
+  const region = regionOptions.find(
+    (x) => x.value.toUpperCase() === DataRegion?.region,
+  );
 
   const methods = useForm({
     mode: 'onTouched',
@@ -68,12 +78,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 size="md"
                 className="border-2 border-green-200 bg-transparent text-green-200 hover:bg-green-50"
               >
-                <Link
-                  href={
-                    'https://wa.me/+62' +
-                    DetailPendaftar?.peserta.phone_number.slice(1)
-                  }
-                >
+                <Link href={'https://wa.me/+62' + data?.phone.substring(1)}>
                   <Phone size={32} className="h-8 w-8" />
                   <span className="font-semibold">Contact Pendaftar</span>
                 </Link>
@@ -132,7 +137,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="jenjang"
                 label="Jenjang"
-                defaultValue={DetailPendaftar?.jenjang}
+                defaultValue={data?.participant_detail.type}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -140,7 +145,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="region"
                 label="Region"
-                defaultValue={DetailPendaftar?.region}
+                defaultValue={region?.label}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -148,7 +153,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="nama_sekolah"
                 label="Nama Sekolah"
-                defaultValue={DetailPendaftar?.nama_sekolah}
+                defaultValue={data?.instance_name}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -156,7 +161,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="alamat_sekolah"
                 label="Alamat Sekolah"
-                defaultValue={DetailPendaftar?.alamat_sekolah}
+                defaultValue={data?.instance_address}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -164,7 +169,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="provinsi"
                 label="Provinsi"
-                defaultValue={DetailPendaftar?.provinsi}
+                defaultValue={DataRegion?.province}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -172,7 +177,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="kota"
                 label="Kota/Kabupaten"
-                defaultValue={DetailPendaftar?.kota}
+                defaultValue={DataRegion?.regency}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -200,7 +205,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="fullname"
                 label="Nama Lengkap"
-                defaultValue={DetailPendaftar?.peserta.fullname}
+                defaultValue={data?.name}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -208,23 +213,23 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="identitas"
                 label="Nomor Identitas"
-                defaultValue={DetailPendaftar?.peserta.identitas}
+                defaultValue={data?.user_id}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
               <Input
                 labelTextClassname="text-black-300"
                 id="phone_number"
-                label="Nomor Telpon Peserta"
-                defaultValue={DetailPendaftar?.peserta.phone_number}
+                label="Nomor Telpon Peserta (masih wali*)"
+                defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
               <Input
                 labelTextClassname="text-black-300"
                 id="wali_phone_number"
-                label="Nomor Telpon Wali Peserta"
-                defaultValue={DetailPendaftar?.peserta.wali_phone_number}
+                label="Nomor Telpon Wali Peserta "
+                defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -234,7 +239,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                   <ImagePreview
                     id="proof_identitas"
                     name="Bukti Identitas"
-                    link={store.proof_identitas}
+                    link={data?.participant_detail.student_id_url ?? ''}
                     label="Bukti Kartu Identitas"
                     readOnly={isEdit}
                     deleteFile={setStore}
@@ -266,7 +271,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin terima peserta{' '}
             <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
+              {data?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
             <span className="text-additions-brown-100 font-bold">OMITS</span>?
@@ -280,7 +285,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin menolak peserta{' '}
             <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
+              {data?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
             <span className="text-additions-brown-100 font-bold">OMITS</span>?
@@ -294,7 +299,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin merubah data peserta{' '}
             <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
+              {data?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
             <span className="text-additions-brown-100 font-bold">OMITS</span>?

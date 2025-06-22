@@ -1,13 +1,23 @@
 'use client';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import { RegistrationMISSION1 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-type FormValues = {
-  region: string;
-  kodePos: string;
-  namaKampus: string;
-  alamatKampus: string;
+export type FormValues = {
+  region?: string;
+  kodePos?: string;
+  namaKampus?: string;
+  alamatKampus?: string;
+  detail?: {
+    email?: string;
+    namaLengkap?: string;
+    nomorTelepon?: string;
+    nomorIdentitas?: string;
+    kartuIdentitas?: string;
+  }[];
 };
 
 interface FormPage1Props {
@@ -15,7 +25,10 @@ interface FormPage1Props {
 }
 
 export default function FormPage1({ onSubmit }: FormPage1Props) {
-  const methods = useForm<FormValues>();
+  const methods = useForm<z.infer<typeof RegistrationMISSION1>>({
+    mode: 'onChange',
+    resolver: zodResolver(RegistrationMISSION1),
+  });
   const { handleSubmit } = methods;
 
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
@@ -35,19 +48,6 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
           /> */}
 
           <Input
-            label="Kode Pos"
-            required
-            id="kodePos"
-            sizes={'sm'}
-            type="text"
-            placeholder="Masukkan kode pos"
-            validation={{
-              required: 'This field is required',
-            }}
-            className="bg-neutral-main"
-            labelTextClassname="text-black-300"
-          />
-          <Input
             label="Nama Kampus"
             id="namaKampus"
             sizes={'sm'}
@@ -60,20 +60,18 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             labelTextClassname="text-black-300"
           />
 
-          <div className="md:col-span-2">
-            <Input
-              label="Alamat Kampus"
-              id="alamatKampus"
-              sizes={'sm'}
-              type="text"
-              placeholder="Masukkan alamat kampus"
-              validation={{
-                required: 'This field is required',
-              }}
-              className="bg-neutral-main"
-              labelTextClassname="text-black-300"
-            />
-          </div>
+          <Input
+            label="Alamat Kampus"
+            id="alamatKampus"
+            sizes={'sm'}
+            type="text"
+            placeholder="Masukkan alamat kampus"
+            validation={{
+              required: 'This field is required',
+            }}
+            className="bg-neutral-main"
+            labelTextClassname="text-black-300"
+          />
         </div>
 
         <div className="flex justify-end pt-4">

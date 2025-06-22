@@ -103,7 +103,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       <div
         className={cn(
-          'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
+          'relative flex w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
           'py-3',
           uploadStatus === 'success'
             ? type === 'omits'

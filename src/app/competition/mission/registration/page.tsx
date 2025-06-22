@@ -5,9 +5,20 @@ import { cn } from '@/lib/utils';
 import { Check, CreditCard, IdCard } from 'lucide-react';
 import React, { useState } from 'react';
 import BackgroundImage from './container/BackgroundImage';
-import FormPage1 from './container/FormPage1';
+import FormPage1, { FormValues } from './container/FormPage1';
 import FormPage2 from './container/FormPage2';
 import FormPage3 from './container/FormPage3';
+import {
+  PaymentRegistration,
+  RegistrationForm,
+} from '@/types/registrationForm';
+import useRegistration from '../../hooks/useRegistration';
+import usePayment from '../../hooks/usePayment';
+import {
+  RegistrationMISSION1,
+  RegistrationMISSION2,
+} from '@/validation/RegistrationSchema';
+import { z } from 'zod';
 
 const steps = [
   { name: 'Data Kampus', description: 'Berhasil Mengisi Data Kampus' },
@@ -16,7 +27,22 @@ const steps = [
 
 export default function MissionRegistrationPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<
+    z.infer<typeof RegistrationMISSION1> & z.infer<typeof RegistrationMISSION2>
+  >({
+    namaKampus: '',
+    alamatKampus: '',
+    detail: [
+      {
+        email: '',
+        namaLengkap: '',
+        nomorTelepon: '',
+        nomorIdentitas: '',
+        kartuIdentitas: '',
+      },
+    ],
+  });
+  const [payment, setPayment] = useState('');
 
   const handleNextStep = (dataFromStep: any) => {
     setFormData((prev) => ({ ...prev, ...dataFromStep }));
@@ -32,6 +58,57 @@ export default function MissionRegistrationPage() {
     'Data Peserta': <CreditCard size={24} />,
   };
 
+  const { mutate } = useRegistration('bundle');
+  const { mutate: MutatePayment } = usePayment();
+
+  const FinalSubmit = () => {
+    const participantsTeam: RegistrationForm[] = [];
+    formData.detail?.map((user) => {
+      participantsTeam.push({
+        name: user.namaLengkap as string,
+        user_id: null,
+        email: user.email as string,
+        phone: (formData.detail && formData.detail[0].nomorTelepon) as string,
+        detail: {
+          student_id: user.nomorIdentitas as string,
+          student_id_url: 'http://localhost:3001/admin/omits',
+        },
+      });
+    });
+
+    const finalDataTeam = {
+      type: 'MISSION',
+      status: 'PENDING',
+      postal: 1,
+      instance_name: formData.namaKampus as string,
+      instance_address: formData.alamatKampus as string,
+      participants: participantsTeam,
+    };
+
+    const FinalDataPayment: PaymentRegistration = {
+      payment_method: payment,
+      competition_type: 'MISSION',
+      competition_sub_type: 'MISSION',
+      details: [
+        {
+          participant_name: (formData.detail &&
+            formData.detail[0].namaLengkap) as string,
+          participant_student_id: (formData.detail &&
+            formData.detail[0].nomorIdentitas) as string,
+        },
+        {
+          participant_name: (formData.detail &&
+            formData.detail[1].namaLengkap) as string,
+          participant_student_id: (formData.detail &&
+            formData.detail[1].nomorIdentitas) as string,
+        },
+      ],
+    };
+
+    mutate(finalDataTeam);
+    MutatePayment(FinalDataPayment);
+  };
+
   const renderCurrentStepForm = () => {
     switch (currentStep) {
       case 1:
@@ -43,7 +120,8 @@ export default function MissionRegistrationPage() {
           <FormPage3
             formData={formData}
             onBack={handlePrevStep}
-            onSubmit={() => setCurrentStep(4)}
+            onSubmit={FinalSubmit}
+            setPayment={setPayment}
           />
         );
     }
@@ -59,12 +137,12 @@ export default function MissionRegistrationPage() {
             'relative w-full max-w-4xl',
             currentStep < 3
               ? 'rounded-2xl bg-white p-6 shadow-2xl md:p-10'
-              : 'p-0',
+              : 'p-0 xl:max-w-5xl 2xl:max-w-6xl',
           )}
         >
           {currentStep < 3 && (
             <button
-              className="absolute right-5 top-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
+              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
               aria-label="Tutup"
             >
               &times;

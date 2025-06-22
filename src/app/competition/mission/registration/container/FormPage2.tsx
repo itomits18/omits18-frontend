@@ -3,21 +3,12 @@
 import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import { RegistrationMISSION2 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-
-type FormValues = {
-  email_1: string;
-  namaLengkap_1: string;
-  nomorIdentitas_1: string;
-  nomorTelepon_1: string;
-  kartuIdentitas_1: any;
-  email_2: string;
-  namaLengkap_2: string;
-  nomorIdentitas_2: string;
-  nomorTelepon_2: string;
-  kartuIdentitas_2: any;
-};
+import { z } from 'zod';
+import { FormValues } from './FormPage1';
 
 interface FormPage2Props {
   onSubmit: (data: FormValues) => void;
@@ -25,7 +16,9 @@ interface FormPage2Props {
 }
 
 export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
-  const methods = useForm<FormValues>();
+  const methods = useForm<z.infer<typeof RegistrationMISSION2>>({
+    resolver: zodResolver(RegistrationMISSION2),
+  });
   const { handleSubmit } = methods;
 
   const [activeTab, setActiveTab] = useState<'peserta1' | 'peserta2'>(
@@ -47,6 +40,8 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
   const onValidSubmit: SubmitHandler<FormValues> = (data) => {
     onSubmit(data);
   };
+
+  console.log(methods.watch());
 
   return (
     <FormProvider {...methods}>
@@ -90,7 +85,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <Input
-                id="email_1"
+                id="detail.0.email"
                 label="Email"
                 labelTextClassname="text-black-300"
                 type="email"
@@ -98,14 +93,14 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 validation={{ required: 'Email Peserta 1 wajib diisi' }}
               />
               <Input
-                id="namaLengkap_1"
+                id="detail.0.namaLengkap"
                 label="Nama Lengkap"
                 labelTextClassname="text-black-300"
                 placeholder="Masukkan nama lengkap"
                 validation={{ required: 'Nama Lengkap Peserta 1 wajib diisi' }}
               />
               <Input
-                id="nomorIdentitas_1"
+                id="detail.0.nomorIdentitas"
                 label="Nomor Identitas"
                 labelTextClassname="text-black-300"
                 placeholder="Masukkan nomor Identitas"
@@ -114,7 +109,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 }}
               />
               <Input
-                id="nomorTelepon_1"
+                id="detail.0.nomorTelepon"
                 label="Nomor Telepon Peserta"
                 labelTextClassname="text-black-300"
                 type="tel"
@@ -124,7 +119,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
             </div>
             <div className="md:col-span-2">
               <FileUpload
-                id="kartuIdentitas_1"
+                id="detail.0.kartuIdentitas"
                 label="Bukti Nomor Identitas"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
@@ -149,7 +144,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <Input
-                id="email_2"
+                id="detail.1.email"
                 label="Email"
                 type="email"
                 placeholder="Masukkan email"
@@ -157,14 +152,14 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 validation={{ required: 'Email Peserta 2 wajib diisi' }}
               />
               <Input
-                id="namaLengkap_2"
+                id="detail.1.namaLengkap"
                 label="Nama Lengkap"
                 placeholder="Masukkan nama lengkap"
                 labelTextClassname="text-black-300"
                 validation={{ required: 'Nama Lengkap Peserta 2 wajib diisi' }}
               />
               <Input
-                id="nomorIdentitas_2"
+                id="detail.1.nomorIdentitas"
                 label="Nomor Identitas"
                 placeholder="Masukkan nomor Identitas"
                 labelTextClassname="text-black-300"
@@ -173,7 +168,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
                 }}
               />
               <Input
-                id="nomorTelepon_2"
+                id="detail.1.nomorTelepon"
                 label="Nomor Telepon Peserta"
                 type="tel"
                 placeholder="Masukkan nomor telepon"
@@ -183,7 +178,7 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
             </div>
             <div className="md:col-span-2">
               <FileUpload
-                id="kartuIdentitas_2"
+                id="detail.1.kartuIdentitas"
                 label="Bukti Nomor Identitas"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}

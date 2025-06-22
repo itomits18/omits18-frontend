@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 interface PaymentSummaryProps {
   onSubmit: () => void;
+  setPayment: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const PaymentItem = ({
@@ -32,7 +33,10 @@ const PaymentItem = ({
   </div>
 );
 
-export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
+export default function PaymentSummary({
+  onSubmit,
+  setPayment,
+}: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
   const mainItemPrice = 135000;
 
@@ -74,14 +78,17 @@ export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
       <Typography
         variant="h3"
         weight="bold"
-        className="mb-6 text-center font-Cinzel text-gray-800"
+        className="font-Cinzel mb-6 text-center text-gray-800"
       >
         MISSION
       </Typography>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="space-y-3">
         <div
-          onClick={() => setPaymentMethod('qris')}
+          onClick={() => {
+            setPayment('qris');
+            setPaymentMethod('qris');
+          }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
             paymentMethod === 'qris'
@@ -101,7 +108,10 @@ export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
         </div>
 
         <div
-          onClick={() => setPaymentMethod('va')}
+          onClick={() => {
+            setPayment('va');
+            setPaymentMethod('va');
+          }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
             paymentMethod === 'va'
@@ -122,12 +132,12 @@ export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
       </div>
 
       <hr className="my-6 border-b border-dashed border-gray-300" />
-      <div className="mb-1 grid grid-cols-6 gap-1 pb-2 font-Lora text-xs font-semibold text-black-200">
+      <div className="font-Lora text-black-200 mb-1 grid grid-cols-6 gap-1 pb-2 text-xs font-semibold">
         <p className="col-span-3 text-left">Items</p>
         <p className="col-span-1 text-center">Jumlah</p>
         <p className="col-span-2 text-right">Harga</p>
       </div>
-      <div className="mb-2 font-Lora text-sm text-black-200">
+      <div className="font-Lora text-black-200 mb-2 text-sm">
         <PaymentItem
           item="MISSION - Team"
           quantity={1}
@@ -140,7 +150,7 @@ export default function PaymentSummary({ onSubmit }: PaymentSummaryProps) {
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
-        <p className="font-Lora font-semibold text-black-200">Subtotal</p>
+        <p className="font-Lora text-black-200 font-semibold">Subtotal</p>
         <p className="font-Lora text-2xl font-bold text-blue-400">
           {formatCurrency(subTotal)}
         </p>

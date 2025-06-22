@@ -1,14 +1,25 @@
+export type Metadata = {
+  order_by: string;
+  sort_by: 'asc' | 'dsc';
+  limit: number;
+  page: number;
+  type: 'OMITS' | 'MISSION';
+};
+
 export type PaginateData<Data> = {
-  data_per_page: Data;
-  meta: {
-    page: number;
-    max_page: number;
+  items: Data;
+  pagination: {
+    current_page: number;
+    per_page: number;
+    total_pages: number;
+    total_items: number;
+    next_page: number;
+    prev_page: number;
   };
 };
 
 export interface PaginatedApiResponse<DataType> {
   code: number;
-  status: boolean;
   message: string;
   data: PaginateData<DataType>;
 }

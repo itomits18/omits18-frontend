@@ -10,8 +10,8 @@ type regionType = {
 };
 
 export default function useGetRegion(region: string) {
-  const { data, isLoading } = useQuery<regionType>({
-    queryKey: ['get-region'],
+  const { data, isLoading, status } = useQuery<regionType>({
+    queryKey: ['get-region', region],
     queryFn: async () => {
       const { data, status } = await api.get('/regions/' + region);
 
@@ -22,5 +22,5 @@ export default function useGetRegion(region: string) {
     enabled: !!region,
   });
 
-  return { data, isLoading };
+  return { data, isLoading, status };
 }

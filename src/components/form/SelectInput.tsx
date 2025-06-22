@@ -71,24 +71,25 @@ export function SelectInput({
       <Controller
         name={id}
         control={control}
+        defaultValue={defaultValue}
         rules={validation}
         render={({ field }) => (
           <Select
             // defaultValue={defaultValue}
-            value={field.value || defaultValue}
+            value={field.value}
             onValueChange={(value) => {
               field.onChange(value);
-              setHasValue(!!value);
+              // setHasValue(!!value);
               if (onChange) onChange(value);
             }}
           >
             <SelectTrigger
               id={id}
               className={cn(
-                'bg-white-50 w-full rounded-lg text-[#8F8B8A] focus:outline-hidden focus:ring-2',
+                'bg-white-50 w-full rounded-lg text-[#8F8B8A] focus:ring-2 focus:outline-hidden',
                 size === 'lg' ? 'px-6 py-5' : 'px-3 py-2',
                 error && 'border-2 border-red-500',
-                hasValue &&
+                (hasValue || field.value) &&
                   'border-black-400 text-black-400 border-2 focus:ring-0',
               )}
             >
@@ -111,7 +112,7 @@ export function SelectInput({
         )}
       />
       {error && (
-        <Typography variant="p" className="text-sm text-red-600">
+        <Typography variant="bs" className="text-sm text-red-600">
           {error.toString()}
         </Typography>
       )}

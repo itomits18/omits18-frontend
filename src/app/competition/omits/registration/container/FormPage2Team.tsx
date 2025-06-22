@@ -92,7 +92,7 @@ export default function FormPage2Team({
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
             <Input
               labelTextClassname="text-black-300"
-              id={`email_${index}` as keyof FormTeamValues}
+              id={`detail.${index - 1}.email` as keyof FormTeamValues}
               label="Email"
               placeholder="Masukkan email"
               type="email"
@@ -103,7 +103,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`namaLengkap_${index}` as keyof FormTeamValues}
+              id={`detail.${index - 1}.namaLengkap` as keyof FormTeamValues}
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
               validation={{
@@ -113,7 +113,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`nomorTelepon_${index}` as keyof FormTeamValues}
+              id={`detail.${index - 1}.nomorTelepon` as keyof FormTeamValues}
               label="Nomor Telepon Siswa"
               type="tel"
               placeholder="Masukkan nomor telepon"
@@ -124,7 +124,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`nomorNISN_${index}` as keyof FormTeamValues}
+              id={`detail.${index - 1}.nomorNISN` as keyof FormTeamValues}
               label="Nomor NISN"
               placeholder="Masukkan NISN"
               validation={{
@@ -134,7 +134,8 @@ export default function FormPage2Team({
             />
             <div className="md:col-span-2">
               <FileUpload
-                id={`buktiNISN_${index}` as keyof FormTeamValues}
+                type="omits"
+                id={`detail.${index - 1}.buktiNISN` as keyof FormTeamValues}
                 label="Bukti NISN"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
@@ -160,7 +161,7 @@ export default function FormPage2Team({
               value={activeTab}
               onValueChange={(value) => setActiveTab(value as PesertaTab)}
             >
-              <SelectTrigger className="w-full bg-green-300 py-3 font-Lora text-lg font-semibold text-white">
+              <SelectTrigger className="font-Lora w-full bg-green-300 py-3 text-lg font-semibold text-white">
                 {' '}
                 <SelectValue placeholder="Pilih Peserta">
                   {tabLabels.find((tab) => tab.key === activeTab)?.label ||
@@ -191,7 +192,7 @@ export default function FormPage2Team({
                 className={`${
                   activeTab === tab.key
                     ? 'bg-green-300 text-white'
-                    : 'text-black bg-gray-200 hover:bg-gray-300'
+                    : 'bg-gray-200 text-black hover:bg-gray-300'
                 } w-full py-3 text-base font-semibold`}
                 onClick={() => setActiveTab(tab.key)}
               >
@@ -214,13 +215,13 @@ export default function FormPage2Team({
           <Button
             type="button"
             onClick={onBack}
-            className="font-lora text-black w-full bg-gray-200 py-3 text-xs hover:bg-gray-300 md:text-lg"
+            className="font-lora w-full bg-gray-200 py-3 text-xs text-black hover:bg-gray-300 md:text-lg"
           >
             Kembali
           </Button>
           <Button
             type="submit"
-            className="w-full bg-green-300 py-3 font-Lora text-xs text-white hover:bg-green-700 md:text-lg"
+            className="font-Lora w-full bg-green-300 py-3 text-xs text-white hover:bg-green-700 md:text-lg"
           >
             Selanjutnya
           </Button>
