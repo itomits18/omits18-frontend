@@ -9,11 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Payment from './Payment';
-import { regionOptions } from '@/contents/ListRegions';
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },

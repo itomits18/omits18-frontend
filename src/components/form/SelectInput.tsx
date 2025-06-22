@@ -79,7 +79,7 @@ export function SelectInput({
             value={field.value}
             onValueChange={(value) => {
               field.onChange(value);
-              // setHasValue(!!value);
+              setHasValue(!!value);
               if (onChange) onChange(value);
             }}
           >

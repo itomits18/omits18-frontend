@@ -28,7 +28,7 @@ export default function useLogin() {
       const user = await api.get<ApiResponse<User>>('/users/me');
       if (user) login({ ...user.data.data, token: data.token });
 
-      toast.success('Successfully logged in!');
+      toast.success('Berhasil melakukan login');
 
       setTimeout(() => {
         if (role.role === 'admin') {

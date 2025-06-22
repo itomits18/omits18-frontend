@@ -6,15 +6,23 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import RegisterBg from '../(container)/RegisterBg';
+import useForgotPassword from './hooks/useForgotPassword';
+
+const ForgotPass = z.object({
+  email: z.string().email('Email tidak valid'),
+});
 
 export default function ResetPassword() {
-  const methods = useForm({
-    mode: 'onTouched',
+  const methods = useForm<z.infer<typeof ForgotPass>>({
+    mode: 'onSubmit',
   });
+
+  const { mutate, isPending } = useForgotPassword();
   const { handleSubmit } = methods;
-  const onSubmit = () => {
-    return;
+  const onSubmit = (data: z.infer<typeof ForgotPass>) => {
+    mutate(data.email);
   };
 
   return (
@@ -31,17 +39,17 @@ export default function ResetPassword() {
       <RegisterBg />
 
       {/*Frame*/}
-      <div className="absolute left-1/2 top-1/2 z-30 w-[30%] -translate-x-1/2 -translate-y-1/2 transform space-y-4 rounded-lg bg-[#577866] px-8 py-6 text-neutral-main opacity-90 shadow-md max-md:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[35%] 2xl:w-[30%]">
+      <div className="text-neutral-main absolute top-1/2 left-1/2 z-30 w-[30%] -translate-x-1/2 -translate-y-1/2 transform space-y-4 rounded-lg bg-[#577866] px-8 py-6 opacity-90 shadow-md max-md:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[35%] 2xl:w-[30%]">
         <Typography
           variant="h4"
-          className="text-shadow-lg text-center font-semibold max-md:text-3xl max-[350px]:text-2xl"
+          className="text-center font-semibold text-shadow-lg max-[350px]:text-2xl max-md:text-3xl"
         >
           Forgot Password
         </Typography>
         <Typography
           variant="p"
           weight="semibold"
-          className="text-center max-md:text-sm max-[350px]:text-sm"
+          className="text-center max-[350px]:text-sm max-md:text-sm"
         >
           Masukkan Email untuk melakukan reset kata sandi akun
         </Typography>
@@ -49,20 +57,23 @@ export default function ResetPassword() {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Input
-              id="email"
               label="Email"
+              required
+              id="email"
+              sizes="lg"
+              type="email"
               placeholder="Masukkan email"
-              validation={{ required: 'Field must be filled' }}
+              className="bg-neutral-main text-black"
             />
 
             <div className="flex flex-col space-y-3">
-              <Button variant="yellow" type="submit">
-                Kirim
+              <Button variant="yellow" type="submit" disabled={isPending}>
+                {isPending ? 'Loading...' : 'Kirim'}
               </Button>
 
               <Typography className="text-center">
                 Kembali ke halaman{' '}
-                <Link href={'/'}>
+                <Link href={'/login'}>
                   <span className="text-yellow-200 hover:text-yellow-300">
                     Sign In
                   </span>

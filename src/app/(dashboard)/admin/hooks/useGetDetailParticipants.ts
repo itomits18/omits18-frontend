@@ -1,7 +1,5 @@
 import api from '@/lib/api';
-import { Metadata, PaginatedApiResponse } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 
 export type GetParticipants = {
   id: number;

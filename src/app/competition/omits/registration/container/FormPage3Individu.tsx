@@ -1,8 +1,8 @@
 'use client';
 import Typography from '@/components/Typography';
+import { regionOptions } from '@/contents/ListRegions';
 import { FileText } from 'lucide-react';
 import Payment from './Payment';
-import { regionOptions } from '@/contents/ListRegions';
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },

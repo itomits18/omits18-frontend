@@ -1,13 +1,12 @@
 import api from '@/lib/api';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import React from 'react';
-import { FormValues } from '../omits/registration/container/FormPage1';
 import { ApiError } from '@/types/api';
-import { toast } from 'sonner';
 import {
   RegistrationForm,
   RegistrationFormTeam,
 } from '@/types/registrationForm';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { FormValues } from '../omits/registration/container/FormPage1';
 
 export default function useRegistration(type: string) {
   const { mutate, isPending } = useMutation({

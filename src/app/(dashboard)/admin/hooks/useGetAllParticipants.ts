@@ -1,7 +1,6 @@
 import api from '@/lib/api';
-import { Metadata, PaginatedApiResponse, PaginateData } from '@/types/api';
+import { Metadata, PaginateData } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 
 export type GetParticipants = {
   participants: {

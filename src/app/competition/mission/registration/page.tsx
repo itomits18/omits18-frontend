@@ -2,23 +2,23 @@
 
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
-import { Check, CreditCard, IdCard } from 'lucide-react';
-import React, { useState } from 'react';
-import BackgroundImage from './container/BackgroundImage';
-import FormPage1, { FormValues } from './container/FormPage1';
-import FormPage2 from './container/FormPage2';
-import FormPage3 from './container/FormPage3';
 import {
   PaymentRegistration,
   RegistrationForm,
 } from '@/types/registrationForm';
-import useRegistration from '../../hooks/useRegistration';
-import usePayment from '../../hooks/usePayment';
 import {
   RegistrationMISSION1,
   RegistrationMISSION2,
 } from '@/validation/RegistrationSchema';
+import { Check, CreditCard, IdCard } from 'lucide-react';
+import React, { useState } from 'react';
 import { z } from 'zod';
+import usePayment from '../../hooks/usePayment';
+import useRegistration from '../../hooks/useRegistration';
+import BackgroundImage from './container/BackgroundImage';
+import FormPage1 from './container/FormPage1';
+import FormPage2 from './container/FormPage2';
+import FormPage3 from './container/FormPage3';
 
 const steps = [
   { name: 'Data Kampus', description: 'Berhasil Mengisi Data Kampus' },

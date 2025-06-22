@@ -3,27 +3,26 @@
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Check, CreditCard, IdCard } from 'lucide-react';
-import React, { useState } from 'react';
-import BackgroundImage from './container/BackgroundImageOmits';
-import FormPage1 from './container/FormPage1';
-import type { FormValues } from './container/FormPage1';
-import FormPage2Individu from './container/FormPage2Individu';
-import FormPage2Team from './container/FormPage2Team';
-import FormPage3Individu from './container/FormPage3Individu';
-import FormPage3Team from './container/FormPage3Team';
-import useRegistration from '../../hooks/useRegistration';
 import {
   PaymentRegistration,
   RegistrationForm,
 } from '@/types/registrationForm';
-import usePayment from '../../hooks/usePayment';
-import { z } from 'zod';
 import {
   RegistrationOMITS1,
   RegistrationOMITS2,
 } from '@/validation/RegistrationSchema';
+import { Check, CreditCard, IdCard } from 'lucide-react';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
+import { z } from 'zod';
+import usePayment from '../../hooks/usePayment';
+import useRegistration from '../../hooks/useRegistration';
+import BackgroundImage from './container/BackgroundImageOmits';
+import FormPage1 from './container/FormPage1';
+import FormPage2Individu from './container/FormPage2Individu';
+import FormPage2Team from './container/FormPage2Team';
+import FormPage3Individu from './container/FormPage3Individu';
+import FormPage3Team from './container/FormPage3Team';
 
 const steps = [
   { name: 'Data Pendaftar', description: 'Berhasil Mengisi Data Pendaftar' },

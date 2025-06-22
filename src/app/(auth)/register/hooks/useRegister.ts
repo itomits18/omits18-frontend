@@ -1,0 +1,24 @@
+import api from '@/lib/api';
+import { ApiError } from '@/types/api';
+import { LoginSchema } from '@/validation/LoginSchema';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+export default function useRegister() {
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['register-user'],
+    mutationFn: async (dataLogin: z.infer<typeof LoginSchema>) => {
+      const { data } = await api.post('/auth/register', dataLogin);
+      return data.data;
+    },
+    onSuccess: () => {
+      toast.success('Periksa email yang telah dikirim');
+    },
+    onError: (err: { response: { data: ApiError } }) => {
+      toast.error(err.response.data.message);
+    },
+  });
+
+  return { mutate, isPending };
+}

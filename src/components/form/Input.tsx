@@ -68,7 +68,7 @@ export default function Input({
     <div className="w-full space-y-2">
       {label && (
         <LabelText
-          required={validation?.required ? true : false}
+          required={rest.required}
           labelTextClasname={labelTextClassname}
         >
           {label}

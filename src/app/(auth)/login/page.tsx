@@ -12,7 +12,7 @@ import AuthBg from '../(container)/AuthBg';
 import useLogin from './hooks/useLogin';
 
 export default function page() {
-  const methods = useForm({
+  const methods = useForm<z.infer<typeof LoginSchema>>({
     mode: 'onChange',
     resolver: zodResolver(LoginSchema),
   });

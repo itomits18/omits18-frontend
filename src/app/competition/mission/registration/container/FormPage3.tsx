@@ -2,12 +2,11 @@
 
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
+import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 import { useState } from 'react';
 import Payment from './Payment';
-import { FormValues } from './FormPage1';
-import { regionOptions } from '@/contents/ListRegions';
 
 interface FormPage3Props {
   formData: any;

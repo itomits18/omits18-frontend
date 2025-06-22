@@ -1,20 +1,20 @@
 'use client';
 
+import useGetRegion from '@/app/competition/hooks/useGetRegion';
 import Typography from '@/components/Typography';
 import FileUpload from '@/components/form/FileUpload';
 import ImagePreview from '@/components/form/ImagePreview';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
 import { detailPendaftar } from '@/contents/DataPendaftar';
+import { regionOptions } from '@/contents/ListRegions';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ModalConfirm from '../../(container)/ModalConfirm';
-import { ImageStore } from '../../mission/[id]/page';
 import useGetDetailParticipants from '../../hooks/useGetDetailParticipants';
-import useGetRegion from '@/app/competition/hooks/useGetRegion';
-import { regionOptions } from '@/contents/ListRegions';
+import { ImageStore } from '../../mission/[id]/page';
 
 export default function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);

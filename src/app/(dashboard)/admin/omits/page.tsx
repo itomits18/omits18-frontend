@@ -3,9 +3,9 @@
 import Typography from '@/components/Typography';
 import Option from '@/components/form/Option';
 import TableLayout from '@/components/form/TableLayout';
-import { Pendaftar, pendaftarData } from '@/contents/DataPendaftar';
 
 import api from '@/lib/api';
+import { Metadata } from '@/types/api';
 import {
   ColumnDef,
   SortingState,
@@ -21,7 +21,6 @@ import StatisticSection from '../(container)/StatisticSection';
 import useGetAllParticipants, {
   GetParticipants,
 } from '../hooks/useGetAllParticipants';
-import { Metadata } from '@/types/api';
 
 type metadataType = {
   take: number;
