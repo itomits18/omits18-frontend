@@ -27,8 +27,8 @@ export default function PesertaDetail({
     <Collapsible open={collapse} onOpenChange={setCollapse}>
       <CollapsibleTrigger
         className={cn(
-          'relative z-20 flex w-full justify-between rounded-xl px-8 py-4 text-neutral-main focus:ring-0',
-          'focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
+          'text-neutral-main relative z-20 flex w-full justify-between rounded-xl px-8 py-4 focus:ring-0',
+          'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
             : 'bg-gradient-to-r from-[#4580B2] to-[#1D374C]',
@@ -47,7 +47,7 @@ export default function PesertaDetail({
               Nama Lengkap
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              Grace Tiwy Sitanggang
+              John Smith
             </Typography>
           </div>
 
@@ -65,7 +65,7 @@ export default function PesertaDetail({
               Email
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              email@example.com
+              johnsmith@gmail.com
             </Typography>
           </div>
 
@@ -76,9 +76,9 @@ export default function PesertaDetail({
             <Typography
               variant="t"
               weight="bold"
-              className="text-justify text-black-300"
+              className="text-black-300 text-justify"
             >
-              077855
+              1234567890
             </Typography>
           </div>
         </div>
