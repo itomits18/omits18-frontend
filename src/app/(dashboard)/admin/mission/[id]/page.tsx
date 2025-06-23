@@ -8,7 +8,7 @@ import { detailPendaftar } from '@/contents/DataPendaftar';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ModalConfirm from '../../(container)/ModalConfirm';
 
@@ -16,7 +16,8 @@ export type ImageStore = {
   proof_identitas: string;
 };
 
-export default function page({ params }: {params: Promise<{id: string}> }) {
+export default function page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const [terimaConfirm, setTerimaConfirm] = useState(false);
   const [tolakConfirm, setTolakConfirm] = useState(false);
   const [revisiConfirm, setRevisiConfirm] = useState(false);

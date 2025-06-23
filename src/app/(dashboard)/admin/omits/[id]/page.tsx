@@ -8,12 +8,14 @@ import { Button } from '@/components/ui/button';
 import { detailPendaftar } from '@/contents/DataPendaftar';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ModalConfirm from '../../(container)/ModalConfirm';
 import { ImageStore } from '../../mission/[id]/page';
 
-export default function page({ params }: {params: Promise<{id: string}> }) {
+export default function page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+
   const [terimaConfirm, setTerimaConfirm] = useState(false);
   const [tolakConfirm, setTolakConfirm] = useState(false);
   const [revisiConfirm, setRevisiConfirm] = useState(false);
