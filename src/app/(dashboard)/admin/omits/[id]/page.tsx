@@ -13,7 +13,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import ModalConfirm from '../../(container)/ModalConfirm';
 import { ImageStore } from '../../mission/[id]/page';
 
-export default function page({ params: { id } }: { params: { id: string } }) {
+export default function page({ params }: {params: Promise<{id: string}> }) {
   const [terimaConfirm, setTerimaConfirm] = useState(false);
   const [tolakConfirm, setTolakConfirm] = useState(false);
   const [revisiConfirm, setRevisiConfirm] = useState(false);
