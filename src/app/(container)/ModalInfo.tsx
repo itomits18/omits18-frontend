@@ -12,20 +12,21 @@ import { cn } from '@/lib/utils';
 import { DialogPortal } from '@radix-ui/react-dialog';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export default function ModalInfo() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogPortal>
-        <DialogOverlay className="bg-black-200/30 fixed inset-0 z-20 backdrop-blur-sm" />
+        <DialogOverlay className="bg-black-200/30 fixed inset-0 z-50 backdrop-blur-sm" />
         <DialogContent
           className={cn(
-            'max-h-screen max-w-[95%] overflow-auto rounded-2xl max-md:h-[90%] md:h-[70%] md:max-w-[80%] xl:h-[80] 2xl:h-[90%]',
+            'max-h-screen max-w-[95%] overflow-auto rounded-2xl max-md:h-[90%] md:h-[70%] md:max-w-[80%] xl:h-[80%] 2xl:h-[90%]',
             'bg-gradient-to-b from-[#D0E4EF] via-[#8FBFDA] via-30% to-[#D9BBC2]',
             'flex items-center justify-center border-none',
           )}
@@ -136,9 +137,9 @@ export default function ModalInfo() {
           <div className="relative z-30 mb-20 flex flex-col items-center justify-center space-y-4">
             <div className="space-y-2 text-center">
               <Typography
-                variant="h3"
+                variant="h4"
                 weight="medium"
-                className="text-neutral-main max-md:text-4xl"
+                className="text-neutral-main max-md:text-4xl xl:!text-[60px] xl:!leading-[80px]"
                 style={{
                   textShadow: '-3px 3px 0px rgba(0,0,0,0.25)',
                 }}
@@ -154,9 +155,9 @@ export default function ModalInfo() {
               </Typography>
 
               <Typography
-                variant="h6"
+                variant="t"
                 weight="medium"
-                className="text-neutral-main mx-auto w-[80%] max-md:w-full max-md:text-base"
+                className="text-neutral-main mx-auto w-[75%] max-md:w-full max-md:text-base md:!text-[28px] md:!leading-[32px]"
                 style={{
                   textShadow: '-3px 3px 2px rgba(0,0,0,0.15)',
                 }}
@@ -166,9 +167,16 @@ export default function ModalInfo() {
               </Typography>
             </div>
 
-            <Button variant="purple" size="lg" className="mx-auto">
-              Daftarkan Dirimu
-              <ArrowRight size={32} />
+            <Button
+              variant="purple"
+              size="lg"
+              className="mx-auto border-0 shadow-none outline-none focus:ring-0 focus:outline-none"
+              asChild
+            >
+              <Link href="https://its.id/m/FormRegistrasiOMITS18th">
+                Daftarkan Dirimu
+                <ArrowRight size={32} />
+              </Link>
             </Button>
           </div>
         </DialogContent>
