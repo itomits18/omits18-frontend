@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <section
       className={cn(
-        'fixed right-0 left-0 z-50 flex items-center justify-between bg-[#ADB5BD]/20',
+        'fixed left-0 right-0 z-50 flex items-center justify-between bg-[#ADB5BD]/20',
         'rounded-2xl py-5 max-lg:rounded-xl max-lg:px-6 md:px-12 lg:px-8 xl:px-24',
         'border-black-100 my-8 border backdrop-blur-sm max-md:mx-8 md:mx-12',
         'transition-all duration-200',
@@ -40,7 +40,7 @@ export default function Navbar() {
           width={618}
           height={220}
           alt="assets"
-          className="absolute top-0 right-0 w-[80%] opacity-60 max-md:hidden md:w-[40%] lg:w-[20%] xl:w-[15%]"
+          className="absolute right-0 top-0 w-[80%] opacity-60 max-md:hidden md:w-[40%] lg:w-[20%] xl:w-[15%]"
         />
       </div>
 
@@ -55,7 +55,7 @@ export default function Navbar() {
       <div
         className={cn(
           'text-purple-30 flex items-center space-x-8 max-lg:flex-col max-lg:items-start max-lg:space-x-0',
-          'max-lg:bg-neutral-10 top-0 left-0 z-[51] max-lg:absolute max-lg:min-h-screen max-lg:w-full max-lg:space-y-6 max-lg:p-8 max-lg:py-12 md:space-y-8 md:px-8 lg:space-y-0',
+          'max-lg:bg-neutral-10 left-0 top-0 z-[51] max-lg:absolute max-lg:min-h-screen max-lg:w-full max-lg:space-y-6 max-lg:p-8 max-lg:py-12 md:space-y-8 md:px-8 lg:space-y-0',
           'max-md:bg-neutral-main transition-all duration-200 max-lg:h-screen max-lg:overflow-y-scroll',
           open ? 'left-0' : '-left-[1000px] md:-left-[1000px]',
         )}
@@ -63,7 +63,7 @@ export default function Navbar() {
         <XCircle
           size={32}
           className={cn(
-            'text-black-200 max-md:hover:text-black-100 absolute top-5 right-5 cursor-pointer transition-all duration-200 max-[350px]:w-6 lg:hidden',
+            'text-black-200 max-md:hover:text-black-100 absolute right-5 top-5 cursor-pointer transition-all duration-200 max-[350px]:w-6 lg:hidden',
             open ? 'block' : 'hidden',
           )}
           onClick={() => setOpen(false)}
@@ -162,7 +162,7 @@ export default function Navbar() {
             </Link>
           </Button>
           <Button asChild size="lg" variant="blue" className="w-full">
-            <Link href={'/login'}>Login</Link>
+            <Link href={'/coming-soon'}>Login</Link>
           </Button>
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function Navbar() {
         </Link>
 
         <Button asChild variant="blue" size="lg" className="px-12 py-3">
-          <Link href={'/login'}>
+          <Link href={'/coming-soon'}>
             <span className="text-xl">Login</span>
           </Link>
         </Button>
