@@ -20,9 +20,9 @@ export default function Navbar() {
   return (
     <section
       className={cn(
-        'fixed left-0 right-0 z-50 flex items-center justify-between bg-[#ADB5BD]/20',
+        'fixed right-0 left-0 z-50 flex items-center justify-between bg-[#ADB5BD]/20',
         'rounded-2xl py-5 max-lg:rounded-xl max-lg:px-6 md:px-12 lg:px-8 xl:px-24',
-        'my-8 border border-black-100 backdrop-blur-sm max-md:mx-8 md:mx-12',
+        'border-black-100 my-8 border backdrop-blur-sm max-md:mx-8 md:mx-12',
         'transition-all duration-200',
         open && 'max-md:m-0',
       )}
@@ -40,7 +40,7 @@ export default function Navbar() {
           width={618}
           height={220}
           alt="assets"
-          className="absolute right-0 top-0 w-[80%] opacity-60 max-md:hidden md:w-[40%] lg:w-[20%] xl:w-[15%]"
+          className="absolute top-0 right-0 w-[80%] opacity-60 max-md:hidden md:w-[40%] lg:w-[20%] xl:w-[15%]"
         />
       </div>
 
@@ -55,15 +55,15 @@ export default function Navbar() {
       <div
         className={cn(
           'text-purple-30 flex items-center space-x-8 max-lg:flex-col max-lg:items-start max-lg:space-x-0',
-          'max-lg:bg-neutral-10 left-0 top-0 z-[51] max-lg:absolute max-lg:min-h-screen max-lg:w-full max-lg:space-y-6 max-lg:p-8 max-lg:py-12 md:space-y-8 md:px-8 lg:space-y-0',
-          'transition-all duration-200 max-lg:h-screen max-lg:overflow-y-scroll max-md:bg-neutral-main',
-          open ? 'left-0' : '-left-96 md:-left-[1000px]',
+          'max-lg:bg-neutral-10 top-0 left-0 z-[51] max-lg:absolute max-lg:min-h-screen max-lg:w-full max-lg:space-y-6 max-lg:p-8 max-lg:py-12 md:space-y-8 md:px-8 lg:space-y-0',
+          'max-md:bg-neutral-main transition-all duration-200 max-lg:h-screen max-lg:overflow-y-scroll',
+          open ? 'left-0' : '-left-[1000px] md:-left-[1000px]',
         )}
       >
         <XCircle
           size={32}
           className={cn(
-            'absolute right-5 top-5 cursor-pointer text-black-200 transition-all duration-200 max-md:hover:text-black-100 max-[350px]:w-6 lg:hidden',
+            'text-black-200 max-md:hover:text-black-100 absolute top-5 right-5 cursor-pointer transition-all duration-200 max-[350px]:w-6 lg:hidden',
             open ? 'block' : 'hidden',
           )}
           onClick={() => setOpen(false)}
@@ -80,13 +80,15 @@ export default function Navbar() {
         </div>
 
         <div>
-          <Typography
-            variant="t"
-            weight="semibold"
-            className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
-          >
-            Tentang
-          </Typography>
+          <Link href="/coming-soon">
+            <Typography
+              variant="t"
+              weight="semibold"
+              className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
+            >
+              Tentang
+            </Typography>
+          </Link>
         </div>
         <Collapsible
           className="w-full"
@@ -98,79 +100,91 @@ export default function Navbar() {
               <Typography
                 variant="t"
                 weight="semibold"
-                className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
+                className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
               >
                 Kompetisi
               </Typography>
 
               <ChevronDown
                 className={cn(
-                  'text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200',
+                  'text-neutral-main max-md:text-black-200 transition-all duration-200 hover:text-blue-50',
                   !collapse ? 'rotate-0' : 'rotate-180',
                 )}
               />
             </div>
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-4 rounded-xl px-4 pt-4 transition-all duration-200 lg:absolute lg:top-28 lg:space-y-3 lg:border lg:border-black-100 lg:bg-[#ADB5BD]/20 lg:p-4 lg:px-6 xl:top-32">
-            <div>
-              <Typography
-                variant="t"
-                weight="semibold"
-                className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
-              >
-                OMITS
-              </Typography>
-            </div>
-            <div>
-              <Typography
-                variant="t"
-                weight="semibold"
-                className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
-              >
-                MISSION
-              </Typography>
-            </div>
+          <CollapsibleContent className="lg:border-black-100 space-y-4 rounded-xl px-4 pt-4 transition-all duration-200 lg:absolute lg:top-28 lg:space-y-3 lg:border lg:bg-[#ADB5BD]/20 lg:p-4 lg:px-6 xl:top-32">
+            <Link href="/coming-soon">
+              <div>
+                <Typography
+                  variant="t"
+                  weight="semibold"
+                  className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
+                >
+                  OMITS
+                </Typography>
+              </div>
+            </Link>
+            <Link href="/coming-soon">
+              <div>
+                <Typography
+                  variant="t"
+                  weight="semibold"
+                  className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
+                >
+                  MISSION
+                </Typography>
+              </div>
+            </Link>
           </CollapsibleContent>
         </Collapsible>
 
         <div>
-          <Typography
-            variant="t"
-            weight="semibold"
-            className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
-          >
-            Merchandise
-          </Typography>
+          <Link href="/coming-soon">
+            <Typography
+              variant="t"
+              weight="semibold"
+              className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
+            >
+              Merchandise
+            </Typography>
+          </Link>
         </div>
 
         <div className="w-full space-y-4 md:mt-12 lg:hidden">
           <Button
             size="lg"
-            className="w-full border bg-transparent text-black-200"
+            className="text-black-200 w-full border bg-transparent"
+            asChild
           >
-            <span className="text-violet-30">Sign In</span>
+            <Link href="/coming-soon">
+              <span className="text-violet-30">Sign In</span>
+            </Link>
           </Button>
           <Button asChild size="lg" variant="blue" className="w-full">
-            <Link href={'/login'}>Login</Link>
+            <Link href={'/coming-soon'}>Login</Link>
           </Button>
         </div>
       </div>
 
       <AlignJustify
-        className="relative z-30 cursor-pointer text-neutral-main max-lg:block lg:hidden"
+        className="text-neutral-main relative z-30 cursor-pointer max-lg:block lg:hidden"
         onClick={() => setOpen((pre) => !pre)}
       />
 
       <div className="relative z-20 flex items-center justify-center space-x-4 max-lg:hidden xl:space-x-6">
-        <Typography
-          variant="t"
-          weight="semibold"
-          className="cursor-pointer text-neutral-main transition-all duration-200 hover:text-blue-50 max-md:text-black-200 max-md:hover:text-black-100"
-        >
-          Sign Up
-        </Typography>
+        <Link href="/coming-soon">
+          <Typography
+            variant="t"
+            weight="semibold"
+            className="text-neutral-main max-md:text-black-200 max-md:hover:text-black-100 cursor-pointer transition-all duration-200 hover:text-blue-50"
+          >
+            Sign Up
+          </Typography>
+        </Link>
+
         <Button asChild variant="blue" size="lg" className="px-12 py-3">
-          <Link href={'/login'}>
+          <Link href={'/coming-soon'}>
             <span className="text-xl">Login</span>
           </Link>
         </Button>

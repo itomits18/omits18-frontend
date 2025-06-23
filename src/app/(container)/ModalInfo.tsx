@@ -2,39 +2,46 @@
 
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { DialogPortal } from '@radix-ui/react-dialog';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
+
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export default function ModalInfo() {
   const [modalOpen, setModalOpen] = useState(true);
 
   return (
-    <>
-      <div
-        className={cn(
-          'absolute left-0 top-0 z-20 min-h-screen w-full bg-black-200/30 transition-all duration-200',
-          modalOpen ? 'block opacity-100' : 'hidden opacity-0',
-        )}
-      ></div>
-
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <DialogPortal>
+        <DialogOverlay className="bg-black-200/30 fixed inset-0 z-50 backdrop-blur-sm" />
         <DialogContent
           className={cn(
-            'max-h-screen max-w-[95%] overflow-auto rounded-2xl max-md:h-[90%] md:h-[70%] md:max-w-[80%] xl:h-[80] 2xl:h-[90%]',
+            'max-h-screen max-w-[95%] overflow-auto rounded-2xl max-md:h-[90%] md:h-[70%] md:max-w-[80%] xl:h-[80%] 2xl:h-[90%]',
             'bg-gradient-to-b from-[#D0E4EF] via-[#8FBFDA] via-30% to-[#D9BBC2]',
             'flex items-center justify-center border-none',
           )}
         >
+          <VisuallyHidden asChild>
+            <DialogTitle>Modal Title</DialogTitle>
+          </VisuallyHidden>
+
           <div className="z-20">
             <Image
               src="/images/landing/modal/batu-kanan.png"
               width={980}
               height={722}
               alt="assets"
-              className="absolute bottom-0 right-0 max-lg:hidden lg:w-[30%]"
+              className="absolute right-0 bottom-0 max-lg:hidden lg:w-[30%]"
             />
             <Image
               src="/images/landing/modal/batu-kiri.png"
@@ -48,7 +55,7 @@ export default function ModalInfo() {
               width={304}
               height={322}
               alt="assets"
-              className="absolute bottom-0 right-0 w-[40%] lg:hidden"
+              className="absolute right-0 bottom-0 w-[40%] lg:hidden"
             />
             <Image
               src="/images/landing/modal/batu-kiri-mobile.png"
@@ -80,7 +87,7 @@ export default function ModalInfo() {
             width={968}
             height={478}
             alt="assets"
-            className="absolute bottom-28 z-10 mx-auto w-full max-md:w-[90%] max-[350px]:bottom-24 md:w-[75%] lg:bottom-16 lg:w-[40%] xl:bottom-24"
+            className="absolute bottom-28 z-10 mx-auto w-full max-[350px]:bottom-24 max-md:w-[90%] md:w-[75%] lg:bottom-16 lg:w-[40%] xl:bottom-24"
           />
 
           <Image
@@ -96,7 +103,7 @@ export default function ModalInfo() {
             width={296}
             height={972}
             alt="assets"
-            className="absolute bottom-0 right-0 z-[5] max-lg:hidden lg:w-[15%]"
+            className="absolute right-0 bottom-0 z-[5] max-lg:hidden lg:w-[15%]"
           />
           <Image
             src="/images/landing/modal/bola-atas.png"
@@ -110,29 +117,29 @@ export default function ModalInfo() {
             width={634}
             height={458}
             alt="assets"
-            className="absolute right-0 top-0 z-[4] mx-auto opacity-80 mix-blend-overlay max-lg:w-[40%] md:w-[30%] lg:hidden"
+            className="absolute top-0 right-0 z-[4] mx-auto opacity-80 mix-blend-overlay max-lg:w-[40%] md:w-[30%] lg:hidden"
           />
           <Image
             src="/images/landing/modal/awan-lt.png"
             width={219}
             height={98}
             alt="assets"
-            className="absolute left-0 top-0 max-md:w-[50%] lg:w-[20%]"
+            className="absolute top-0 left-0 max-md:w-[50%] lg:w-[20%]"
           />
           <Image
             src="/images/landing/modal/awan-rt.png"
             width={260}
             height={98}
             alt="assets"
-            className="absolute right-72 top-32 z-[2] max-md:right-10 max-md:top-52 max-md:w-[30%] md:right-40 md:w-[20%] lg:w-[10%] 2xl:right-72"
+            className="absolute top-32 right-72 z-[2] max-md:top-52 max-md:right-10 max-md:w-[30%] md:right-40 md:w-[20%] lg:w-[10%] 2xl:right-72"
           />
 
           <div className="relative z-30 mb-20 flex flex-col items-center justify-center space-y-4">
             <div className="space-y-2 text-center">
               <Typography
-                variant="h3"
+                variant="h4"
                 weight="medium"
-                className="text-neutral-main max-md:text-4xl"
+                className="text-neutral-main max-md:text-4xl xl:!text-[60px] xl:!leading-[80px]"
                 style={{
                   textShadow: '-3px 3px 0px rgba(0,0,0,0.25)',
                 }}
@@ -148,9 +155,9 @@ export default function ModalInfo() {
               </Typography>
 
               <Typography
-                variant="h6"
+                variant="t"
                 weight="medium"
-                className="mx-auto w-[80%] text-neutral-main max-md:w-full max-md:text-base"
+                className="text-neutral-main mx-auto w-[75%] max-md:w-full max-md:text-base md:!text-[28px] md:!leading-[32px]"
                 style={{
                   textShadow: '-3px 3px 2px rgba(0,0,0,0.15)',
                 }}
@@ -160,13 +167,20 @@ export default function ModalInfo() {
               </Typography>
             </div>
 
-            <Button variant="purple" size="lg" className="mx-auto">
-              Daftarkan Dirimu
-              <ArrowRight size={32} />
+            <Button
+              variant="purple"
+              size="lg"
+              className="mx-auto border-0 shadow-none outline-none focus:ring-0 focus:outline-none"
+              asChild
+            >
+              <Link href="https://its.id/m/FormRegistrasiOMITS18th">
+                Daftarkan Dirimu
+                <ArrowRight size={32} />
+              </Link>
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
-    </>
+      </DialogPortal>
+    </Dialog>
   );
 }

@@ -11,6 +11,7 @@ interface FileUploadProps {
   validation?: RegisterOptions;
   className?: string;
   helpertext?: string | React.ReactNode;
+  type?: 'omits' | 'mission';
   onStatusChange?: (
     status: 'success' | 'error' | null,
     fileName?: string,
@@ -27,6 +28,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   validation,
   className,
   helpertext,
+  type,
   onStatusChange,
   labelTextClassName,
   supportFiles = ['png', 'jpeg', 'jpg'],
@@ -104,7 +106,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
           'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
           'py-3',
           uploadStatus === 'success'
-            ? 'bg-green-200'
+            ? type === 'omits'
+              ? 'bg-green-200'
+              : 'bg-blue-300'
             : uploadStatus === 'error'
               ? 'border-additions-brown-100 bg-additions-brown-100'
               : 'bg-neutral-main',
@@ -159,13 +163,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {uploadStatus ? (
             <X
               className={cn(
-                'absolute right-[4%] top-1/4 h-5 w-5',
+                'absolute top-1/4 right-[4%] h-5 w-5',
                 uploadStatus === 'error' ? 'text-red-500' : 'text-neutral-main',
               )}
               onClick={resetFile}
             />
           ) : (
-            <Upload className="h-4 w-4 text-black-300" />
+            <Upload className="text-black-300 h-4 w-4" />
           )}
         </div>
       </div>

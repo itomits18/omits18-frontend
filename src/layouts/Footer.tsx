@@ -4,13 +4,13 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#658578] px-6 py-16 text-white md:px-28 xl:px-32">
+    <div className="relative z-40 w-full overflow-hidden bg-[#658578] px-6 py-16 text-white md:px-28 xl:px-32">
       <Image
         src="/images/footer/Group 188.png"
         alt="top"
         width="349"
         height="278"
-        className="absolute right-0 top-0 z-0 lg:hidden"
+        className="absolute top-0 right-0 z-0 lg:hidden"
       />
 
       <Image
@@ -18,7 +18,7 @@ export default function Footer() {
         alt="top"
         width="380"
         height="705"
-        className="absolute bottom-0 right-0 z-0 hidden lg:block lg:w-[35%] xl:w-[25%] 2xl:w-[20%]"
+        className="absolute right-0 bottom-0 z-0 hidden lg:block lg:w-[35%] xl:w-[25%] 2xl:w-[20%]"
       />
 
       <Image
@@ -45,14 +45,14 @@ export default function Footer() {
               <Typography
                 variant="h4"
                 weight="bold"
-                className="text-yellow-100 max-md:text-3xl max-[350px]:text-2xl"
+                className="text-yellow-100 max-[350px]:text-2xl max-md:text-3xl"
               >
                 OMITS 18th
               </Typography>
               <Typography
                 variant="p"
                 weight="semibold"
-                className="text-[#E5DBA6] max-md:text-sm max-[350px]:text-xs"
+                className="text-[#E5DBA6] max-[350px]:text-xs max-md:text-sm"
               >
                 Olimpiade Matematika ITS
               </Typography>
@@ -198,12 +198,16 @@ export default function Footer() {
                   External
                 </Typography>
 
-                <Typography variant="p" className="max-md:text-lg">
-                  Mafto(+6281234567890)
-                </Typography>
-                <Typography variant="p" className="max-md:text-lg">
-                  mafto@gmail.com
-                </Typography>
+                <Link href={'wa.me/+6281234567890'}>
+                  <Typography variant="p" className="max-md:text-lg">
+                    Mafto(+6281234567890)
+                  </Typography>
+                </Link>
+                <Link href={'mailto:mafto@gmail.com'}>
+                  <Typography variant="p" className="max-md:text-lg">
+                    mafto@gmail.com
+                  </Typography>
+                </Link>
               </div>
 
               <div>
@@ -215,12 +219,16 @@ export default function Footer() {
                   Sponsorship
                 </Typography>
 
-                <Typography variant="p" className="max-md:text-lg">
-                  Person(+6281234567890)
-                </Typography>
-                <Typography variant="p" className="max-md:text-lg">
-                  person@gmail.com
-                </Typography>
+                <Link href={'wa.me/+628884088682'}>
+                  <Typography variant="p" className="max-md:text-lg">
+                    Ayunda(+628884088682)
+                  </Typography>
+                </Link>
+                <Link href={'mailto:aniyayunda@gmail.com'}>
+                  <Typography variant="p" className="max-md:text-lg">
+                    aniyayunda@gmail.com
+                  </Typography>
+                </Link>
               </div>
             </div>
           </div>

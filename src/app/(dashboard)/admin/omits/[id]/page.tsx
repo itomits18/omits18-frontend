@@ -56,7 +56,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
             <Typography
               variant="h4"
               weight="semibold"
-              className="font-semibold text-green-500 max-md:text-3xl max-[350px]:text-2xl md:w-[50%]"
+              className="font-semibold text-green-500 max-[350px]:text-2xl max-md:text-3xl md:w-[50%]"
             >
               Detail Pendaftar
             </Typography>
@@ -265,11 +265,11 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         Description={
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin terima peserta{' '}
-            <span className="font-bold text-additions-brown-100">
+            <span className="text-additions-brown-100 font-bold">
               {DetailPendaftar?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
-            <span className="font-bold text-additions-brown-100">OMITS</span>?
+            <span className="text-additions-brown-100 font-bold">OMITS</span>?
           </Typography>
         }
       />
@@ -279,11 +279,11 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         Description={
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin menolak peserta{' '}
-            <span className="font-bold text-additions-brown-100">
+            <span className="text-additions-brown-100 font-bold">
               {DetailPendaftar?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
-            <span className="font-bold text-additions-brown-100">OMITS</span>?
+            <span className="text-additions-brown-100 font-bold">OMITS</span>?
           </Typography>
         }
       />
@@ -293,11 +293,11 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         Description={
           <Typography variant="p" weight="medium" className="text-center">
             Apakah kamu yakin ingin merubah data peserta{' '}
-            <span className="font-bold text-additions-brown-100">
+            <span className="text-additions-brown-100 font-bold">
               {DetailPendaftar?.name}
             </span>{' '}
             dari Sub-Kompetisi{' '}
-            <span className="font-bold text-additions-brown-100">OMITS</span>?
+            <span className="text-additions-brown-100 font-bold">OMITS</span>?
           </Typography>
         }
       />

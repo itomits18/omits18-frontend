@@ -113,7 +113,7 @@ export default function OmitsRegistrationPage() {
         >
           {currentStep < 3 && (
             <button
-              className="absolute right-5 top-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
+              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
               aria-label="Tutup"
             >
               &times;
