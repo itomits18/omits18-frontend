@@ -158,13 +158,21 @@ export default function page() {
                         </Button>
                       </Link>
                       <Button
+                        disabled
+                        variant="green"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                      >
+                        Daftar Sekarang
+                      </Button>
+                      {/* <Button
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
                         onClick={() => setModalDetail(true)}
                       >
                         Lihat Detail
-                      </Button>
+                      </Button> */}
                     </div>
                   ) : (
                     <Link

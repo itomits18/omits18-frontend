@@ -84,7 +84,6 @@ export default function withAuth<T>(
         stopLoading();
         return;
       }
-
       const loadUser = async () => {
         try {
           const res = await api.get<ApiResponse<User>>(API_USER_ME);
