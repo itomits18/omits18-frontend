@@ -10,40 +10,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-
-type FormTeamValues = {
-  email_1?: string;
-  namaLengkap_1?: string;
-  nomorNISN_1?: string;
-  nomorTelepon_1?: string;
-  buktiNISN_1?: any;
-  email_2?: string;
-  namaLengkap_2?: string;
-  nomorNISN_2?: string;
-  nomorTelepon_2?: string;
-  buktiNISN_2?: any;
-  email_3?: string;
-  namaLengkap_3?: string;
-  nomorNISN_3?: string;
-  nomorTelepon_3?: string;
-  buktiNISN_3?: any;
-  email_4?: string;
-  namaLengkap_4?: string;
-  nomorNISN_4?: string;
-  nomorTelepon_4?: string;
-  buktiNISN_4?: any;
-  email_5?: string;
-  namaLengkap_5?: string;
-  nomorNISN_5?: string;
-  nomorTelepon_5?: string;
-  buktiNISN_5?: any;
-};
+import { RegistrationOMITS2 } from '@/validation/RegistrationSchema';
+import React, { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { formDataType } from '../page';
 
 interface FormPage2TeamProps {
-  onSubmit: (data: FormTeamValues) => void;
   onBack: () => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<formDataType>>;
 }
 
 type PesertaTab =
@@ -62,10 +38,11 @@ const tabLabels: { key: PesertaTab; label: string }[] = [
 ];
 
 export default function FormPage2Team({
-  onSubmit,
   onBack,
+  onNext,
+  setFormData,
 }: FormPage2TeamProps) {
-  const methods = useForm<FormTeamValues>();
+  const methods = useForm<z.infer<typeof RegistrationOMITS2>>();
   const { handleSubmit } = methods;
 
   const [activeTab, setActiveTab] = useState<PesertaTab>('peserta1');
@@ -80,8 +57,23 @@ export default function FormPage2Team({
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
-  const onValidSubmit: SubmitHandler<FormTeamValues> = (data) => {
-    onSubmit(data);
+  useEffect(() => {
+    const getData = localStorage.getItem('om_sd2');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData) || '{}');
+    }
+  }, [methods.reset]);
+
+  const onSubmit = (data: z.infer<typeof RegistrationOMITS2>) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
+    localStorage.setItem('om_sd2', JSON.stringify(data || '{}'));
   };
 
   const renderParticipantFields = (index: number) => {
@@ -92,7 +84,7 @@ export default function FormPage2Team({
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
             <Input
               labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.email` as keyof FormTeamValues}
+              id={`detail.${index - 1}.email`}
               label="Email"
               placeholder="Masukkan email"
               type="email"
@@ -103,7 +95,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.namaLengkap` as keyof FormTeamValues}
+              id={`detail.${index - 1}.namaLengkap`}
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
               validation={{
@@ -113,7 +105,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.nomorTelepon` as keyof FormTeamValues}
+              id={`detail.${index - 1}.nomorTelepon`}
               label="Nomor Telepon Siswa"
               type="tel"
               placeholder="Masukkan nomor telepon"
@@ -124,7 +116,7 @@ export default function FormPage2Team({
             />
             <Input
               labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.nomorNISN` as keyof FormTeamValues}
+              id={`detail.${index - 1}.nomorNISN`}
               label="Nomor NISN"
               placeholder="Masukkan NISN"
               validation={{
@@ -135,13 +127,11 @@ export default function FormPage2Team({
             <div className="md:col-span-2">
               <FileUpload
                 type="omits"
-                id={`detail.${index - 1}.buktiNISN` as keyof FormTeamValues}
+                id={`detail.${index - 1}.buktiNISN`}
                 label="Bukti NISN"
                 isRequired={true}
-                supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
-                validation={{
-                  required: `Bukti NISN Peserta ${index} wajib diisi`,
-                }}
+                supportFiles={['png', 'jpg', 'jpeg']}
+                helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
                 className="py-3"
                 labelTextClassName="text-black-300"
               />
@@ -154,7 +144,7 @@ export default function FormPage2Team({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {isMobile && (
           <div className="mb-4">
             <Select

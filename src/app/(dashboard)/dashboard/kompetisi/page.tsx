@@ -1,27 +1,46 @@
 'use client';
 
+import useAuthStore from '@/app/store/useAuthStore';
+import useParticipantStore from '@/app/store/useParticipantStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
-import { Check, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ModalDetail from '../(container)/ModalDetail';
+import ModalVerification from '../(container)/ModalVerification';
 import { eventType } from '../(container)/WizardProgress';
 
 export default function page() {
-  const [isRegistered, _setIsRegistered] = useState(false);
   const [modalDetail, setModalDetail] = useState(false);
   const [modalType, setModalType] = useState('omits');
+  const [modalVerif, setModalVerif] = useState(false);
 
   const [dataID, setDataID] = useState('');
+  const { user } = useAuthStore();
+  const { participant } = useParticipantStore();
+
+  const isRegistered = participant.length > 0;
+
+  const isRegisterMISSION =
+    isRegistered &&
+    participant.some((x) => x.participant_detail.type === 'MISSION');
 
   useEffect(() => {
+    if (!user?.is_verified) setModalVerif(true);
     setDataID(localStorage.getItem('akun') || '');
   }, []);
 
   return (
     <>
+      <ModalVerification open={modalVerif} email={user?.email as string} />
+      <ModalDetail
+        id={dataID}
+        open={modalDetail}
+        setOpen={setModalDetail}
+        type={modalType as eventType}
+      />
+
       <section className="flex w-fit flex-col items-center gap-8 rounded-xl bg-[#FFFDF0] p-8 max-lg:w-full lg:px-12">
         <div className="flex flex-col items-center gap-1">
           {/* <div className="relative mb-2">
@@ -42,7 +61,7 @@ export default function page() {
 
         <div className="hidden h-8 text-center">
           {' '}
-          {isRegistered ? (
+          {/* {isRegistered ? (
             <div className="flex items-center justify-center gap-1">
               <Typography
                 variant="p"
@@ -75,7 +94,7 @@ export default function page() {
                 strokeWidth={3}
               />
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="flex flex-col gap-4">
@@ -127,38 +146,45 @@ export default function page() {
                   >
                     OMITS
                   </Typography>
-                  {dataID === '1' ? (
-                    <Link href="/competition/omits/registration">
+                  {isRegistered && !isRegisterMISSION ? (
+                    <div className="space-x-2">
+                      <Link href="/competition/omits/registration">
+                        <Button
+                          variant="green"
+                          size="md"
+                          className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                        >
+                          Daftar sekarang
+                        </Button>
+                      </Link>
                       <Button
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                      >
-                        {dataID === '1' ? 'Daftar Sekarang' : 'Lihat Detail'}
-                      </Button>
-                    </Link>
-                  ) : (
-                    <div className="flex space-x-2">
-                      <Button
-                        disabled
-                        variant="green"
-                        size="md"
-                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                      >
-                        Daftar Sekarang
-                      </Button>
-                      {/* <Button
-                        variant="green"
-                        size="md"
-                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                        onClick={() => {
-                          setModalType('omits');
-                          setModalDetail(true);
-                        }}
+                        onClick={() => setModalDetail(true)}
                       >
                         Lihat Detail
-                      </Button> */}
+                      </Button>
                     </div>
+                  ) : (
+                    <Link
+                      href={
+                        isRegistered && !isRegisterMISSION
+                          ? ''
+                          : '/competition/omits/registration'
+                      }
+                    >
+                      <Button
+                        variant="green"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                        disabled={isRegisterMISSION}
+                      >
+                        {isRegistered && !isRegisterMISSION
+                          ? 'Terdaftar MISSION'
+                          : 'Daftar Sekarang'}
+                      </Button>
+                    </Link>
                   )}
                 </div>
               </div>
@@ -179,19 +205,40 @@ export default function page() {
                   >
                     MISSION
                   </Typography>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="blue"
-                      size="md"
-                      className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                      onClick={() => {
-                        setModalType('mission');
-                        setModalDetail(true);
-                      }}
+                  {isRegisterMISSION ? (
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="blue"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                        onClick={() => {
+                          setModalType('mission');
+                          setModalDetail(true);
+                        }}
+                      >
+                        Lihat Detail
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link
+                      href={
+                        isRegistered && !isRegisterMISSION
+                          ? ''
+                          : '/competition/mission/registration'
+                      }
                     >
-                      Lihat Detail
-                    </Button>
-                  </div>
+                      <Button
+                        variant="blue"
+                        size="md"
+                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
+                        disabled={isRegistered && !isRegisterMISSION}
+                      >
+                        {isRegistered && !isRegisterMISSION
+                          ? 'Terdaftar OMITS'
+                          : 'Daftar Sekarang'}
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -227,13 +274,6 @@ export default function page() {
           </div>
         </div>
       </section>
-
-      <ModalDetail
-        id={dataID}
-        open={modalDetail}
-        setOpen={setModalDetail}
-        type={modalType as eventType}
-      />
     </>
   );
 }

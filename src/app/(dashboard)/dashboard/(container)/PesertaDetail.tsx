@@ -8,37 +8,37 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
+import { Participant } from '@/types/participants';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 
 // type PesertaType = {};
 
 export default function PesertaDetail({
   type,
+  data,
   number,
 }: {
   type: string;
-  number: number;
+  data: Participant;
+  number?: number;
 }) {
-  const [collapse, setCollapse] = useState(false);
-  const index = ['Pertama', 'Kedua', 'Ketiga', 'Keempat', 'Kelima'];
-
+  const index = ['Pertama', 'Kedua'];
   return (
-    <Collapsible open={collapse} onOpenChange={setCollapse}>
+    <Collapsible open={true}>
       <CollapsibleTrigger
         className={cn(
           'text-neutral-main relative z-20 flex w-full justify-between rounded-xl px-8 py-4 focus:ring-0',
-          'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
+          'cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
             : 'bg-gradient-to-r from-[#4580B2] to-[#1D374C]',
         )}
       >
         <Typography variant="t" weight="semibold">
-          Peserta {index[number - 1]}
+          {number ? `Peserta ${index[number - 1]}` : 'Detail Peserta'}
         </Typography>
 
-        <ChevronDown />
+        <ChevronDown className={cn('transition-all duration-200')} />
       </CollapsibleTrigger>
       <CollapsibleContent className="-mt-3 divide-y-2 rounded-md p-8 shadow-md">
         <div className="grid grid-cols-1 gap-y-4 pb-6 md:grid-cols-2">
@@ -47,7 +47,7 @@ export default function PesertaDetail({
               Nama Lengkap
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              John Smith
+              {data.name}
             </Typography>
           </div>
 
@@ -56,7 +56,7 @@ export default function PesertaDetail({
               Nomor Telepon
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              081234567890
+              {data.phone}
             </Typography>
           </div>
 
@@ -65,7 +65,7 @@ export default function PesertaDetail({
               Email
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              johnsmith@gmail.com
+              {data.phone}
             </Typography>
           </div>
 
@@ -78,16 +78,17 @@ export default function PesertaDetail({
               weight="bold"
               className="text-black-300 text-justify"
             >
-              1234567890
+              {data.participant_detail.student_id}
             </Typography>
           </div>
         </div>
 
         <div className="pt-6">
           <ImagePreview
+            type={type}
             id="proof_identitas"
             name="Bukti Identitas"
-            link={''}
+            link={data.participant_detail.student_id_url}
             label="Upload Scan KTP/Kartu Pelajar"
             readOnly={true}
           />

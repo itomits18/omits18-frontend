@@ -2,7 +2,6 @@
 
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
-import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 import { useState } from 'react';
@@ -13,6 +12,7 @@ interface FormPage3Props {
   onBack: () => void;
   onSubmit: () => void;
   setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const DisplayField = ({ label, value }: { label: string; value: string }) => (
@@ -40,15 +40,11 @@ export default function FormPage3({
   formData,
   onSubmit,
   setPayment,
+  loadingPayment,
 }: FormPage3Props) {
   const [activeTab, setActiveTab] = useState<'peserta1' | 'peserta2'>(
     'peserta1',
   );
-
-  const selectedRegionValue = formData.region;
-  const regionDisplayLabel =
-    regionOptions.find((option) => option.value === selectedRegionValue)
-      ?.label || selectedRegionValue;
 
   return (
     <div className="flex w-full flex-col items-start gap-8 lg:flex-row">
@@ -152,7 +148,11 @@ export default function FormPage3({
         </div>
       </div>
       <div className="order-1 w-full lg:order-2 lg:w-2/5">
-        <Payment onSubmit={onSubmit} setPayment={setPayment} />
+        <Payment
+          onSubmit={onSubmit}
+          setPayment={setPayment}
+          loadingPayment={loadingPayment}
+        />
       </div>
     </div>
   );

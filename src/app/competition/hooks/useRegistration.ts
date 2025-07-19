@@ -6,10 +6,9 @@ import {
 } from '@/types/registrationForm';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { FormValues } from '../omits/registration/container/FormPage1';
 
 export default function useRegistration(type: string) {
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ['post-registration'],
     mutationFn: async (
       dataRegistration: RegistrationForm | RegistrationFormTeam,
@@ -21,13 +20,10 @@ export default function useRegistration(type: string) {
 
       return data.data;
     },
-    onSuccess: (data: FormValues) => {
-      console.log(data);
-    },
     onError: (err: { response: { data: ApiError } }) => {
       toast.error(err.response.data.message);
     },
   });
 
-  return { mutate, isPending };
+  return { mutateAsync, isPending };
 }

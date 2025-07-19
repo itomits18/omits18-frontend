@@ -10,6 +10,7 @@ import { useState } from 'react';
 interface PaymentSummaryProps {
   onSubmit: () => void;
   setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const PaymentItem = ({
@@ -36,6 +37,7 @@ const PaymentItem = ({
 export default function PaymentSummary({
   onSubmit,
   setPayment,
+  loadingPayment,
 }: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
   const mainItemPrice = 135000;
@@ -159,7 +161,9 @@ export default function PaymentSummary({
       <Button
         onClick={onSubmit}
         className="mt-6 w-full rounded-xl bg-blue-400 py-3 text-lg font-bold text-white hover:bg-blue-700"
+        disabled={loadingPayment}
       >
+        {loadingPayment ? 'Melakukan pembayaran...' : 'Register dan bayar'}
         Bayar
       </Button>
     </div>

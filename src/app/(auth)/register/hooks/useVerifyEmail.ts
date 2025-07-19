@@ -1,24 +1,23 @@
 import api from '@/lib/api';
-import { ApiError } from '@/types/api';
-import { useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
-export default function useVerifyEmail(email: string) {
-  const { mutate, isPending, status } = useMutation({
-    mutationKey: ['verify-user'],
-    mutationFn: async () => {
-      const { data } = await api.post('/smtp/send-verification', {
-        To: email,
-      });
-      return data.data;
-    },
-    onSuccess: () => {
-      toast.success('Berhasil melakukan verifikasi email.');
-    },
-    onError: (err: { response: { data: ApiError } }) => {
-      toast.error(err.response.data.message);
+export default function useVerifyEmail(token: string) {
+  const [err, setErr] = useState(false);
+
+  const { data, status, isLoading } = useQuery({
+    queryKey: ['email-verification'],
+    queryFn: async () => {
+      try {
+        const { data } = await api.get('/auth/verify?token=' + token);
+
+        return data.data;
+      } catch (err) {
+        setErr(true);
+        throw err;
+      }
     },
   });
 
-  return { mutate, isPending, status };
+  return { data, status, err, isLoading };
 }

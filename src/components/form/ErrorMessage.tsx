@@ -4,9 +4,9 @@ export default function ErrorMessage({ children }: { children: string }) {
   return (
     <div className="flex space-x-1">
       <Typography
-        variant="bs"
+        variant="b"
         weight="regular"
-        className="text-xs leading-tight! text-red-500"
+        className="text-xs leading-tight! text-red-400"
       >
         {children}
       </Typography>

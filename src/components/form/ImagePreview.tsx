@@ -11,6 +11,7 @@ import LabelText from './LabelText';
 
 type FilePreviewProps = {
   id: string;
+  type: string;
   label: string;
   name: string;
   link: string;

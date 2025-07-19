@@ -53,9 +53,6 @@ export default function page() {
                 sizes="lg"
                 type="email"
                 placeholder="Enter your Email"
-                validation={{
-                  required: 'This field is required',
-                }}
                 className="bg-neutral-main"
               />
               <div>
@@ -66,9 +63,6 @@ export default function page() {
                   sizes="lg"
                   type="password"
                   placeholder="Enter your Password"
-                  validation={{
-                    required: 'This field is required',
-                  }}
                   className="bg-neutral-main mb-2"
                 />
                 <Link

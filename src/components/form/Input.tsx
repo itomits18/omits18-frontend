@@ -127,7 +127,6 @@ export default function Input({
                 name={id}
                 readOnly={readOnly}
                 disabled={readOnly}
-                onChange={(e) => setHasValue(!!e.target.value)}
                 className={cn(
                   'h-full w-full rounded-md border px-3 py-2.5 text-base caret-gray-900 disabled:bg-gray-50 disabled:text-gray-400',
                   sizes === 'lg' ? 'px-6 py-3' : 'px-3 py-2',

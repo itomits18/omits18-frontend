@@ -22,7 +22,7 @@ export const RegistrationOMITS1 = z.object({
       required_error: 'Nomor wali wajib diisi',
       invalid_type_error: 'Nomor wali harus berupa string',
     })
-    .min(10, 'Nomor wali minmal 10 angka')
+    .min(9, 'Nomor wali minmal 9 angka')
     .max(20, 'Nomor wali maksimal 20 angka'),
   region: z.string().max(100, 'Region maksimal 100 karakter').optional(),
   kodePos: z
@@ -59,13 +59,16 @@ export const RegistrationOMITS2 = z.object({
         .max(100, 'Nama lengkap maksimal 100 karakter'),
       nomorTelepon: z
         .string()
-        .min(10, 'Nomor telepon minimal 10 angka')
+        .min(9, 'Nomor telepon minimal 9 angka')
         .max(20, 'Nomor telepon maksimal 20 angka'),
       nomorNISN: z
         .string()
         .min(3, 'Nomor NISN wajib diisi')
         .max(50, 'Nomor NISN maksimal 50 karakter'),
-      buktiNISN: z.string().max(50, 'Bukti NISN maksimal 50 karakter'),
+      buktiNISN: z.string(),
+      // buktiNISN: z
+      //   .union([z.string(), z.instanceof(File)])
+      //   .transform((val) => (typeof val === 'string' ? val : '')),
     }),
   ),
 });
@@ -97,9 +100,7 @@ export const RegistrationMISSION2 = z.object({
         .string()
         .min(3, 'Nomor identitas wajib diisi')
         .max(50, 'Nomor identitas maksimal 50 karakter'),
-      kartuIdentitas: z
-        .string()
-        .max(50, 'Kartu identitas maksimal 50 karakter'),
+      kartuIdentitas: z.string(),
     }),
   ),
 });

@@ -5,7 +5,7 @@ import Option from '@/components/form/Option';
 import TableLayout from '@/components/form/TableLayout';
 
 import api from '@/lib/api';
-import { Metadata } from '@/types/api';
+import { Metadata, PaginateData } from '@/types/api';
 import {
   ColumnDef,
   SortingState,
@@ -18,19 +18,14 @@ import {
 import Link from 'next/link';
 import * as React from 'react';
 import StatisticSection from '../(container)/StatisticSection';
-import useGetAllParticipants, {
-  GetParticipants,
-} from '../hooks/useGetAllParticipants';
+import { GetParticipants } from '../hooks/useGetAllParticipants';
 
 type metadataType = {
-  take: number;
+  order_by: string;
+  sort_by: 'asc' | 'dsc';
+  limit: number;
   page: number;
-  total_data: number;
-  total_page: number;
-  sort: string;
-  sort_by: string;
-  filter: string;
-  filter_by: string;
+  type: 'OMITS' | 'MISSION';
 };
 
 type Participant = GetParticipants['participants'][number];
@@ -61,7 +56,7 @@ export default function page() {
     pageSize: 10,
   });
 
-  const [_data, setData] = React.useState([]);
+  const [data, setData] = React.useState<PaginateData<GetParticipants>>();
   const [metadata, setMetadata] = React.useState<Metadata>({
     order_by: 'created_at',
     sort_by: 'asc',
@@ -69,10 +64,6 @@ export default function page() {
     page: 1,
     type: 'OMITS',
   });
-
-  const { data } = useGetAllParticipants(metadata);
-
-  console.log(data);
 
   const columnDefs: ColumnDef<Participant>[] = [
     {
@@ -134,31 +125,31 @@ export default function page() {
     },
   ];
 
-  const _getAllData = async (meta: metadataType) => {
-    const { data } = await api.get('/oprecs', {
+  const getAllData = async (meta: metadataType) => {
+    const { data } = await api.get('/participants', {
       params: {
         ...meta,
       },
     });
 
     setData(data.data ?? []);
-    // setMetadata(data.meta[0]);
+    setMetadata(data.pagination);
   };
 
   React.useEffect(() => {
-    let filterBy = '';
-    if (filterType === 'Primary Division') filterBy = 'primary_division';
-    else if (filterType === 'Secondary Division')
-      filterBy = 'secondary_division';
-    else if (filterType === 'Status') filterBy = 'status';
-    else if (filterType === 'Division') filterBy = 'choice_division';
+    // let filterBy = '';
+    // if (filterType === 'Primary Division') filterBy = 'primary_division';
+    // else if (filterType === 'Secondary Division')
+    //   filterBy = 'secondary_division';
+    // else if (filterType === 'Status') filterBy = 'status';
+    // else if (filterType === 'Division') filterBy = 'choice_division';
 
     if (globalFilter) {
       setFilterType('Filter');
       setFilterValue('None');
     }
 
-    const filterChoice = '';
+    // const filterChoice = '';
     if (
       ['Primary Division', 'Secondary Division', 'Division'].includes(
         filterType,
@@ -170,21 +161,21 @@ export default function page() {
       // filterChoice = getSubdivID as string;
     }
 
-    const _newMetadata = {
-      // ...metadata,
-      filter: ['None', 'All'].includes(filterValue)
-        ? globalFilter
-        : filterChoice
-          ? filterChoice
-          : filterValue,
-      filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
-      page: pagination.pageIndex + 1,
-      take: pagination.pageSize,
+    const newMetadata = {
+      ...metadata,
+      // filter: ['None', 'All'].includes(filterValue)
+      //   ? globalFilter
+      //   : filterChoice
+      //     ? filterChoice
+      //     : filterValue,
+      // filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
+      // page: pagination.pageIndex + 1,
+      // take: pagination.pageSize,
     };
 
-    // setMetadata(() => newMetadata);
+    setMetadata(() => newMetadata);
     const APICall = setTimeout(() => {
-      // getAllData(newMetadata);
+      getAllData(newMetadata);
     }, 300);
 
     return () => {
@@ -199,7 +190,7 @@ export default function page() {
   ]);
 
   const table = useReactTable({
-    data: data?.items.participants || [],
+    data: data?.items?.participants || [],
     columns: columnDefs,
     // pageCount: metadata.total_page,
     pageCount: 1,
@@ -261,9 +252,10 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection />
+      <StatisticSection section="omits" />
+
       <TableLayout
-        data={data?.items.participants || []}
+        data={data?.items.participants ?? []}
         table={table}
         headerCustom={<HeaderCustom />}
         setPagination={setPagination}

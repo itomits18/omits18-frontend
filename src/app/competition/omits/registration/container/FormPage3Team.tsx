@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
-import { FileText } from 'lucide-react';
+import { ChevronLeft, FileText } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Payment from './Payment';
 
@@ -25,6 +25,7 @@ interface FormPage3TeamProps {
   onBack: () => void;
   onSubmit: () => void;
   setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const DisplayField = ({ label, value }: { label: string; value: string }) => (
@@ -36,23 +37,13 @@ const DisplayField = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-const DisplayFileField = ({
-  label,
-  file,
-}: {
-  label: string;
-  file: File | FileList;
-}) => {
-  const fileName =
-    file instanceof File ? file.name : (file as FileList)?.[0]?.name;
+const DisplayFileField = ({ label, file }: { label: string; file: string }) => {
   return (
     <div className="space-y-1">
-      <p className="font-Lora text-base font-semibold text-green-300">
-        {label}
-      </p>
+      <p className="font-Lora text-base font-semibold text-gray-700">{label}</p>
       <div className="flex w-full items-center gap-2 rounded-md border bg-gray-50 px-3 py-2 text-gray-800">
         <FileText size={16} className="text-gray-500" />
-        <span className="truncate">{fileName || 'Tidak ada file'}</span>
+        <span className="truncate">{file}</span>
       </div>
     </div>
   );
@@ -104,6 +95,8 @@ export default function FormPage3Team({
   formData,
   onSubmit,
   setPayment,
+  onBack,
+  loadingPayment,
 }: FormPage3TeamProps) {
   const [activeTab, setActiveTab] = useState<PesertaTab>('peserta1');
   const [isMobile, setIsMobile] = useState(false);
@@ -128,7 +121,14 @@ export default function FormPage3Team({
 
   return (
     <div className="flex w-full flex-col items-start gap-8 lg:flex-row">
-      <div className="order-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+      <div className="relative order-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+        <div
+          className="absolute top-0 left-0 m-6 w-fit cursor-pointer rounded-full bg-green-300 p-2 transition-all duration-200 hover:bg-green-400"
+          onClick={onBack}
+        >
+          <ChevronLeft size={20} className="text-neutral-main" />
+        </div>
+
         <Typography
           variant="h5"
           weight="bold"
@@ -235,6 +235,7 @@ export default function FormPage3Team({
           bundleType={formData.bundle}
           jenjangKompetisiType={formData.jenjangKompetisi}
           setPayment={setPayment}
+          loadingPayment={loadingPayment}
         />
       </div>
     </div>

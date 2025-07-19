@@ -5,9 +5,11 @@ import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import RegisterBg from '../(container)/RegisterBg';
+import ResetPasswordConfirm from '../(container)/ResetPasswordConfirm';
 import useForgotPassword from './hooks/useForgotPassword';
 
 const ForgotPass = z.object({
@@ -15,15 +17,22 @@ const ForgotPass = z.object({
 });
 
 export default function ResetPassword() {
+  const [success, setSuccess] = useState(false);
+
   const methods = useForm<z.infer<typeof ForgotPass>>({
     mode: 'onSubmit',
   });
 
-  const { mutate, isPending } = useForgotPassword();
+  const { mutate, isPending } = useForgotPassword(setSuccess);
   const { handleSubmit } = methods;
+
   const onSubmit = (data: z.infer<typeof ForgotPass>) => {
     mutate(data.email);
   };
+
+  if (success) {
+    return <ResetPasswordConfirm email={methods.getValues().email} />;
+  }
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#FFFAFE] via-blue-100 via-15% to-green-200">

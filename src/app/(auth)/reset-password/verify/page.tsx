@@ -1,24 +1,36 @@
 'use client';
+
 import Typography from '@/components/Typography';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import { setToken } from '@/lib/cookies';
+import { ResetPasswordSchema } from '@/validation/ResetPasswordSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect, useSearchParams } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import RegisterBg from '../../(container)/RegisterBg';
+import useResetPassword from '../hooks/useResetPassword';
 
 export default function ResetPassword() {
+  const token = useSearchParams().get('token');
+
   const methods = useForm({
-    mode: 'onBlur',
-    // resolver: zodResolver(LoginSchema),
+    mode: 'onChange',
+    resolver: zodResolver(ResetPasswordSchema),
   });
 
   const { handleSubmit } = methods;
+  if (!token) {
+    return redirect('/login');
+  }
+  setToken(token as string);
+  const { mutate, isPending } = useResetPassword();
 
-  // const { mutate, isPending } = useLoginMutation();
-
-  const onSubmit = () => {
-    // mutate(data);
+  const onSubmit = (data: z.infer<typeof ResetPasswordSchema>) => {
+    mutate(data.confirmPassword);
   };
 
   return (
@@ -35,17 +47,17 @@ export default function ResetPassword() {
       <RegisterBg />
 
       {/*Frame*/}
-      <div className="absolute left-1/2 top-1/2 z-30 w-[30%] -translate-x-1/2 -translate-y-1/2 transform space-y-4 rounded-lg bg-[#577866] px-8 py-6 font-Lora text-[#FFFFFF] opacity-90 shadow-md max-md:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[35%] 2xl:w-[30%]">
+      <div className="font-Lora text-neutral-main absolute top-1/2 left-1/2 z-30 w-[30%] -translate-x-1/2 -translate-y-1/2 transform space-y-4 rounded-lg bg-[#577866] px-8 py-6 opacity-90 shadow-md max-md:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[35%] 2xl:w-[30%]">
         <Typography
           variant="h4"
-          className="text-shadow-lg text-center font-semibold max-md:text-3xl max-[350px]:text-2xl"
+          className="text-center font-semibold text-shadow-lg max-[350px]:text-2xl max-md:text-3xl"
         >
           Reset Password
         </Typography>
         <Typography
           variant="p"
           weight="semibold"
-          className="text-center max-md:text-sm max-[350px]:text-sm"
+          className="text-center max-[350px]:text-sm max-md:text-sm"
         >
           Silahkan masukkan password baru
         </Typography>
@@ -56,20 +68,28 @@ export default function ResetPassword() {
               id="password"
               label="Password"
               type="password"
-              placeholder="Masukkan email"
-              validation={{ required: 'Field must be filled' }}
+              required
+              placeholder="Masukkan password baru"
+              className="text-black placeholder:text-gray-500"
             />
             <Input
-              id="password"
               label="Konfirmasi Password"
+              required
+              id="confirmPassword"
+              sizes="lg"
               type="password"
-              placeholder="Masukkan email"
-              validation={{ required: 'Field must be filled' }}
+              placeholder="Konfirmasi password baru"
+              className="text-black placeholder:text-gray-500"
             />
 
             <div className="flex flex-col space-y-3">
-              <Button variant="yellow" type="submit">
-                Reset Password
+              <Button
+                variant="yellow"
+                type="submit"
+                size="lg"
+                disabled={isPending}
+              >
+                {isPending ? 'Loading...' : 'Reset Password'}
               </Button>
 
               <Typography className="text-center">

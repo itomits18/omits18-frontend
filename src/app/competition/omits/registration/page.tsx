@@ -1,5 +1,6 @@
 'use client';
 
+import useParticipantStore from '@/app/store/useParticipantStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -12,6 +13,7 @@ import {
   RegistrationOMITS2,
 } from '@/validation/RegistrationSchema';
 import { Check, CreditCard, IdCard } from 'lucide-react';
+import { redirect } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -24,12 +26,26 @@ import FormPage2Team from './container/FormPage2Team';
 import FormPage3Individu from './container/FormPage3Individu';
 import FormPage3Team from './container/FormPage3Team';
 
+export type formDataType = z.infer<typeof RegistrationOMITS1> &
+  z.infer<typeof RegistrationOMITS2>;
+
 const steps = [
   { name: 'Data Pendaftar', description: 'Berhasil Mengisi Data Pendaftar' },
   { name: 'Data Peserta', description: 'Berhasil Mengisi Data Diri' },
 ];
 
 export default function OmitsRegistrationPage() {
+  const { participant } = useParticipantStore();
+
+  const isRegistered = participant.length > 0;
+  const isRegisterMISSION =
+    isRegistered &&
+    participant.some((x) => x.participant_detail.type === 'MISSION');
+
+  if (isRegistered && isRegisterMISSION) {
+    return redirect('/dashboard/kompetisi');
+  }
+
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<
     z.infer<typeof RegistrationOMITS1> & z.infer<typeof RegistrationOMITS2>
@@ -53,12 +69,37 @@ export default function OmitsRegistrationPage() {
   });
   const [payment, setPayment] = useState('');
 
-  const handleNextStep = (dataFromStep: any) => {
-    setFormData((prev) => ({ ...prev, ...dataFromStep }));
+  const save_data = () => {
+    const om1 = localStorage.getItem('om_sd1');
+    const om2 = localStorage.getItem('om_sd2');
+
+    if (om1) {
+      const data_om1 = JSON.parse(om1);
+      setFormData((pre) => {
+        return {
+          ...pre,
+          ...data_om1,
+        };
+      });
+    }
+    if (om2) {
+      const data_om2 = JSON.parse(om2);
+      setFormData((pre) => {
+        return {
+          ...pre,
+          ...data_om2,
+        };
+      });
+    }
+  };
+
+  const handleNextStep = () => {
+    save_data();
     setCurrentStep((prev) => prev + 1);
   };
 
   const handlePrevStep = () => {
+    save_data();
     setCurrentStep((prev) => prev - 1);
   };
 
@@ -67,11 +108,12 @@ export default function OmitsRegistrationPage() {
     'Data Peserta': <CreditCard size={24} />,
   };
 
-  const { mutate: MutateIndividu, isPending: PendingSingle } =
+  const { mutateAsync: MutateIndividu, isPending: PendingSingle } =
     useRegistration('single');
-  const { mutate: MutateBundle, isPending: PendingBundle } =
+  const { mutateAsync: MutateBundle, isPending: PendingBundle } =
     useRegistration('bundle');
-  const { mutate: MutatePayment, isPending: PendingPayment } = usePayment();
+  const { mutateAsync: MutatePayment, isPending: PendingPayment } =
+    usePayment();
 
   const finalSubmit = () => {
     const finalDataIndividu: RegistrationForm = {
@@ -82,29 +124,14 @@ export default function OmitsRegistrationPage() {
       phone: (formData.detail && formData.detail[0].nomorTelepon) as string,
       instance_name: formData.namaSekolah as string,
       instance_address: formData.alamatSekolah as string,
-      detail: {
+      participant_detail: {
         student_id: (formData.detail && formData.detail[0].nomorNISN) as string,
-        // student_id_url: (formData.detail &&
-        //   formData.detail[0].buktiNISN) as string,
-        student_id_url: 'http://localhost:3001/admin/omits',
-        status: 'PENDING',
+        student_id_url: (formData.detail &&
+          formData.detail[0].buktiNISN) as string,
+        status: 'PAYMENT',
         type: 'OMITS',
         sub_type: formData.jenjangKompetisi as string,
       },
-    };
-
-    const FinalDataPaymentIndividu: PaymentRegistration = {
-      payment_method: payment,
-      competition_type: 'OMITS',
-      competition_sub_type: formData.jenjangKompetisi,
-      details: [
-        {
-          participant_name: (formData.detail &&
-            formData.detail[0].namaLengkap) as string,
-          participant_student_id: (formData.detail &&
-            formData.detail[0].nomorNISN) as string,
-        },
-      ],
     };
 
     const FinalDataPaymentTeam: PaymentRegistration = {
@@ -115,104 +142,106 @@ export default function OmitsRegistrationPage() {
     };
 
     const participantsTeam: RegistrationForm[] = [];
-    formData.detail?.map((user, i) => {
+    formData.detail?.map((user) => {
       participantsTeam.push({
         name: user.namaLengkap as string,
         user_id: null,
         email: user.email as string,
         phone: (formData.detail && formData.detail[0].nomorTelepon) as string,
-        detail: {
+        participant_detail: {
           student_id: user.nomorNISN as string,
-          student_id_url: 'http://localhost:3001/admin/omits',
+          student_id_url: user.buktiNISN,
         },
-      });
-
-      FinalDataPaymentTeam.details.push({
-        participant_name: user.namaLengkap as string,
-        participant_student_id: 'http://localhost:3001/admin/omits',
       });
     });
 
     if (formData.bundle === 'Individu') {
-      const promInd = new Promise((resolve, reject) => {
-        MutateIndividu(finalDataIndividu, {
-          onSuccess: (data) => resolve(data),
-          onError: (error) => reject(error),
-        });
-      });
-      const promPay = new Promise((resolve, reject) => {
-        MutatePayment(FinalDataPaymentIndividu, {
-          onSuccess: (data) => resolve(data),
-          onError: (error) => reject(error),
-        });
-      });
+      MutateIndividu(finalDataIndividu)
+        .then((res) => {
+          const FinalDataPaymentIndividu: PaymentRegistration = {
+            payment_method: payment,
+            competition_type: 'OMITS',
+            competition_sub_type: formData.jenjangKompetisi,
+            details: [
+              {
+                participant_id: res.id,
+                participant_name: (formData.detail &&
+                  formData.detail[0].namaLengkap) as string,
+                participant_student_id: (formData.detail &&
+                  formData.detail[0].nomorNISN) as string,
+              },
+            ],
+          };
 
-      toast.promise(promInd, {
-        loading: 'Melakukan Registrasi...',
-        success: () => 'Berhasil daftar!',
-        error: () => 'Gagal daftar.',
-      });
+          toast.success('Berhasil mendaftar OMITS.');
 
-      setTimeout(() => {
-        toast.promise(promPay, {
-          success: () => 'Redirect ke halaman pembayaran',
-          error: () => 'Gagal memuat halaman pembayaran',
+          MutatePayment(FinalDataPaymentIndividu).then(() => {
+            setTimeout(() => {
+              toast.success('Berhasil memuat link pembayaran.');
+
+              localStorage.removeItem('om_sd1');
+              localStorage.removeItem('om_sd2');
+            }, 2000);
+          });
+        })
+        .catch(() => {
+          toast.error('Gagal mendaftar OMITS.');
         });
-      }, 1000);
     } else {
+      // Bundle
       const findalDataTeam = {
         type: 'OMITS',
         sub_type: formData.jenjangKompetisi as string,
         postal: parseInt(formData.kodePos || '1') as number,
         instance_name: formData.namaSekolah as string,
         instance_address: formData.alamatSekolah as string,
-        status: 'PENDING',
+        status: 'PAYMENT',
         participants: participantsTeam,
       };
 
-      const promInd = new Promise((resolve, reject) => {
-        MutateIndividu(findalDataTeam, {
-          onSuccess: (data) => resolve(data),
-          onError: (error) => reject(error),
+      MutateBundle(findalDataTeam).then((res) => {
+        formData.detail?.map((user, i) => {
+          FinalDataPaymentTeam.details.push({
+            participant_id: res.created_participants[i].id,
+            participant_name: user.namaLengkap as string,
+            participant_student_id: user.buktiNISN,
+          });
         });
-      });
-      const promPay = new Promise((resolve, reject) => {
-        MutatePayment(FinalDataPaymentTeam, {
-          onSuccess: (data) => resolve(data),
-          onError: (error) => reject(error),
-        });
-      });
 
-      toast.promise(promInd, {
-        loading: 'Melakukan Registrasi...',
-        success: () => 'Berhasil daftar!',
-        error: () => 'Gagal daftar.',
-      });
+        toast.success('Berhasil mendaftar OMITS.');
 
-      setTimeout(() => {
-        toast.promise(promPay, {
-          success: () => 'Redirect ke halaman pembayaran',
-          error: () => 'Gagal memuat halaman pembayaran',
+        MutatePayment(FinalDataPaymentTeam).then(() => {
+          setTimeout(() => {
+            toast.success('Berhasil memuat link pembayaran.');
+
+            localStorage.removeItem('om_sd1');
+            localStorage.removeItem('om_sd2');
+          }, 2000);
         });
-      }, 2000);
+      });
     }
   };
 
   const renderCurrentStepForm = () => {
     switch (currentStep) {
       case 1:
-        return <FormPage1 onSubmit={handleNextStep} />;
+        return <FormPage1 onNext={handleNextStep} setFormData={setFormData} />;
       case 2:
         if (formData.bundle === 'Individu') {
           return (
             <FormPage2Individu
               onBack={handlePrevStep}
-              onSubmit={handleNextStep}
+              onNext={handleNextStep}
+              setFormData={setFormData}
             />
           );
         } else if (formData.bundle === 'bundle') {
           return (
-            <FormPage2Team onBack={handlePrevStep} onSubmit={handleNextStep} />
+            <FormPage2Team
+              onBack={handlePrevStep}
+              onNext={handleNextStep}
+              setFormData={setFormData}
+            />
           );
         } else {
           return (
@@ -235,6 +264,7 @@ export default function OmitsRegistrationPage() {
               onBack={handlePrevStep}
               onSubmit={finalSubmit}
               setPayment={setPayment}
+              loadingPayment={PendingPayment || PendingSingle}
             />
           );
         } else if (formData.bundle === 'bundle') {
@@ -244,6 +274,7 @@ export default function OmitsRegistrationPage() {
               onBack={handlePrevStep}
               onSubmit={finalSubmit}
               setPayment={setPayment}
+              loadingPayment={PendingBundle || PendingSingle}
             />
           );
         } else {

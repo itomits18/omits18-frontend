@@ -4,9 +4,13 @@ import Input from '@/components/form/Input';
 import { SelectInput } from '@/components/form/SelectInput';
 import { Button } from '@/components/ui/button';
 import { regionOptions } from '@/contents/ListRegions';
+import { RegistrationOMITS1 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import { z } from 'zod';
+import { formDataType } from '../page';
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },
@@ -19,31 +23,16 @@ const jenjangKompetisiOptions = [
   { value: 'SMA', label: 'SMA' },
 ];
 
-export type FormValues = {
-  bundle?: string;
-  jenjangKompetisi?: string;
-  nomorWali?: string;
-  region?: string;
-  kodePos?: string;
-  namaSekolah?: string;
-  alamatSekolah?: string;
-  detail?: {
-    email?: string;
-    namaLengkap?: string;
-    nomorTelepon?: string;
-    nomorNISN?: string;
-    buktiNISN?: string;
-  }[];
-};
-
 interface FormPage1Props {
-  onSubmit: (data: FormValues) => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<formDataType>>;
 }
 
-export default function FormPage1({ onSubmit }: FormPage1Props) {
+export default function FormPage1({ onNext, setFormData }: FormPage1Props) {
   const [kodepos, setKodepos] = useState('');
-  const methods = useForm<FormValues>({
+  const methods = useForm<z.infer<typeof RegistrationOMITS1>>({
     mode: 'onChange',
+    resolver: zodResolver(RegistrationOMITS1),
     defaultValues: {
       bundle: '',
       jenjangKompetisi: '',
@@ -71,13 +60,22 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
     const getData = localStorage.getItem('om_sd1');
 
     if (getData) {
-      methods.reset(JSON.parse(getData) || '{}');
+      methods.reset(JSON.parse(getData || '{}'));
+      setKodepos(JSON.parse(getData).kodePos);
     }
   }, [methods.reset]);
 
-  const onValidSubmit: SubmitHandler<FormValues> = (data) => {
+  const onValidSubmit: SubmitHandler<z.infer<typeof RegistrationOMITS1>> = (
+    data,
+  ) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
     localStorage.setItem('om_sd1', JSON.stringify(data));
-    onSubmit(data);
   };
 
   return (
@@ -133,6 +131,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             id="region"
             sizes={'sm'}
             type="text"
+            required
             disabled
             value={
               !kodepos

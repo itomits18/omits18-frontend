@@ -2,30 +2,58 @@
 import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-
-type FormIndividuValues = {
-  email_1?: string;
-  namaLengkap_1?: string;
-  nomorNISN_1?: string;
-  nomorTelepon_1?: string;
-  buktiNISN?: any;
-};
+import { RegistrationOMITS2 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { formDataType } from '../page';
 
 interface FormPage2IndividuProps {
   onBack: () => void;
-  onSubmit: (data: FormIndividuValues) => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<formDataType>>;
 }
 
 export default function FormPage2Individu({
   onBack,
-  onSubmit,
+  onNext,
+  setFormData,
 }: FormPage2IndividuProps) {
-  const methods = useForm<FormIndividuValues>();
+  const methods = useForm<z.infer<typeof RegistrationOMITS2>>({
+    mode: 'onChange',
+    resolver: zodResolver(RegistrationOMITS2) as any,
+    defaultValues: {
+      detail: [
+        {
+          email: '',
+          namaLengkap: '',
+          nomorTelepon: '',
+          nomorNISN: '',
+          buktiNISN: '',
+        },
+      ],
+    },
+  });
   const { handleSubmit } = methods;
 
-  const onValidSubmit: SubmitHandler<FormIndividuValues> = (data) => {
-    onSubmit(data);
+  useEffect(() => {
+    const getData = localStorage.getItem('om_sd2');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData || '{}'));
+    }
+  }, [methods.reset]);
+
+  const onValidSubmit = (data: z.infer<typeof RegistrationOMITS2>) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
+    localStorage.setItem('om_sd2', JSON.stringify(data));
   };
 
   return (
@@ -38,40 +66,38 @@ export default function FormPage2Individu({
               id="detail.0.email"
               label="Email"
               placeholder="Masukkan nama lengkap"
-              validation={{ required: 'Nama lengkap tidak boleh kosong.' }}
+              required
             />
             <Input
+              required
               labelTextClassname="text-black-300"
               id="detail.0.namaLengkap"
               label="Nama Lengkap"
               placeholder="Masukkan nama lengkap"
-              validation={{ required: 'Nama lengkap tidak boleh kosong.' }}
             />
             <Input
+              required
               labelTextClassname="text-black-300"
               id="detail.0.nomorTelepon"
               label="Nomor Telepon Siswa"
               placeholder="Masukkan nomor telepon"
-              validation={{ required: 'Nomor telepon tidak boleh kosong.' }}
             />
             <Input
+              required
               labelTextClassname="text-black-300"
               id="detail.0.nomorNISN"
               label="Nomor NISN"
               placeholder="Masukkan nomor NISN"
-              validation={{ required: 'Nomor NISN tidak boleh kosong.' }}
             />
             <div className="md:col-span-2">
               <FileUpload
-                id="buktiNISN"
+                type="omits"
+                id="detail.0.buktiNISN"
                 label="Bukti NISN"
                 isRequired={true}
-                supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
-                validation={{
-                  required: 'Kartu Pelajar wajib diupload.',
-                }}
+                supportFiles={['png', 'jpg', 'jpeg']}
                 labelTextClassName="text-black-300"
-                helpertext="Maksimal ukuran file yang diunggah adalah 3 MB."
+                helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
               />
             </div>
           </div>

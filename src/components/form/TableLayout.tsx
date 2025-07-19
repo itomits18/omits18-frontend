@@ -42,7 +42,7 @@ export default function TableLayout<T extends object>({
             className="w-full xl:w-auto"
           />
 
-          <div className="flex min-w-full items-center justify-between space-x-3 max-md:flex-col max-md:space-x-0 max-md:space-y-3 md:w-auto md:space-y-0 xl:min-w-fit xl:justify-normal">
+          <div className="flex min-w-full items-center justify-between space-x-3 max-md:flex-col max-md:space-y-3 max-md:space-x-0 md:w-auto md:space-y-0 xl:min-w-fit xl:justify-normal">
             {headerCustom}
 
             <Option
@@ -77,7 +77,7 @@ export default function TableLayout<T extends object>({
                         <Typography
                           variant="p"
                           weight="medium"
-                          className="capitalize text-neutral-main"
+                          className="text-neutral-main capitalize"
                         >
                           {typeof header?.column?.columnDef?.header ===
                           'function'
@@ -107,12 +107,12 @@ export default function TableLayout<T extends object>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    className="text-black-500 max-w-[100px] bg-neutral-main text-center"
+                    className="text-black-500 bg-neutral-main max-w-[100px] text-center"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="overflow-hidden truncate border"
+                        className="truncate overflow-hidden border"
                       >
                         <Typography
                           as="h6"

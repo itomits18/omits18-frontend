@@ -6,15 +6,15 @@ import FileUpload from '@/components/form/FileUpload';
 import ImagePreview from '@/components/form/ImagePreview';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
-import { detailPendaftar } from '@/contents/DataPendaftar';
 import { regionOptions } from '@/contents/ListRegions';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import ModalConfirm from '../../(container)/ModalConfirm';
-import useGetDetailParticipants from '../../hooks/useGetDetailParticipants';
-import { ImageStore } from '../../mission/[id]/page';
+import ModalVerification from '../(container)/ModalVerification';
+import useGetDetailParticipants, {
+  GetParticipants,
+} from '../../hooks/useGetDetailParticipants';
 
 export default function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -23,14 +23,12 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
   const [tolakConfirm, setTolakConfirm] = useState(false);
   const [revisiConfirm, setRevisiConfirm] = useState(false);
 
-  const [store, setStore] = useState<ImageStore>({
+  const [store, setStore] = useState({
     proof_identitas: 'https://dummyimage.com/600x400/000/fff',
   });
   const [isEdit, setIsEdit] = useState(false);
 
-  const DetailPendaftar = detailPendaftar.find((x) => x.id === id);
-
-  const { data, isLoading } = useGetDetailParticipants(id);
+  const { data } = useGetDetailParticipants(id);
   const { data: DataRegion } = useGetRegion(data?.postal.toString() || '1');
 
   const region = regionOptions.find(
@@ -88,14 +86,26 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 <Button
                   variant={'green'}
                   size="md"
-                  onClick={() => setTerimaConfirm(true)}
+                  onClick={() => {
+                    if (data?.participant_detail.status === 'VERIFIED') return;
+                    setTerimaConfirm(true);
+                  }}
+                  disabled={['REJECTED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   Terima
                 </Button>
                 <Button
                   variant={'brown'}
                   size="md"
-                  onClick={() => setTolakConfirm(true)}
+                  onClick={() => {
+                    if (data?.participant_detail.status === 'REJECTED') return;
+                    setTolakConfirm(true);
+                  }}
+                  disabled={['VERIFIED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   Tolak
                 </Button>
@@ -109,6 +119,9 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                     }
                     setIsEdit((pre) => !pre);
                   }}
+                  disabled={['VERIFIED', 'REJECTED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   {isEdit ? 'Simpan' : 'Revisi'}
                 </Button>
@@ -237,6 +250,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               {store.proof_identitas ? (
                 <div className="col-span-2 max-md:col-span-1">
                   <ImagePreview
+                    type="omits"
                     id="proof_identitas"
                     name="Bukti Identitas"
                     link={data?.participant_detail.student_id_url ?? ''}
@@ -264,47 +278,26 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         </section>
       </section>
 
-      <ModalConfirm
-        open={terimaConfirm}
-        setOpen={setTerimaConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin terima peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {data?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="terima"
+        modalOpen={terimaConfirm}
+        setModalOpen={setTerimaConfirm}
+        data={data as GetParticipants}
       />
-      <ModalConfirm
-        open={tolakConfirm}
-        setOpen={setTolakConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin menolak peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {data?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="tolak"
+        modalOpen={tolakConfirm}
+        setModalOpen={setTolakConfirm}
+        data={data as GetParticipants}
       />
-      <ModalConfirm
-        open={revisiConfirm}
-        setOpen={setRevisiConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin merubah data peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {data?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="revisi"
+        modalOpen={revisiConfirm}
+        setModalOpen={setRevisiConfirm}
+        data={data as GetParticipants}
       />
     </>
   );

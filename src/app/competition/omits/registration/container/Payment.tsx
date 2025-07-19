@@ -12,6 +12,7 @@ interface PaymentSummaryProps {
   bundleType: 'Individu' | 'bundle' | string;
   jenjangKompetisiType: 'SD' | 'SMP' | 'SMA' | string;
   setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const PaymentItem = ({
@@ -40,6 +41,7 @@ export default function PaymentSummary({
   bundleType,
   jenjangKompetisiType,
   setPayment,
+  loadingPayment,
 }: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'QRIS' | 'VA'>('QRIS');
   let mainItemLabel = `OMITS - Individu (${jenjangKompetisiType})`;
@@ -69,21 +71,17 @@ export default function PaymentSummary({
     bundleType === 'bundle' ? mainItemPrice - diskonBundle : mainItemPrice;
 
   let ppn = 0;
-  const biayaAdmin = 400;
-  let ppnLabel = 'PPN';
   if (paymentMethod === 'QRIS') {
     ppn = priceAfterDiscount * 0.007;
-    ppnLabel = 'PPN (0.7%)';
   } else {
-    ppn = 4000;
-    ppnLabel = 'PPN';
+    ppn = 4400;
   }
 
   useEffect(() => {
     setPayment(paymentMethod.toUpperCase());
   }, []);
 
-  const subTotal = priceAfterDiscount + ppn + biayaAdmin;
+  const subTotal = priceAfterDiscount + ppn;
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -180,10 +178,7 @@ export default function PaymentSummary({
             price={`- ${formatCurrency(diskonBundle)}`}
           />
         )}
-        <PaymentItem item={ppnLabel} price={formatCurrency(ppn)} />
-        {biayaAdmin > 0 && (
-          <PaymentItem item="Biaya Admin" price={formatCurrency(biayaAdmin)} />
-        )}
+        <PaymentItem item={'Biaya Admin'} price={formatCurrency(ppn)} />
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
@@ -196,8 +191,9 @@ export default function PaymentSummary({
       <Button
         onClick={onSubmit}
         className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
+        disabled={loadingPayment}
       >
-        Bayar
+        {loadingPayment ? 'Melakukan pembayaran...' : 'Register dan bayar'}
       </Button>
     </div>
   );

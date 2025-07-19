@@ -6,6 +6,7 @@ import * as React from 'react';
 import { toast } from 'sonner';
 
 import useAuthStore from '@/app/store/useAuthStore';
+import useParticipantStore from '@/app/store/useParticipantStore';
 // import Loading from '@/components/Loading';
 import api from '@/lib/api';
 import { getToken, removeToken } from '@/lib/cookies';
@@ -72,6 +73,8 @@ export default function withAuth<T>(
     const logout = useAuthStore.useLogout();
     const stopLoading = useAuthStore.useStopLoading();
     const user = useAuthStore.useUser();
+    const { setParticipant } = useParticipantStore();
+
     //#endregion  //*======== STORE ===========
 
     const checkAuth = React.useCallback(() => {
@@ -81,6 +84,7 @@ export default function withAuth<T>(
         stopLoading();
         return;
       }
+
       const loadUser = async () => {
         try {
           const res = await api.get<ApiResponse<User>>(API_USER_ME);
@@ -99,6 +103,14 @@ export default function withAuth<T>(
         } finally {
           stopLoading();
         }
+
+        try {
+          const res = await api.get('/participants/me');
+
+          setParticipant(res.data.data);
+        } catch (_) {
+          setParticipant([]);
+        }
       };
 
       loadUser();
@@ -114,25 +126,31 @@ export default function withAuth<T>(
     }, [checkAuth]);
 
     React.useEffect(() => {
-      const Redirect = () => {
-        const role: JWTType = jwtDecode(getToken());
+      const token = getToken();
+      if (!token) {
+        logout();
+        stopLoading();
+      }
 
+      const decodedToken = token ? jwtDecode<JWTType>(token) : null;
+
+      const Redirect = () => {
         if (isAuthenticated) {
           if (routeRole === 'public') {
             if (redirect) {
               router.replace(redirect as string);
-            } else if (role.role === 'admin') {
+            } else if (decodedToken?.role === 'admin') {
               router.replace(ADMIN_ROUTE);
             } else {
               router.replace(USER_ROUTE);
             }
           }
-          if (role.role === 'user') {
+          if (decodedToken?.role === 'user') {
             if (routeRole === 'admin') {
               router.replace(USER_ROUTE);
             }
           }
-          if (role.role === 'admin') {
+          if (decodedToken?.role === 'admin') {
             if (routeRole === 'user') {
               router.replace(ADMIN_ROUTE);
             }
@@ -143,7 +161,7 @@ export default function withAuth<T>(
         }
       };
 
-      if (!isLoading) {
+      if (!isLoading && decodedToken) {
         Redirect();
       }
     }, [isAuthenticated, isLoading, pathName, redirect, router, user]);

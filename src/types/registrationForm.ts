@@ -6,7 +6,7 @@ export type RegistrationForm = {
   phone: string;
   instance_name?: string;
   instance_address?: string;
-  detail: {
+  participant_detail: {
     student_id: string;
     student_id_url: string;
     status?: string;
@@ -24,6 +24,7 @@ export type PaymentRegistration = {
   competition_type: 'OMITS' | 'MISSION';
   competition_sub_type?: string;
   details: {
+    participant_id: number;
     participant_name: string;
     participant_student_id: string;
   }[];

@@ -26,6 +26,7 @@ export default function useLogin() {
       setToken(data.token);
 
       const user = await api.get<ApiResponse<User>>('/users/me');
+
       if (user) login({ ...user.data.data, token: data.token });
 
       toast.success('Berhasil melakukan login');

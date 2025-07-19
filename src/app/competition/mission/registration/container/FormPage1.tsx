@@ -3,36 +3,42 @@ import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
 import { RegistrationMISSION1 } from '@/validation/RegistrationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-export type FormValues = {
-  region?: string;
-  kodePos?: string;
-  namaKampus?: string;
-  alamatKampus?: string;
-  detail?: {
-    email?: string;
-    namaLengkap?: string;
-    nomorTelepon?: string;
-    nomorIdentitas?: string;
-    kartuIdentitas?: string;
-  }[];
-};
+import { missionFormDataType } from '../page';
 
 interface FormPage1Props {
-  onSubmit: (data: FormValues) => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<missionFormDataType>>;
 }
 
-export default function FormPage1({ onSubmit }: FormPage1Props) {
+export default function FormPage1({ onNext, setFormData }: FormPage1Props) {
   const methods = useForm<z.infer<typeof RegistrationMISSION1>>({
     mode: 'onChange',
     resolver: zodResolver(RegistrationMISSION1),
   });
   const { handleSubmit } = methods;
 
-  const onValidSubmit: SubmitHandler<FormValues> = (data) => {
-    onSubmit(data);
+  useEffect(() => {
+    const getData = localStorage.getItem('ms_sd1');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData || '{}'));
+    }
+  }, [methods.reset]);
+
+  const onValidSubmit: SubmitHandler<z.infer<typeof RegistrationMISSION1>> = (
+    data,
+  ) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
+    localStorage.setItem('ms_sd1', JSON.stringify(data));
   };
 
   return (
@@ -53,9 +59,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             placeholder="Masukkan nama kampus"
-            validation={{
-              required: 'This field is required',
-            }}
+            required
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
           />
@@ -66,9 +70,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             sizes={'sm'}
             type="text"
             placeholder="Masukkan alamat kampus"
-            validation={{
-              required: 'This field is required',
-            }}
+            required
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
           />

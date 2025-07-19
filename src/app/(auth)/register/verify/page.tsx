@@ -1,16 +1,33 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+'use client';
+
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 import useVerifyEmail from '../hooks/useVerifyEmail';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get('token');
 
-  const { mutate, isPending, status } = useVerifyEmail(token as string);
+  const { status } = useVerifyEmail(token as string);
 
-  if (!token) return router.push('/login');
-  else if (token && status === 'success' && !isPending) {
-    mutate();
-    router.push('/login');
-  }
+  useEffect(() => {
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    if (status === 'success') {
+      toast.success('Email kamu berhasil diverifikasi!');
+      router.push('/login');
+    }
+
+    if (status === 'error') {
+      toast.error('Failed to verify email');
+      return redirect('/login');
+    }
+  }, [token, status, router]);
+
+  return null;
 }
