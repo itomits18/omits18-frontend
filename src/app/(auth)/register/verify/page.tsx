@@ -1,6 +1,7 @@
 'use client';
 
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
+
 import { Suspense, useEffect } from 'react';
 import { toast } from 'sonner';
 import useVerifyEmail from '../hooks/useVerifyEmail';
@@ -39,3 +40,4 @@ export default function Page() {
     </Suspense>
   );
 }
+
