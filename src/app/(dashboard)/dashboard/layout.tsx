@@ -4,11 +4,11 @@ import withAuth from '@/components/withAuth';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import React, { Suspense } from 'react';
 
-function DashboradAdminLayout({ children }: { children: React.ReactNode }) {
+function DashboardAdminLayout({ children }: { children: React.ReactNode }) {
   return <DashboardLayout>{children}</DashboardLayout>;
 }
 
-const AdminMiddleware = withAuth(DashboradAdminLayout, 'user');
+const AdminMiddleware = withAuth(DashboardAdminLayout, 'user');
 
 export default function AdminPage({ children }: { children: React.ReactNode }) {
   return (

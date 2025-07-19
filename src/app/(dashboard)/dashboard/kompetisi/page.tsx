@@ -27,7 +27,7 @@ export default function page() {
     participant.some((x) => x.participant_detail.type === 'MISSION');
 
   useEffect(() => {
-    if (!user?.is_verified) setModalVerif(true);
+    if (user && !user?.is_verified) setModalVerif(true);
     setDataID(localStorage.getItem('akun') || '');
   }, []);
 
@@ -157,14 +157,6 @@ export default function page() {
                           Daftar sekarang
                         </Button>
                       </Link>
-                      <Button
-                        disabled
-                        variant="green"
-                        size="md"
-                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                      >
-                        Daftar Sekarang
-                      </Button>
                       {/* <Button
                         variant="green"
                         size="md"
@@ -242,7 +234,7 @@ export default function page() {
                         disabled={isRegistered && !isRegisterMISSION}
                       >
                         {isRegistered && !isRegisterMISSION
-                          ? 'Terdaftar OMITS'
+                          ? 'Terdaftar Mission'
                           : 'Daftar Sekarang'}
                       </Button>
                     </Link>

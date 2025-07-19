@@ -27,12 +27,22 @@ const PaymentItem = ({
   className?: string;
 }) => (
   <div className={cn('grid grid-cols-6 gap-1 py-2 text-sm', className)}>
-    {' '}
-    <p className="col-span-3 truncate text-left text-gray-700">{item}</p>
-    <p className="col-span-1 text-center text-gray-700">
+    <Typography
+      variant="p"
+      className="col-span-3 truncate text-left text-gray-700"
+    >
+      {item}
+    </Typography>
+    <Typography variant="p" className="col-span-1 text-center text-gray-700">
       {quantity !== undefined ? quantity : ''}
-    </p>
-    <p className="col-span-2 text-right font-medium text-gray-800">{price}</p>
+    </Typography>
+    <Typography
+      variant="p"
+      weight="medium"
+      className="col-span-2 text-right text-gray-800"
+    >
+      {price}
+    </Typography>
   </div>
 );
 
@@ -70,18 +80,23 @@ export default function PaymentSummary({
   const priceAfterDiscount =
     bundleType === 'bundle' ? mainItemPrice - diskonBundle : mainItemPrice;
 
-  let ppn = 0;
+  let biayaLayanan = 0;
+  let biayaLayananLabel = 'Biaya Admin';
+
   if (paymentMethod === 'QRIS') {
-    ppn = priceAfterDiscount * 0.007;
+    biayaLayanan = priceAfterDiscount * 0.007;
+    biayaLayananLabel = 'Biaya Admin (0.7%)';
   } else {
-    ppn = 4400;
+    biayaLayanan = 4400;
+    biayaLayananLabel = 'Biaya Admin';
   }
+
+  const subTotal = priceAfterDiscount + biayaLayanan;
 
   useEffect(() => {
     setPayment(paymentMethod.toUpperCase());
-  }, []);
+  }, [paymentMethod, setPayment]);
 
-  const subTotal = priceAfterDiscount + ppn;
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -127,7 +142,9 @@ export default function PaymentSummary({
         >
           <QrCode className="h-6 w-6 text-gray-700" />
           <div className="flex-grow">
-            <p className="font-semibold">QRIS Payments (Recommended)</p>
+            <Typography variant="p" weight="semibold">
+              QRIS Payments (Recommended)
+            </Typography>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-green-300">
             {paymentMethod === 'QRIS' && (
@@ -150,7 +167,9 @@ export default function PaymentSummary({
         >
           <Landmark className="h-6 w-6 text-gray-700" />
           <div className="flex-grow">
-            <p className="font-semibold">Bank Virtual Account</p>
+            <Typography variant="p" weight="semibold">
+              Bank Virtual Account
+            </Typography>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-green-300">
             {paymentMethod === 'VA' && (
@@ -161,10 +180,28 @@ export default function PaymentSummary({
       </div>
 
       <hr className="my-6 border-b border-dashed border-gray-300" />
-      <div className="font-Lora text-black-200 mb-1 grid grid-cols-6 gap-1 pb-2 text-xs font-semibold">
-        <p className="col-span-3 text-left">Items</p>
-        <p className="col-span-1 text-center">Jumlah</p>
-        <p className="col-span-2 text-right">Harga</p>
+      <div className="font-Lora text-black-200 mb-1 grid grid-cols-6 gap-1 pb-2 text-xs">
+        <Typography
+          variant="p"
+          weight="semibold"
+          className="col-span-3 text-left"
+        >
+          Items
+        </Typography>
+        <Typography
+          variant="p"
+          weight="semibold"
+          className="col-span-1 text-center"
+        >
+          Jumlah
+        </Typography>
+        <Typography
+          variant="p"
+          weight="semibold"
+          className="col-span-2 text-right"
+        >
+          Harga
+        </Typography>
       </div>
       <div className="font-Lora mb-2 text-sm text-gray-700">
         <PaymentItem
@@ -178,14 +215,27 @@ export default function PaymentSummary({
             price={`- ${formatCurrency(diskonBundle)}`}
           />
         )}
-        <PaymentItem item={'Biaya Admin'} price={formatCurrency(ppn)} />
+        <PaymentItem
+          item={biayaLayananLabel}
+          price={formatCurrency(biayaLayanan)}
+        />
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
-        <p className="font-Lora text-black-200 font-semibold">Subtotal</p>
-        <p className="font-Lora text-2xl font-bold text-green-400">
+        <Typography
+          variant="p"
+          weight="semibold"
+          className="font-Lora text-black-200"
+        >
+          Subtotal
+        </Typography>
+        <Typography
+          variant="p"
+          weight="bold"
+          className="font-Lora text-2xl text-green-400"
+        >
           {formatCurrency(subTotal)}
-        </p>
+        </Typography>
       </div>
 
       <Button
@@ -193,7 +243,7 @@ export default function PaymentSummary({
         className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
         disabled={loadingPayment}
       >
-        {loadingPayment ? 'Melakukan pembayaran...' : 'Register dan bayar'}
+        {loadingPayment ? 'Melakukan pembayaran...' : 'Bayar'}
       </Button>
     </div>
   );

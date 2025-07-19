@@ -192,7 +192,7 @@ export default function FormPage2Individu({
                 id="detail.1.kartuIdentitas"
                 label="Bukti Nomor Identitas"
                 isRequired={true}
-                supportFiles={['png', 'jpg', 'jpeg']}
+                supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
                 labelTextClassName="text-black-300"
                 helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
               />
