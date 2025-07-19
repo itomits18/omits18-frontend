@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Landmark, QrCode } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface PaymentSummaryProps {
   onSubmit: () => void;
   bundleType: 'Individu' | 'bundle' | string;
   jenjangKompetisiType: 'SD' | 'SMP' | 'SMA' | string;
+  setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const PaymentItem = ({
@@ -39,12 +40,15 @@ export default function PaymentSummary({
   onSubmit,
   bundleType,
   jenjangKompetisiType,
+  setPayment,
+  loadingPayment,
 }: PaymentSummaryProps) {
-  const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
+  const [paymentMethod, setPaymentMethod] = useState<'QRIS' | 'VA'>('QRIS');
   let mainItemLabel = `OMITS - Individu (${jenjangKompetisiType})`;
   let basePrice = 0;
   let mainItemPrice = 0;
   let quantityForMainItem: number | string = 1;
+
   if (jenjangKompetisiType === 'SD') {
     basePrice = 65000;
   } else if (jenjangKompetisiType === 'SMP') {
@@ -67,16 +71,17 @@ export default function PaymentSummary({
     bundleType === 'bundle' ? mainItemPrice - diskonBundle : mainItemPrice;
 
   let ppn = 0;
-  const biayaAdmin = 400;
-  let ppnLabel = 'PPN';
-  if (paymentMethod === 'qris') {
+  if (paymentMethod === 'QRIS') {
     ppn = priceAfterDiscount * 0.007;
-    ppnLabel = 'PPN (0.7%)';
   } else {
-    ppn = 4000;
-    ppnLabel = 'PPN';
+    ppn = 4400;
   }
-  const subTotal = priceAfterDiscount + ppn + biayaAdmin;
+
+  useEffect(() => {
+    setPayment(paymentMethod.toUpperCase());
+  }, []);
+
+  const subTotal = priceAfterDiscount + ppn;
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -87,6 +92,7 @@ export default function PaymentSummary({
       .format(amount)
       .replace('Rp', 'Rp');
   };
+
   return (
     <div className="w-full rounded-2xl bg-white p-6 shadow-lg">
       <div className="mb-4 flex w-full items-start justify-center overflow-hidden rounded-lg">
@@ -108,10 +114,13 @@ export default function PaymentSummary({
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="space-y-3">
         <div
-          onClick={() => setPaymentMethod('qris')}
+          onClick={() => {
+            setPayment('QRIS');
+            setPaymentMethod('QRIS');
+          }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
-            paymentMethod === 'qris'
+            paymentMethod === 'QRIS'
               ? 'border-green-200 ring-2 ring-green-300'
               : 'border-gray-200',
           )}
@@ -121,17 +130,20 @@ export default function PaymentSummary({
             <p className="font-semibold">QRIS Payments (Recommended)</p>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-green-300">
-            {paymentMethod === 'qris' && (
+            {paymentMethod === 'QRIS' && (
               <div className="h-2.5 w-2.5 rounded-full bg-green-300"></div>
             )}
           </div>
         </div>
 
         <div
-          onClick={() => setPaymentMethod('va')}
+          onClick={() => {
+            setPayment('VA');
+            setPaymentMethod('VA');
+          }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
-            paymentMethod === 'va'
+            paymentMethod === 'VA'
               ? 'border-green-200 ring-2 ring-green-300'
               : 'border-gray-200',
           )}
@@ -141,7 +153,7 @@ export default function PaymentSummary({
             <p className="font-semibold">Bank Virtual Account</p>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-green-300">
-            {paymentMethod === 'va' && (
+            {paymentMethod === 'VA' && (
               <div className="h-2.5 w-2.5 rounded-full bg-green-300"></div>
             )}
           </div>
@@ -149,12 +161,12 @@ export default function PaymentSummary({
       </div>
 
       <hr className="my-6 border-b border-dashed border-gray-300" />
-      <div className="mb-1 grid grid-cols-6 gap-1 pb-2 font-Lora text-xs font-semibold text-black-200">
+      <div className="font-Lora text-black-200 mb-1 grid grid-cols-6 gap-1 pb-2 text-xs font-semibold">
         <p className="col-span-3 text-left">Items</p>
         <p className="col-span-1 text-center">Jumlah</p>
         <p className="col-span-2 text-right">Harga</p>
       </div>
-      <div className="mb-2 font-Lora text-sm text-gray-700">
+      <div className="font-Lora mb-2 text-sm text-gray-700">
         <PaymentItem
           item={mainItemLabel}
           quantity={quantityForMainItem}
@@ -166,30 +178,23 @@ export default function PaymentSummary({
             price={`- ${formatCurrency(diskonBundle)}`}
           />
         )}
-        <PaymentItem item={ppnLabel} price={formatCurrency(ppn)} />
-        {biayaAdmin > 0 && (
-          <PaymentItem item="Biaya Admin" price={formatCurrency(biayaAdmin)} />
-        )}
+        <PaymentItem item={'Biaya Admin'} price={formatCurrency(ppn)} />
       </div>
       <hr className="my-6 border-b border-dashed border-gray-300" />
       <div className="flex justify-between">
-        <p className="font-Lora font-semibold text-black-200">Subtotal</p>
+        <p className="font-Lora text-black-200 font-semibold">Subtotal</p>
         <p className="font-Lora text-2xl font-bold text-green-400">
           {formatCurrency(subTotal)}
         </p>
       </div>
 
-      <Link
-        href={'https://app.midtrans.com/payment-links/1749868535858'}
-        target="_blank"
+      <Button
+        onClick={onSubmit}
+        className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
+        disabled={loadingPayment}
       >
-        <Button
-          onClick={onSubmit}
-          className="mt-6 w-full rounded-xl bg-green-300 py-3 text-lg font-bold text-white hover:bg-green-700"
-        >
-          Bayar
-        </Button>
-      </Link>
+        {loadingPayment ? 'Melakukan pembayaran...' : 'Register dan bayar'}
+      </Button>
     </div>
   );
 }

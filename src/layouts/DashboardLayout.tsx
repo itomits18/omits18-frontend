@@ -1,5 +1,6 @@
 'use client';
 
+import useAuthStore from '@/app/store/useAuthStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -110,7 +111,7 @@ export default function DashboardLayout({
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
-  //   const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const isDesktoplg = useMediaQuery({ query: '(max-width: 1024px)' });
 
   const handleClickNav = () => {
@@ -219,14 +220,14 @@ export default function DashboardLayout({
                   weight="bold"
                   className="text-additions-brown-100"
                 >
-                  John Smith
+                  {user?.name}
                 </Typography>
                 <Typography
                   variant="bs"
                   weight="medium"
                   className="text-[#D19891]"
                 >
-                  johnsmith@gmail.com
+                  {user?.email}
                 </Typography>
               </div>
             </div>
@@ -241,7 +242,6 @@ export default function DashboardLayout({
                   ].map((link, k) => (
                     <Link key={k} href={link.link} className="">
                       <div
-                        key={k}
                         className={cn(
                           'flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]',
                           path.startsWith(link.link) && 'bg-[#F9DDD8]',
@@ -267,6 +267,7 @@ export default function DashboardLayout({
             <Button
               className="bg-additions-brown-200 w-full font-semibold"
               size="lg"
+              onClick={logout}
             >
               <LogOut size={32} className="h-6 w-6" />
               <span>Keluar</span>

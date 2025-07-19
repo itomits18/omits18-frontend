@@ -9,50 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
-import { FileText } from 'lucide-react';
+import { ChevronLeft, FileText } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Payment from './Payment';
-
-const regionOptions = [
-  { value: 'offline_1', label: 'Offline 1 - Surabaya, Gresik, dan Bangkalan' },
-  { value: 'offline_2', label: 'Offline 2 - Sidoarjo dan Pasuruan' },
-  { value: 'offline_3', label: 'Offline 3 - Mojokerto dan Jombang' },
-  { value: 'offline_4', label: 'Offline 4 - Malang dan Kota Batu' },
-  {
-    value: 'offline_5',
-    label: 'Offline 5 - Tulungagung, Trenggalek, dan Blitar',
-  },
-  { value: 'offline_6', label: 'Offline 6 - Kediri dan Nganjuk' },
-  { value: 'offline_7', label: 'Offline 7 - Tuban, Bojonegoro, dan Lamongan' },
-  {
-    value: 'offline_8',
-    label: 'Offline 8 - Madiun, Ngawi, Ponorogo, Pacitan, dan Magetan',
-  },
-  { value: 'offline_9', label: 'Offline 9 - Sampang, Pamekasan, dan Sumenep' },
-  {
-    value: 'offline_10',
-    label: 'Offline 10 - Jember, Probolinggo, dan Lumajang',
-  },
-  {
-    value: 'offline_11',
-    label: 'Offline 11 - Jakarta, Bogor, Depok, Tangerang, dan Bekasi',
-  },
-  { value: 'offline_12', label: 'Offline 12 - Bali' },
-  {
-    value: 'online_1',
-    label: 'Online 1 - Banyuwangi, Bondowoso, dan Situbondo',
-  },
-  { value: 'online_2', label: 'Online 2 - DI Yogyakarta dan Jawa Tengah' },
-  {
-    value: 'online_3',
-    label:
-      'Online 3 - Jawa Barat (kecuali Bogor, Depok, dan Bekasi) dan Banten',
-  },
-  { value: 'online_4', label: 'Online 4 - Sumatra' },
-  { value: 'online_5', label: 'Online 5 - Sulawesi dan Kalimantan' },
-  { value: 'online_6', label: 'Online 6 - NTB, NTT, dan Papua' },
-];
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },
@@ -63,6 +24,8 @@ interface FormPage3TeamProps {
   formData: any;
   onBack: () => void;
   onSubmit: () => void;
+  setPayment: React.Dispatch<React.SetStateAction<string>>;
+  loadingPayment: boolean;
 }
 
 const DisplayField = ({ label, value }: { label: string; value: string }) => (
@@ -74,23 +37,13 @@ const DisplayField = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-const DisplayFileField = ({
-  label,
-  file,
-}: {
-  label: string;
-  file: File | FileList;
-}) => {
-  const fileName =
-    file instanceof File ? file.name : (file as FileList)?.[0]?.name;
+const DisplayFileField = ({ label, file }: { label: string; file: string }) => {
   return (
     <div className="space-y-1">
-      <p className="font-Lora text-base font-semibold text-green-300">
-        {label}
-      </p>
+      <p className="font-Lora text-base font-semibold text-gray-700">{label}</p>
       <div className="flex w-full items-center gap-2 rounded-md border bg-gray-50 px-3 py-2 text-gray-800">
         <FileText size={16} className="text-gray-500" />
-        <span className="truncate">{fileName || 'Tidak ada file'}</span>
+        <span className="truncate">{file}</span>
       </div>
     </div>
   );
@@ -103,15 +56,12 @@ const ParticipantDetail = ({
   participantNumber: number;
   formData: any;
 }) => {
-  const email = formData[`email_${participantNumber}`];
-  const namaLengkap = formData[`namaLengkap_${participantNumber}`];
-  const nomorNisn = formData[`nomorNISN_${participantNumber}`];
-  const nomorTeleponPeserta = formData[`nomorTelepon_${participantNumber}`];
-  const buktiNisn = formData[`buktiNISN_${participantNumber}`];
-
-  if (!namaLengkap) {
-    return null;
-  }
+  const email = formData.detail[participantNumber - 1].email;
+  const namaLengkap = formData.detail[participantNumber - 1].namaLengkap;
+  const nomorNisn = formData.detail[participantNumber - 1].nomorNISN;
+  const nomorTeleponPeserta =
+    formData.detail[participantNumber - 1].nomorTelepon;
+  const buktiNisn = formData.detail[participantNumber - 1].buktiNISN;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -144,6 +94,9 @@ const tabLabels: { key: PesertaTab; label: string }[] = [
 export default function FormPage3Team({
   formData,
   onSubmit,
+  setPayment,
+  onBack,
+  loadingPayment,
 }: FormPage3TeamProps) {
   const [activeTab, setActiveTab] = useState<PesertaTab>('peserta1');
   const [isMobile, setIsMobile] = useState(false);
@@ -168,7 +121,14 @@ export default function FormPage3Team({
 
   return (
     <div className="flex w-full flex-col items-start gap-8 lg:flex-row">
-      <div className="order-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+      <div className="relative order-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+        <div
+          className="absolute top-0 left-0 m-6 w-fit cursor-pointer rounded-full bg-green-300 p-2 transition-all duration-200 hover:bg-green-400"
+          onClick={onBack}
+        >
+          <ChevronLeft size={20} className="text-neutral-main" />
+        </div>
+
         <Typography
           variant="h5"
           weight="bold"
@@ -178,7 +138,7 @@ export default function FormPage3Team({
         </Typography>
 
         <div className="mb-8 space-y-4">
-          <div className="mb-4 w-full rounded-xl bg-green-300 py-2 text-center font-Lora text-lg font-semibold text-white">
+          <div className="font-Lora mb-4 w-full rounded-xl bg-green-300 py-2 text-center text-lg font-semibold text-white">
             Informasi Pendaftar
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -210,7 +170,7 @@ export default function FormPage3Team({
                 value={activeTab}
                 onValueChange={(value) => setActiveTab(value as PesertaTab)}
               >
-                <SelectTrigger className="w-full rounded-md bg-green-300 py-3 font-Lora text-lg font-semibold text-white">
+                <SelectTrigger className="font-Lora w-full rounded-md bg-green-300 py-3 text-lg font-semibold text-white">
                   <SelectValue placeholder="Pilih Peserta">
                     {tabLabels.find((tab) => tab.key === activeTab)?.label ||
                       'Pilih Peserta'}
@@ -274,6 +234,8 @@ export default function FormPage3Team({
           onSubmit={onSubmit}
           bundleType={formData.bundle}
           jenjangKompetisiType={formData.jenjangKompetisi}
+          setPayment={setPayment}
+          loadingPayment={loadingPayment}
         />
       </div>
     </div>

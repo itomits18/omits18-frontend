@@ -1,8 +1,16 @@
 'use client';
+import useGetRegion from '@/app/competition/hooks/useGetRegion';
 import Input from '@/components/form/Input';
 import { SelectInput } from '@/components/form/SelectInput';
 import { Button } from '@/components/ui/button';
+import { regionOptions } from '@/contents/ListRegions';
+import { RegistrationOMITS1 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
+import { z } from 'zod';
+import { formDataType } from '../page';
 
 const bundleOptions = [
   { value: 'Individu', label: 'Individu' },
@@ -15,27 +23,59 @@ const jenjangKompetisiOptions = [
   { value: 'SMA', label: 'SMA' },
 ];
 
-export type FormValues = {
-  bundle?: string;
-  jenjangKompetisi?: string;
-  nomorWali?: string;
-  region?: string;
-  kodePos?: string;
-  namaSekolah?: string;
-  alamatSekolah?: string;
-};
-
 interface FormPage1Props {
-  onSubmit: (data: FormValues) => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<formDataType>>;
 }
 
-export default function FormPage1({ onSubmit }: FormPage1Props) {
-  const methods = useForm<FormValues>({
+export default function FormPage1({ onNext, setFormData }: FormPage1Props) {
+  const [kodepos, setKodepos] = useState('');
+  const methods = useForm<z.infer<typeof RegistrationOMITS1>>({
     mode: 'onChange',
+    resolver: zodResolver(RegistrationOMITS1),
+    defaultValues: {
+      bundle: '',
+      jenjangKompetisi: '',
+      nomorWali: '',
+      region: '',
+      kodePos: '',
+      namaSekolah: '',
+      alamatSekolah: '',
+    },
   });
+  const [debouncedKodepos] = useDebounce(kodepos, 2000); // delay 500ms
 
-  const onValidSubmit: SubmitHandler<FormValues> = (data) => {
-    onSubmit(data);
+  const { data, isLoading, status } = useGetRegion(debouncedKodepos);
+  const region = regionOptions.find(
+    (x) => x.value.toUpperCase() === data?.region,
+  );
+
+  useEffect(() => {
+    if (region) {
+      methods.setValue('region', region.label);
+    }
+  }, [region]);
+
+  useEffect(() => {
+    const getData = localStorage.getItem('om_sd1');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData || '{}'));
+      setKodepos(JSON.parse(getData).kodePos);
+    }
+  }, [methods.reset]);
+
+  const onValidSubmit: SubmitHandler<z.infer<typeof RegistrationOMITS1>> = (
+    data,
+  ) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
+    localStorage.setItem('om_sd1', JSON.stringify(data));
   };
 
   return (
@@ -72,15 +112,18 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
           />
 
           <Input
-            label="Kode Pos"
+            label="Kode Pos Sekolah"
             required
             id="kodePos"
             sizes={'sm'}
             type="text"
-            placeholder="Masukkan kode pos"
+            placeholder="Masukkan kode pos sekolah"
             validation={{ required: 'Kode pos wajib diisi.' }}
             className="bg-neutral-main"
             labelTextClassname="text-black-300"
+            onChange={(e) => {
+              setKodepos(e.target.value);
+            }}
           />
 
           <Input
@@ -88,8 +131,17 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             id="region"
             sizes={'sm'}
             type="text"
+            required
             disabled
-            value="Offline 1 - Surabaya, Gresik, dan Bangkalan"
+            value={
+              !kodepos
+                ? ''
+                : status === 'error'
+                  ? 'Tidak Cocok.'
+                  : data && isLoading
+                    ? region?.label
+                    : 'Mecocokkan Region...'
+            }
             // value=""
             className="bg-neutral-main cursor-not-allowed"
             labelTextClassname="text-black-300"
@@ -100,6 +152,7 @@ export default function FormPage1({ onSubmit }: FormPage1Props) {
             placeholder="Pilih Jenjang Kompetisi"
             options={jenjangKompetisiOptions}
             validation={{ required: 'Jenjang kompetisi wajib diisi.' }}
+            defaultValue={methods.getValues().jenjangKompetisi}
           />
           <Input
             label="Nama Sekolah"

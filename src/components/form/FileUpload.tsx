@@ -1,3 +1,4 @@
+import { useUploadFile } from '@/app/competition/hooks/useUploadFile';
 import { cn } from '@/lib/utils';
 import { Upload, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
@@ -38,17 +39,19 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setValue,
     register,
     formState: { errors },
+    setError,
   } = useFormContext();
   const [uploadStatus, setUploadStatus] = useState<'success' | 'error' | null>(
     null,
   );
   const [fileName, setFileName] = useState<string | null>(null);
+  const { mutateAsync: UploadFile, isPending: LoadingUpload } = useUploadFile();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const maxSize = 3 * 1048576;
+    const maxSize = 3 * 1048576; // 3 mb
 
     if (!file) {
       resetFile();
@@ -66,8 +69,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
     } else if (file.size > maxSize) {
       updateStatus('error', 'File size is too large');
     } else {
-      updateStatus('success', file.name);
-      setValue(id, file);
+      UploadFile(file)
+        .then((res) => {
+          updateStatus('success', file.name);
+          setValue(id, res.key);
+        })
+        .catch((err) => {
+          if (err.status === 413) {
+            updateStatus(
+              'error',
+              'Terdapat masalah pada file. file terlalu besar',
+            );
+          } else {
+            updateStatus('error', err.message || 'Gagal upload file');
+          }
+
+          setError(id, { type: 'manual', message: err.message });
+        });
     }
   };
 
@@ -103,7 +121,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       <div
         className={cn(
-          'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
+          'relative flex w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
           'py-3',
           uploadStatus === 'success'
             ? type === 'omits'
@@ -138,6 +156,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           type="file"
           id={id}
           name={id}
+          accept={supportFiles.map((ext) => `.${ext}`).join(', ')}
           ref={fileInputRef}
           onChange={handleFileChange}
           className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
@@ -152,11 +171,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
             uploadStatus === 'success'
               ? 'text-neutral-main'
               : uploadStatus === 'error'
-                ? 'text-red-500'
+                ? 'text-neutral-50'
                 : 'text-gray-600',
           )}
         >
-          {fileName || 'Upload disini'}
+          {LoadingUpload ? 'Uploading File...' : fileName || 'Upload disini'}
         </span>
 
         <div>
@@ -164,7 +183,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
             <X
               className={cn(
                 'absolute top-1/4 right-[4%] h-5 w-5',
-                uploadStatus === 'error' ? 'text-red-500' : 'text-neutral-main',
+                uploadStatus === 'error'
+                  ? 'text-neutral-main'
+                  : 'text-neutral-main',
               )}
               onClick={resetFile}
             />
@@ -178,7 +199,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         <HelperText
           helperTextClassName={cn(
             uploadStatus === 'error' || errors[id]
-              ? 'text-red-600'
+              ? 'text-neutral-10'
               : 'text-black-50',
           )}
         >
