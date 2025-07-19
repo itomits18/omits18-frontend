@@ -6,18 +6,23 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { regionOptions } from '@/contents/ListRegions';
 import { cn } from '@/lib/utils';
+import { Participant } from '@/types/participants';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 
-export default function DetailPendaftar({ type }: { type: string }) {
-  const [collapse, setCollapse] = useState(false);
-
+export default function DetailPendaftar({
+  type,
+  data,
+}: {
+  type: string;
+  data: Participant;
+}) {
   return (
-    <Collapsible open={collapse} onOpenChange={setCollapse}>
+    <Collapsible open={true}>
       <CollapsibleTrigger
         className={cn(
-          'text-neutral-main relative z-20 flex w-full justify-between rounded-xl px-8 py-4',
+          'text-neutral-main relative z-20 flex w-full cursor-pointer justify-between rounded-xl px-8 py-4',
           'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
@@ -28,7 +33,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
           Detail Pendaftar
         </Typography>
 
-        <ChevronDown />
+        <ChevronDown className={cn('transition-all duration-200')} />
       </CollapsibleTrigger>
       <CollapsibleContent>
         <div className="-mt-3 grid grid-cols-1 gap-y-6 rounded-md p-8 shadow-md md:grid-cols-2">
@@ -37,7 +42,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Jenjang
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              SD
+              {data.participant_detail.sub_type}
             </Typography>
           </div>
 
@@ -46,7 +51,13 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Region
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              Offline 1 - Surabaya, Gresik, dan Bangkalan
+              {
+                regionOptions.find(
+                  (x) =>
+                    x.value.toLowerCase() ===
+                    data.postal_detail.region.toLowerCase(),
+                )?.label
+              }
             </Typography>
           </div>
 
@@ -55,7 +66,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Nama Sekolah
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              SDN 1 Surabaya
+              {data.instance_name}
             </Typography>
           </div>
 
@@ -68,7 +79,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               weight="bold"
               className="text-black-300 text-justify"
             >
-              Kec. Sukolilo, Surabaya, Jawa Timur
+              {data.instance_address}
             </Typography>
           </div>
 
@@ -77,7 +88,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Provinsi
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              Jawa Timur
+              {data.postal_detail.province}
             </Typography>
           </div>
 
@@ -86,7 +97,7 @@ export default function DetailPendaftar({ type }: { type: string }) {
               Kota/Kabupaten
             </Typography>
             <Typography variant="t" weight="bold" className="text-black-300">
-              Kota Surabaya
+              {data.postal_detail.regency}
             </Typography>
           </div>
         </div>

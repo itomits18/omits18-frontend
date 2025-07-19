@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        yellow: 'bg-yellow-200 hover:bg-yellow-300 disabled:bg-yellow-700',
+        yellow: 'bg-yellow-200 hover:bg-yellow-300 disabled:bg-yellow-900',
         pink: 'bg-pink-300 hover:bg-pink-400 disabled:bg-pink-700',
         green: 'bg-green-200 hover:bg-green-300 disabled:bg-green-900',
         blue: 'bg-blue-300 hover:bg-blue-400 disabled:bg-blue-900',

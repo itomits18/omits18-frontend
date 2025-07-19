@@ -1,17 +1,20 @@
 'use client';
 
+import useGetRegion from '@/app/competition/hooks/useGetRegion';
 import Typography from '@/components/Typography';
 import FileUpload from '@/components/form/FileUpload';
 import ImagePreview from '@/components/form/ImagePreview';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
-import { detailPendaftar } from '@/contents/DataPendaftar';
+import { regionOptions } from '@/contents/ListRegions';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { use, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import ModalConfirm from '../../(container)/ModalConfirm';
-import { ImageStore } from '../../mission/[id]/page';
+import ModalVerification from '../(container)/ModalVerification';
+import useGetDetailParticipants, {
+  GetParticipants,
+} from '../../hooks/useGetDetailParticipants';
 
 export default function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -20,12 +23,17 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
   const [tolakConfirm, setTolakConfirm] = useState(false);
   const [revisiConfirm, setRevisiConfirm] = useState(false);
 
-  const [store, setStore] = useState<ImageStore>({
+  const [store, setStore] = useState({
     proof_identitas: 'https://dummyimage.com/600x400/000/fff',
   });
   const [isEdit, setIsEdit] = useState(false);
 
-  const DetailPendaftar = detailPendaftar.find((x) => x.id === id);
+  const { data } = useGetDetailParticipants(id);
+  const { data: DataRegion } = useGetRegion(data?.postal.toString() || '1');
+
+  const region = regionOptions.find(
+    (x) => x.value.toUpperCase() === DataRegion?.region,
+  );
 
   const methods = useForm({
     mode: 'onTouched',
@@ -68,12 +76,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 size="md"
                 className="border-2 border-green-200 bg-transparent text-green-200 hover:bg-green-50"
               >
-                <Link
-                  href={
-                    'https://wa.me/+62' +
-                    DetailPendaftar?.peserta.phone_number.slice(1)
-                  }
-                >
+                <Link href={'https://wa.me/+62' + data?.phone.substring(1)}>
                   <Phone size={32} className="h-8 w-8" />
                   <span className="font-semibold">Contact Pendaftar</span>
                 </Link>
@@ -83,14 +86,26 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 <Button
                   variant={'green'}
                   size="md"
-                  onClick={() => setTerimaConfirm(true)}
+                  onClick={() => {
+                    if (data?.participant_detail.status === 'VERIFIED') return;
+                    setTerimaConfirm(true);
+                  }}
+                  disabled={['REJECTED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   Terima
                 </Button>
                 <Button
                   variant={'brown'}
                   size="md"
-                  onClick={() => setTolakConfirm(true)}
+                  onClick={() => {
+                    if (data?.participant_detail.status === 'REJECTED') return;
+                    setTolakConfirm(true);
+                  }}
+                  disabled={['VERIFIED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   Tolak
                 </Button>
@@ -104,6 +119,9 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                     }
                     setIsEdit((pre) => !pre);
                   }}
+                  disabled={['VERIFIED', 'REJECTED'].includes(
+                    data?.participant_detail.status as string,
+                  )}
                 >
                   {isEdit ? 'Simpan' : 'Revisi'}
                 </Button>
@@ -132,7 +150,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="jenjang"
                 label="Jenjang"
-                defaultValue={DetailPendaftar?.jenjang}
+                defaultValue={data?.participant_detail.type}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -140,7 +158,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="region"
                 label="Region"
-                defaultValue={DetailPendaftar?.region}
+                defaultValue={region?.label}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -148,7 +166,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="nama_sekolah"
                 label="Nama Sekolah"
-                defaultValue={DetailPendaftar?.nama_sekolah}
+                defaultValue={data?.instance_name}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -156,7 +174,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="alamat_sekolah"
                 label="Alamat Sekolah"
-                defaultValue={DetailPendaftar?.alamat_sekolah}
+                defaultValue={data?.instance_address}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -164,7 +182,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="provinsi"
                 label="Provinsi"
-                defaultValue={DetailPendaftar?.provinsi}
+                defaultValue={DataRegion?.province}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -172,7 +190,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="kota"
                 label="Kota/Kabupaten"
-                defaultValue={DetailPendaftar?.kota}
+                defaultValue={DataRegion?.regency}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -200,7 +218,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="fullname"
                 label="Nama Lengkap"
-                defaultValue={DetailPendaftar?.peserta.fullname}
+                defaultValue={data?.name}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -208,23 +226,23 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="identitas"
                 label="Nomor Identitas"
-                defaultValue={DetailPendaftar?.peserta.identitas}
+                defaultValue={data?.user_id}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
               <Input
                 labelTextClassname="text-black-300"
                 id="phone_number"
-                label="Nomor Telpon Peserta"
-                defaultValue={DetailPendaftar?.peserta.phone_number}
+                label="Nomor Telpon Peserta (masih wali*)"
+                defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
               <Input
                 labelTextClassname="text-black-300"
                 id="wali_phone_number"
-                label="Nomor Telpon Wali Peserta"
-                defaultValue={DetailPendaftar?.peserta.wali_phone_number}
+                label="Nomor Telpon Wali Peserta "
+                defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
@@ -232,9 +250,10 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               {store.proof_identitas ? (
                 <div className="col-span-2 max-md:col-span-1">
                   <ImagePreview
+                    type="omits"
                     id="proof_identitas"
                     name="Bukti Identitas"
-                    link={store.proof_identitas}
+                    link={data?.participant_detail.student_id_url ?? ''}
                     label="Bukti Kartu Identitas"
                     readOnly={isEdit}
                     deleteFile={setStore}
@@ -259,47 +278,26 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         </section>
       </section>
 
-      <ModalConfirm
-        open={terimaConfirm}
-        setOpen={setTerimaConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin terima peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="terima"
+        modalOpen={terimaConfirm}
+        setModalOpen={setTerimaConfirm}
+        data={data as GetParticipants}
       />
-      <ModalConfirm
-        open={tolakConfirm}
-        setOpen={setTolakConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin menolak peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="tolak"
+        modalOpen={tolakConfirm}
+        setModalOpen={setTolakConfirm}
+        data={data as GetParticipants}
       />
-      <ModalConfirm
-        open={revisiConfirm}
-        setOpen={setRevisiConfirm}
-        Description={
-          <Typography variant="p" weight="medium" className="text-center">
-            Apakah kamu yakin ingin merubah data peserta{' '}
-            <span className="text-additions-brown-100 font-bold">
-              {DetailPendaftar?.name}
-            </span>{' '}
-            dari Sub-Kompetisi{' '}
-            <span className="text-additions-brown-100 font-bold">OMITS</span>?
-          </Typography>
-        }
+      <ModalVerification
+        id={id}
+        type="revisi"
+        modalOpen={revisiConfirm}
+        setModalOpen={setRevisiConfirm}
+        data={data as GetParticipants}
       />
     </>
   );

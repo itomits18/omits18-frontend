@@ -3,29 +3,27 @@
 import FileUpload from '@/components/form/FileUpload';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import { RegistrationMISSION2 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-
-type FormValues = {
-  email_1: string;
-  namaLengkap_1: string;
-  nomorIdentitas_1: string;
-  nomorTelepon_1: string;
-  kartuIdentitas_1: any;
-  email_2: string;
-  namaLengkap_2: string;
-  nomorIdentitas_2: string;
-  nomorTelepon_2: string;
-  kartuIdentitas_2: any;
-};
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { missionFormDataType } from '../page';
 
 interface FormPage2Props {
-  onSubmit: (data: FormValues) => void;
   onBack: () => void;
+  onNext: () => void;
+  setFormData: React.Dispatch<React.SetStateAction<missionFormDataType>>;
 }
 
-export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
-  const methods = useForm<FormValues>();
+export default function FormPage2Individu({
+  onBack,
+  onNext,
+  setFormData,
+}: FormPage2Props) {
+  const methods = useForm<z.infer<typeof RegistrationMISSION2>>({
+    resolver: zodResolver(RegistrationMISSION2),
+  });
   const { handleSubmit } = methods;
 
   const [activeTab, setActiveTab] = useState<'peserta1' | 'peserta2'>(
@@ -44,8 +42,23 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
-  const onValidSubmit: SubmitHandler<FormValues> = (data) => {
-    onSubmit(data);
+  useEffect(() => {
+    const getData = localStorage.getItem('ms_sd2');
+
+    if (getData) {
+      methods.reset(JSON.parse(getData || '{}'));
+    }
+  }, [methods.reset]);
+
+  const onValidSubmit = (data: z.infer<typeof RegistrationMISSION2>) => {
+    onNext();
+    setFormData((pre) => {
+      return {
+        ...pre,
+        ...data,
+      };
+    });
+    localStorage.setItem('ms_sd2', JSON.stringify(data));
   };
 
   return (
@@ -83,55 +96,50 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
         >
           <div className="space-y-2">
             {isMobile && (
-              <div className="rounded bg-blue-300 py-2 text-center font-Lora text-lg font-semibold text-white">
+              <div className="font-Lora rounded bg-blue-300 py-2 text-center text-lg font-semibold text-white">
                 Data Peserta 1
               </div>
             )}
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <Input
-                id="email_1"
+                id="detail.0.email"
                 label="Email"
                 labelTextClassname="text-black-300"
                 type="email"
                 placeholder="Masukkan email"
-                validation={{ required: 'Email Peserta 1 wajib diisi' }}
+                required
               />
               <Input
-                id="namaLengkap_1"
+                id="detail.0.namaLengkap"
                 label="Nama Lengkap"
                 labelTextClassname="text-black-300"
                 placeholder="Masukkan nama lengkap"
-                validation={{ required: 'Nama Lengkap Peserta 1 wajib diisi' }}
+                required
               />
               <Input
-                id="nomorIdentitas_1"
+                id="detail.0.nomorIdentitas"
                 label="Nomor Identitas"
                 labelTextClassname="text-black-300"
                 placeholder="Masukkan nomor Identitas"
-                validation={{
-                  required: 'Nomor Identitas Peserta 1 wajib diisi',
-                }}
+                required
               />
               <Input
-                id="nomorTelepon_1"
+                id="detail.0.nomorTelepon"
                 label="Nomor Telepon Peserta"
                 labelTextClassname="text-black-300"
                 type="tel"
                 placeholder="Masukkan nomor telepon"
-                validation={{ required: 'Nomor Telepon Peserta 1 wajib diisi' }}
+                required
               />
             </div>
             <div className="md:col-span-2">
               <FileUpload
-                id="kartuIdentitas_1"
+                id="detail.0.kartuIdentitas"
                 label="Bukti Nomor Identitas"
                 isRequired={true}
                 supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
                 labelTextClassName="text-black-300"
-                validation={{
-                  required: 'Kartu Identitas Peserta 1 wajib diisi',
-                }}
               />
             </div>
           </div>
@@ -142,55 +150,51 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
         >
           <div className="space-y-2 pt-4 md:pt-0">
             {isMobile && (
-              <div className="rounded bg-blue-300 py-2 text-center font-Lora text-lg font-semibold text-white">
+              <div className="font-Lora rounded bg-blue-300 py-2 text-center text-lg font-semibold text-white">
                 Data Peserta 2
               </div>
             )}
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <Input
-                id="email_2"
+                id="detail.1.email"
                 label="Email"
                 type="email"
                 placeholder="Masukkan email"
                 labelTextClassname="text-black-300"
-                validation={{ required: 'Email Peserta 2 wajib diisi' }}
+                required
               />
               <Input
-                id="namaLengkap_2"
+                id="detail.1.namaLengkap"
                 label="Nama Lengkap"
                 placeholder="Masukkan nama lengkap"
                 labelTextClassname="text-black-300"
-                validation={{ required: 'Nama Lengkap Peserta 2 wajib diisi' }}
+                required
               />
               <Input
-                id="nomorIdentitas_2"
+                id="detail.1.nomorIdentitas"
                 label="Nomor Identitas"
                 placeholder="Masukkan nomor Identitas"
                 labelTextClassname="text-black-300"
-                validation={{
-                  required: 'Nomor Identitas Peserta 2 wajib diisi',
-                }}
+                required
               />
               <Input
-                id="nomorTelepon_2"
+                id="detail.1.nomorTelepon"
                 label="Nomor Telepon Peserta"
                 type="tel"
                 placeholder="Masukkan nomor telepon"
                 labelTextClassname="text-black-300"
-                validation={{ required: 'Nomor Telepon Peserta 2 wajib diisi' }}
+                required
               />
             </div>
             <div className="md:col-span-2">
               <FileUpload
-                id="kartuIdentitas_2"
+                id="detail.1.kartuIdentitas"
                 label="Bukti Nomor Identitas"
                 isRequired={true}
-                supportFiles={['png', 'jpg', 'jpeg', 'pdf']}
+                supportFiles={['png', 'jpg', 'jpeg']}
                 labelTextClassName="text-black-300"
-                validation={{
-                  required: 'Kartu Identitas Peserta 2 wajib diisi',
-                }}
+                helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
               />
             </div>
           </div>
@@ -200,13 +204,13 @@ export default function FormPage2({ onSubmit, onBack }: FormPage2Props) {
           <Button
             type="button"
             onClick={onBack}
-            className="font-lora w-full bg-black-100 py-3 text-xs text-white hover:bg-gray-400 md:text-lg"
+            className="font-lora bg-black-100 w-full py-3 text-xs text-white hover:bg-gray-400 md:text-lg"
           >
             Kembali
           </Button>
           <Button
             type="submit"
-            className="w-full bg-blue-400 py-3 font-Lora text-xs text-white hover:bg-blue-700 md:text-lg"
+            className="font-Lora w-full bg-blue-400 py-3 text-xs text-white hover:bg-blue-700 md:text-lg"
           >
             Selanjutnya
           </Button>

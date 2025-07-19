@@ -3,9 +3,9 @@
 import Typography from '@/components/Typography';
 import Option from '@/components/form/Option';
 import TableLayout from '@/components/form/TableLayout';
-import { Pendaftar, pendaftarData } from '@/contents/DataPendaftar';
 
 import api from '@/lib/api';
+import { Metadata, PaginateData } from '@/types/api';
 import {
   ColumnDef,
   SortingState,
@@ -18,17 +18,17 @@ import {
 import Link from 'next/link';
 import * as React from 'react';
 import StatisticSection from '../(container)/StatisticSection';
+import { GetParticipants } from '../hooks/useGetAllParticipants';
 
 type metadataType = {
-  take: number;
+  order_by: string;
+  sort_by: 'asc' | 'dsc';
+  limit: number;
   page: number;
-  total_data: number;
-  total_page: number;
-  sort: string;
-  sort_by: string;
-  filter: string;
-  filter_by: string;
+  type: 'OMITS' | 'MISSION';
 };
+
+type Participant = GetParticipants['participants'][number];
 
 export default function page() {
   const filterTypeList = [
@@ -56,44 +56,36 @@ export default function page() {
     pageSize: 10,
   });
 
-  const [_data, setData] = React.useState([]);
-  // const [metadata, setMetadata] = React.useState({
-  //   take: 10,
-  //   page: pagination.pageIndex,
-  //   total_data: 0,
-  //   total_page: 0,
-  //   sort: 'asc',
-  //   sort_by: 'created_at',
-  //   filter: '',
-  //   filter_by: 'name',
-  // });
+  const [data, setData] = React.useState<PaginateData<GetParticipants>>();
+  const [metadata, setMetadata] = React.useState<Metadata>({
+    order_by: 'created_at',
+    sort_by: 'asc',
+    limit: 10,
+    page: 1,
+    type: 'MISSION',
+  });
 
-  const columnDefs: ColumnDef<Pendaftar>[] = [
+  const columnDefs: ColumnDef<Participant>[] = [
     {
-      id: 'id',
-      accessorKey: 'no',
+      id: 'no',
       header: 'No',
-      size: 5,
-      cell: (info) => pagination.pageIndex * 10 + info.row.index + 1,
+      cell: (info) =>
+        pagination.pageIndex * pagination.pageSize + info.row.index + 1,
     },
     {
       accessorKey: 'name',
       header: 'Nama',
     },
     {
-      accessorKey: 'tanggal',
-      header: 'Tanggal',
-      cell: (info) => {
-        const date = new Date(info.getValue() as string);
-        return date.toLocaleDateString('id-ID');
-      },
+      accessorKey: 'participant_detail.type',
+      header: 'Tipe',
     },
     {
-      accessorKey: 'sekolah',
+      accessorKey: 'instance_name',
       header: 'Sekolah',
     },
     {
-      accessorKey: 'status_pendaftar',
+      accessorKey: 'participant_detail.status',
       header: 'Status Pendaftar',
       cell: (info) => {
         const status = info.getValue() as string;
@@ -123,7 +115,7 @@ export default function page() {
       },
     },
     {
-      accessorKey: 'detail',
+      id: 'id',
       header: 'Detail',
       cell: (info) => (
         <Link href={'/admin/mission/' + info.row.original.id}>
@@ -133,31 +125,30 @@ export default function page() {
     },
   ];
 
-  const _getAllData = async (meta: metadataType) => {
-    const { data } = await api.get('/oprecs', {
+  const getAllData = async (meta: metadataType) => {
+    const { data } = await api.get('/participants', {
       params: {
         ...meta,
       },
     });
 
     setData(data.data ?? []);
-    // setMetadata(data.meta[0]);
+    setMetadata(data.pagination);
   };
 
   React.useEffect(() => {
-    let filterBy = '';
-    if (filterType === 'Primary Division') filterBy = 'primary_division';
-    else if (filterType === 'Secondary Division')
-      filterBy = 'secondary_division';
-    else if (filterType === 'Status') filterBy = 'status';
-    else if (filterType === 'Division') filterBy = 'choice_division';
+    // let filterBy = '';
+    // if (filterType === 'Primary Division') filterBy = 'primary_division';
+    // else if (filterType === 'Secondary Division')
+    //   filterBy = 'secondary_division';
+    // else if (filterType === 'Status') filterBy = 'status';
+    // else if (filterType === 'Division') filterBy = 'choice_division';
 
     if (globalFilter) {
       setFilterType('Filter');
       setFilterValue('None');
     }
 
-    const filterChoice = '';
     if (
       ['Primary Division', 'Secondary Division', 'Division'].includes(
         filterType,
@@ -169,21 +160,21 @@ export default function page() {
       // filterChoice = getSubdivID as string;
     }
 
-    const _newMetadata = {
-      // ...metadata,
-      filter: ['None', 'All'].includes(filterValue)
-        ? globalFilter
-        : filterChoice
-          ? filterChoice
-          : filterValue,
-      filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
-      page: pagination.pageIndex + 1,
-      take: pagination.pageSize,
+    const newMetadata = {
+      ...metadata,
+      // filter: ['None', 'All'].includes(filterValue)
+      //   ? globalFilter
+      //   : filterChoice
+      //     ? filterChoice
+      //     : filterValue,
+      // filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
+      // page: pagination.pageIndex + 1,
+      // take: pagination.pageSize,
     };
 
-    // setMetadata(() => newMetadata);
+    setMetadata(() => newMetadata);
     const APICall = setTimeout(() => {
-      // getAllData(newMetadata);
+      getAllData(newMetadata);
     }, 300);
 
     return () => {
@@ -198,7 +189,7 @@ export default function page() {
   ]);
 
   const table = useReactTable({
-    data: pendaftarData,
+    data: data?.items?.participants || [],
     columns: columnDefs,
     // pageCount: metadata.total_page,
     pageCount: 1,
@@ -260,9 +251,10 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection />
+      <StatisticSection section="omits" />
+
       <TableLayout
-        data={pendaftarData}
+        data={data?.items.participants ?? []}
         table={table}
         headerCustom={<HeaderCustom />}
         setPagination={setPagination}

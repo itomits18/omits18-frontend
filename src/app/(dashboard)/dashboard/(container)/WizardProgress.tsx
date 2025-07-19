@@ -1,34 +1,48 @@
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
+import { Participant } from '@/types/participants';
 import { Check, CreditCard, IdCard, NotepadText } from 'lucide-react';
+import Link from 'next/link';
 
 export type eventType = 'omits' | 'mission';
 
 type ProgressType = {
-  progress: number;
   type: eventType;
+  data: Participant;
 };
 
-export default function WizardProgress({ progress, type }: ProgressType) {
-  const _ContentProgress = {
-    dataDiri: {
-      success: 'Berhasil Mengisi Data Diri',
-      failed: '',
-    },
-    pembayaran: {
+export default function WizardProgress({ type, data }: ProgressType) {
+  const STATUS = data.participant_detail.status;
+  const STATUS_INDEX = [
+    'DATA_DIRI',
+    'PAYMENT',
+    'PENDING',
+    'NEED_REVISION',
+    'VERIFIED',
+  ];
+  const progress = STATUS_INDEX.findIndex((val) => val === STATUS);
+
+  const ContentProgress = {
+    PAYMENT: {
       success: 'Pembayaran berhasil',
       failed: 'Pembayaran gagal',
-      alt: 'Retry pembayaran',
+      pending: 'Menunggu transaksi',
     },
-    verifikasi: {
+    PENDING: {
+      success: 'Verifikasi data berhasil',
+      failed: 'Verifikasi data gagal',
+      pending: 'Verifikasi dalam proses',
+      alt: 'Data sedang direvisi',
+    },
+    VERIFIED: {
       success: 'Verifikasi data berhasil',
       failed: 'Verifikasi data gagal',
       alt: 'Data sedang direvisi',
     },
-    finish: {
-      success: 'Berhasil mendaftar',
-      failed: 'Gagal mendaftar',
-    },
+    // VERIFIED: {
+    //   success: 'Berhasil mendaftar',
+    //   failed: 'Gagal mendaftar',
+    // },
   };
 
   const colorType = {
@@ -51,7 +65,7 @@ export default function WizardProgress({ progress, type }: ProgressType) {
         <div
           className={cn(
             'absolute -right-24 h-2 w-20 rounded-md',
-            progress >= 2 ? currentColor : 'bg-black-100',
+            progress >= 1 ? currentColor : 'bg-black-100',
           )}
         ></div>
 
@@ -75,7 +89,7 @@ export default function WizardProgress({ progress, type }: ProgressType) {
         <div
           className={cn(
             'flex w-fit space-x-2 rounded-full p-3',
-            progress >= 2 ? currentColor : 'bg-black-100',
+            progress >= 1 ? currentColor : 'bg-black-100',
           )}
         >
           <CreditCard size={32} className="text-neutral-main" />
@@ -83,11 +97,16 @@ export default function WizardProgress({ progress, type }: ProgressType) {
         <div
           className={cn(
             'absolute -right-24 h-2 w-20 rounded-md',
-            progress >= 3 ? currentColor : 'bg-black-100',
+            progress >= 2 ? currentColor : 'bg-black-100',
           )}
         ></div>
 
-        <div className="absolute -bottom-12 -left-1/2 w-fit text-center">
+        <div
+          className={cn(
+            'absolute -left-1/2 w-fit text-center',
+            STATUS === 'PAYMENT' ? '-bottom-21' : '-bottom-12',
+          )}
+        >
           <Typography variant="bs" weight="bold" className="whitespace-nowrap">
             Pembayaran
           </Typography>
@@ -97,8 +116,18 @@ export default function WizardProgress({ progress, type }: ProgressType) {
             weight="regular"
             className="whitespace-nowrap"
           >
-            Pembayaran berhasil
+            {STATUS === 'PAYMENT'
+              ? ContentProgress.PAYMENT.pending
+              : ContentProgress.PAYMENT.success}
           </Typography>
+
+          {STATUS === 'PAYMENT' && (
+            <Link href={''}>
+              <button className="mt-1 cursor-pointer rounded-lg bg-green-300 p-2 text-xs font-semibold text-neutral-50">
+                Link pembayaran
+              </button>
+            </Link>
+          )}
         </div>
       </div>
 
@@ -107,7 +136,7 @@ export default function WizardProgress({ progress, type }: ProgressType) {
         <div
           className={cn(
             'flex w-fit space-x-2 rounded-full p-3',
-            progress >= 3 ? currentColor : 'bg-black-100',
+            progress >= 2 ? currentColor : 'bg-black-100',
           )}
         >
           <NotepadText size={32} className="text-neutral-main" />
@@ -129,7 +158,13 @@ export default function WizardProgress({ progress, type }: ProgressType) {
             weight="regular"
             className="whitespace-nowrap"
           >
-            Verifikasi data berhasil
+            {STATUS === 'PENDING'
+              ? ContentProgress.PENDING.pending
+              : STATUS === 'NEED_REVISION'
+                ? ContentProgress.PENDING.alt
+                : progress >= 2
+                  ? ContentProgress.PENDING.success
+                  : 'Verifikasi data diri'}
           </Typography>
         </div>
       </div>
@@ -155,7 +190,9 @@ export default function WizardProgress({ progress, type }: ProgressType) {
             weight="regular"
             className="whitespace-nowrap"
           >
-            Berhasil Mengisi Data Diri
+            {STATUS === 'VERIFIED'
+              ? 'Berhasil mengisi data diri'
+              : 'Pendaftaran sedang proses'}
           </Typography>
         </div>
       </div>
