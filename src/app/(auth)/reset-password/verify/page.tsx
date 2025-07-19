@@ -9,12 +9,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect, useSearchParams } from 'next/navigation';
+
+import { Suspense } from 'react';
+
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import RegisterBg from '../../(container)/RegisterBg';
 import useResetPassword from '../hooks/useResetPassword';
 
-export default function ResetPassword() {
+function ResetPassword() {
+
   const token = useSearchParams().get('token');
 
   const methods = useForm({
@@ -107,3 +111,12 @@ export default function ResetPassword() {
     </div>
   );
 }
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPassword />
+    </Suspense>
+  );
+}
+

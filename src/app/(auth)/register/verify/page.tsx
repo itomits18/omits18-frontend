@@ -1,11 +1,12 @@
 'use client';
 
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+
+import { Suspense, useEffect } from 'react';
 import { toast } from 'sonner';
 import useVerifyEmail from '../hooks/useVerifyEmail';
 
-export default function Page() {
+function VerifyPage() {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get('token');
@@ -31,3 +32,12 @@ export default function Page() {
 
   return null;
 }
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyPage />
+    </Suspense>
+  );
+}
+
