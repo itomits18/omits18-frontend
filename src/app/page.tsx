@@ -6,6 +6,8 @@ import Kompetisi from './(container)/landing/Kompetisi';
 export default function page() {
   return (
     <Layout withFooter withNavbar>
+      <ModalInfo />
+
       <Hero />
       <Kompetisi />
 
