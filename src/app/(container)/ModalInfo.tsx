@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export default function ModalInfo() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -173,7 +173,7 @@ export default function ModalInfo() {
               className="mx-auto border-0 shadow-none outline-none focus:ring-0 focus:outline-none"
               asChild
             >
-              <Link href="https://its.id/m/FormRegistrasiOMITS18th">
+              <Link href="/login">
                 Daftarkan Dirimu
                 <ArrowRight size={32} />
               </Link>
