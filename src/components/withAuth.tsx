@@ -132,7 +132,9 @@ export default function withAuth<T>(
 
         router.replace(`${LOGIN_ROUTE}`);
         return;
-      } else if (!isAuthenticated && token) {
+      }
+
+      if (!isLoading && token) {
         const decodedToken = token ? jwtDecode<JWTType>(token) : null;
 
         const Redirect = () => {
