@@ -200,14 +200,6 @@ export default function MissionRegistrationPage() {
               : 'p-0 xl:max-w-5xl 2xl:max-w-6xl',
           )}
         >
-          {currentStep < 3 && (
-            <button
-              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
-              aria-label="Tutup"
-            >
-              &times;
-            </button>
-          )}
           <div className="flex flex-col items-center">
             {currentStep < 3 && (
               <Typography

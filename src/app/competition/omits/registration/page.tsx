@@ -306,14 +306,6 @@ export default function OmitsRegistrationPage() {
               : 'max-w-6xl p-0',
           )}
         >
-          {currentStep < 3 && (
-            <button
-              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
-              aria-label="Tutup"
-            >
-              &times;
-            </button>
-          )}
           <div className="flex flex-col items-center">
             {currentStep < 3 && (
               <Typography

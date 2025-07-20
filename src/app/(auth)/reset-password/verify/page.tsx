@@ -18,7 +18,6 @@ import RegisterBg from '../../(container)/RegisterBg';
 import useResetPassword from '../hooks/useResetPassword';
 
 function ResetPassword() {
-
   const token = useSearchParams().get('token');
 
   const methods = useForm({
@@ -119,4 +118,3 @@ export default function Page() {
     </Suspense>
   );
 }
-
