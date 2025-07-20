@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { RegistrationOMITS2 } from '@/validation/RegistrationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -37,12 +38,28 @@ const tabLabels: { key: PesertaTab; label: string }[] = [
   { key: 'peserta5', label: 'Peserta 5' },
 ];
 
+const createEmptyParticipant = () => ({
+  email: '',
+  namaLengkap: '',
+  nomorTelepon: '',
+  nomorNISN: '',
+  buktiNISN: '',
+});
+
 export default function FormPage2Team({
   onBack,
   onNext,
   setFormData,
 }: FormPage2TeamProps) {
-  const methods = useForm<z.infer<typeof RegistrationOMITS2>>();
+  const methods = useForm<z.infer<typeof RegistrationOMITS2>>({
+    mode: 'onChange',
+    resolver: zodResolver(RegistrationOMITS2) as any,
+    defaultValues: {
+      detail: Array(5)
+        .fill(null)
+        .map(() => createEmptyParticipant()),
+    },
+  });
   const { handleSubmit } = methods;
 
   const [activeTab, setActiveTab] = useState<PesertaTab>('peserta1');
@@ -59,83 +76,69 @@ export default function FormPage2Team({
 
   useEffect(() => {
     const getData = localStorage.getItem('om_sd2');
-
     if (getData) {
       methods.reset(JSON.parse(getData) || '{}');
     }
   }, [methods.reset]);
 
-  const onSubmit = (data: z.infer<typeof RegistrationOMITS2>) => {
+  const onValidSubmit = (data: z.infer<typeof RegistrationOMITS2>) => {
     onNext();
-    setFormData((pre) => {
-      return {
-        ...pre,
-        ...data,
-      };
-    });
+    setFormData((pre) => ({
+      ...pre,
+      ...data,
+    }));
     localStorage.setItem('om_sd2', JSON.stringify(data || '{}'));
   };
 
   const renderParticipantFields = (index: number) => {
-    const participantKey = `peserta${index}` as PesertaTab;
     return (
-      <div className={activeTab === participantKey ? 'block' : 'hidden'}>
-        <div className={`space-y-4 ${index > 1 ? 'pt-6 md:pt-0' : 'md:pt-0'}`}>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
-            <Input
-              labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.email`}
-              label="Email"
-              placeholder="Masukkan email"
-              type="email"
-              validation={{
-                required: `Nama Lengkap Peserta ${index} wajib diisi`,
-              }}
-              sizes="sm"
+      <div className="space-y-4 pt-6 md:pt-0">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2 md:items-center">
+          <Input
+            labelTextClassname="text-black-300"
+            id={`detail.${index - 1}.email`}
+            label="Email"
+            placeholder="Masukkan email"
+            type="email"
+            required
+            sizes="sm"
+          />
+          <Input
+            labelTextClassname="text-black-300"
+            id={`detail.${index - 1}.namaLengkap`}
+            label="Nama Lengkap"
+            placeholder="Masukkan nama lengkap"
+            required
+            sizes="sm"
+          />
+          <Input
+            labelTextClassname="text-black-300"
+            id={`detail.${index - 1}.nomorTelepon`}
+            label="Nomor Telepon Siswa"
+            type="tel"
+            placeholder="Masukkan nomor telepon"
+            required
+            sizes="sm"
+          />
+          <Input
+            labelTextClassname="text-black-300"
+            id={`detail.${index - 1}.nomorNISN`}
+            label="Nomor NISN"
+            placeholder="Masukkan NISN"
+            required
+            sizes="sm"
+          />
+          <div className="md:col-span-2">
+            <FileUpload
+              type="omits"
+              id={`detail.${index - 1}.buktiNISN`}
+              label="Bukti NISN"
+              isRequired={true}
+              supportFiles={['png', 'jpg', 'jpeg']}
+              helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
+              className="py-3"
+              labelTextClassName="text-black-300"
             />
-            <Input
-              labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.namaLengkap`}
-              label="Nama Lengkap"
-              placeholder="Masukkan nama lengkap"
-              validation={{
-                required: `Nama Lengkap Peserta ${index} wajib diisi`,
-              }}
-              sizes="sm"
-            />
-            <Input
-              labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.nomorTelepon`}
-              label="Nomor Telepon Siswa"
-              type="tel"
-              placeholder="Masukkan nomor telepon"
-              validation={{
-                required: `Nomor Telepon Peserta ${index} wajib diisi`,
-              }}
-              sizes="sm"
-            />
-            <Input
-              labelTextClassname="text-black-300"
-              id={`detail.${index - 1}.nomorNISN`}
-              label="Nomor NISN"
-              placeholder="Masukkan NISN"
-              validation={{
-                required: `Nomor NISN Peserta ${index} wajib diisi`,
-              }}
-              sizes="sm"
-            />
-            <div className="md:col-span-2">
-              <FileUpload
-                type="omits"
-                id={`detail.${index - 1}.buktiNISN`}
-                label="Bukti NISN"
-                isRequired={true}
-                supportFiles={['png', 'jpg', 'jpeg']}
-                helpertext="Ukuran file maksimal 3 MB dengan format JPG, JPEG, atau PNG."
-                className="py-3"
-                labelTextClassName="text-black-300"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -144,7 +147,7 @@ export default function FormPage2Team({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
         {isMobile && (
           <div className="mb-4">
             <Select
@@ -193,12 +196,14 @@ export default function FormPage2Team({
         )}
 
         <div>
-          {' '}
-          {renderParticipantFields(1)}
-          {renderParticipantFields(2)}
-          {renderParticipantFields(3)}
-          {renderParticipantFields(4)}
-          {renderParticipantFields(5)}
+          {tabLabels.map((tab, index) => (
+            <div
+              key={tab.key}
+              className={activeTab === tab.key ? 'block' : 'hidden'}
+            >
+              {renderParticipantFields(index + 1)}
+            </div>
+          ))}
         </div>
 
         <div className="flex justify-between gap-3 pt-6">
