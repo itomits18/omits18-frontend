@@ -113,7 +113,7 @@ export default function Navbar() {
               />
             </div>
           </CollapsibleTrigger>
-          <CollapsibleContent className="lg:border-black-100 space-y-4 rounded-xl px-4 pt-4 transition-all duration-200 lg:absolute lg:top-28 lg:space-y-3 lg:border lg:bg-[#ADB5BD]/20 lg:p-4 lg:px-6 xl:top-32">
+          <CollapsibleContent className="lg:border-black-100 flex flex-col gap-1 rounded-xl px-4 pt-4 transition-all duration-200 md:gap-3 lg:absolute lg:top-28 lg:border lg:bg-[#ADB5BD]/20 lg:p-4 lg:px-6 xl:top-28">
             <Link href="/coming-soon">
               <div>
                 <Typography
@@ -157,12 +157,12 @@ export default function Navbar() {
             className="text-black-200 w-full border bg-transparent"
             asChild
           >
-            <Link href="/coming-soon">
-              <span className="text-violet-30">Sign In</span>
+            <Link href="/register">
+              <span className="text-violet-30">Sign Up</span>
             </Link>
           </Button>
           <Button asChild size="lg" variant="blue" className="w-full">
-            <Link href={'/coming-soon'}>Login</Link>
+            <Link href={'/login'}>Login</Link>
           </Button>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default function Navbar() {
       />
 
       <div className="relative z-20 flex items-center justify-center space-x-4 max-lg:hidden xl:space-x-6">
-        <Link href="/coming-soon">
+        <Link href="/register">
           <Typography
             variant="t"
             weight="semibold"
@@ -184,7 +184,7 @@ export default function Navbar() {
         </Link>
 
         <Button asChild variant="blue" size="lg" className="px-12 py-3">
-          <Link href={'/coming-soon'}>
+          <Link href={'/login'}>
             <span className="text-xl">Login</span>
           </Link>
         </Button>

@@ -3,7 +3,7 @@
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { FileText } from 'lucide-react';
+import { ChevronLeft, FileText } from 'lucide-react';
 import { useState } from 'react';
 import Payment from './Payment';
 
@@ -39,6 +39,7 @@ const DisplayFileField = ({ label }: { label: string }) => {
 export default function FormPage3({
   formData,
   onSubmit,
+  onBack,
   setPayment,
   loadingPayment,
 }: FormPage3Props) {
@@ -48,7 +49,13 @@ export default function FormPage3({
 
   return (
     <div className="flex w-full flex-col items-start gap-8 lg:flex-row">
-      <div className="order-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+      <div className="relativeorder-2 w-full rounded-xl bg-white p-6 shadow-lg lg:order-1 lg:w-3/5">
+        <div
+          className="absolute top-0 left-0 m-6 w-fit cursor-pointer rounded-full bg-blue-400 p-2 transition-all duration-200 hover:bg-blue-300"
+          onClick={onBack}
+        >
+          <ChevronLeft size={20} className="text-neutral-main" />
+        </div>
         <Typography
           variant="h2"
           font="Cinzel"

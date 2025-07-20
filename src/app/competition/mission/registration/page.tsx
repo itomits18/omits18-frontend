@@ -12,7 +12,7 @@ import {
   RegistrationMISSION2,
 } from '@/validation/RegistrationSchema';
 import { Check, CreditCard, IdCard } from 'lucide-react';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -32,6 +32,7 @@ export type missionFormDataType = z.infer<typeof RegistrationMISSION1> &
   z.infer<typeof RegistrationMISSION2>;
 
 export default function MissionRegistrationPage() {
+  const router = useRouter();
   const { participant } = useParticipantStore();
 
   const isRegistered = participant.length > 0;
@@ -156,6 +157,7 @@ export default function MissionRegistrationPage() {
           localStorage.removeItem('ms_sd1');
           localStorage.removeItem('ms_sd2');
         }, 2000);
+        router.push('/dashboard/kompetisi');
       });
     });
   };
@@ -198,14 +200,6 @@ export default function MissionRegistrationPage() {
               : 'p-0 xl:max-w-5xl 2xl:max-w-6xl',
           )}
         >
-          {currentStep < 3 && (
-            <button
-              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
-              aria-label="Tutup"
-            >
-              &times;
-            </button>
-          )}
           <div className="flex flex-col items-center">
             {currentStep < 3 && (
               <Typography
