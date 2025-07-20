@@ -1,6 +1,4 @@
 'use client';
-
-import useAuthStore from '@/app/store/useAuthStore';
 import useParticipantStore from '@/app/store/useParticipantStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
@@ -8,16 +6,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ModalDetail from '../(container)/ModalDetail';
-import ModalVerification from '../(container)/ModalVerification';
 import { eventType } from '../(container)/WizardProgress';
 
 export default function page() {
   const [modalDetail, setModalDetail] = useState(false);
   const [modalType, setModalType] = useState('omits');
-  const [modalVerif, setModalVerif] = useState(false);
 
   const [dataID, setDataID] = useState('');
-  const { user } = useAuthStore();
+  // const { user } = useAuthStore();
   const { participant } = useParticipantStore();
 
   const isRegistered = participant.length > 0;
@@ -27,13 +23,11 @@ export default function page() {
     participant.some((x) => x.participant_detail.type === 'MISSION');
 
   useEffect(() => {
-    if (!user?.is_verified) setModalVerif(true);
     setDataID(localStorage.getItem('akun') || '');
   }, []);
 
   return (
     <>
-      <ModalVerification open={modalVerif} email={user?.email as string} />
       <ModalDetail
         id={dataID}
         open={modalDetail}
@@ -147,6 +141,7 @@ export default function page() {
                     OMITS
                   </Typography>
                   {isRegistered && !isRegisterMISSION ? (
+                    // Jika kedaftar omiits
                     <div className="space-x-2">
                       <Link href="/competition/omits/registration">
                         <Button
@@ -158,37 +153,35 @@ export default function page() {
                         </Button>
                       </Link>
                       <Button
-                        disabled
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                      >
-                        Daftar Sekarang
-                      </Button>
-                      {/* <Button
-                        variant="green"
-                        size="md"
-                        className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                        onClick={() => setModalDetail(true)}
+                        onClick={() => {
+                          setModalType('omits');
+                          setModalDetail(true);
+                        }}
                       >
                         Lihat Detail
-                      </Button> */}
+                      </Button>
                     </div>
                   ) : (
+                    // bukan daftar omits
                     <Link
                       href={
-                        isRegistered && !isRegisterMISSION
-                          ? ''
-                          : '/competition/omits/registration'
+                        isRegistered && isRegisterMISSION
+                          ? // regist mission
+                            ''
+                          : //jika ga daftar apa2 (blum daftar)
+                            '/competition/omits/registration'
                       }
                     >
                       <Button
                         variant="green"
                         size="md"
                         className="max-lg:rounded-md max-lg:px-4 max-lg:py-1 max-lg:text-[12px] max-lg:leading-[18px]"
-                        disabled={isRegisterMISSION}
+                        disabled={isRegistered && isRegisterMISSION}
                       >
-                        {isRegistered && !isRegisterMISSION
+                        {isRegistered && isRegisterMISSION
                           ? 'Terdaftar MISSION'
                           : 'Daftar Sekarang'}
                       </Button>
@@ -214,6 +207,7 @@ export default function page() {
                     MISSION
                   </Typography>
                   {isRegisterMISSION ? (
+                    // jika regist mission
                     <div className="flex space-x-2">
                       <Button
                         variant="blue"
@@ -228,11 +222,14 @@ export default function page() {
                       </Button>
                     </div>
                   ) : (
+                    // selain mission
                     <Link
                       href={
                         isRegistered && !isRegisterMISSION
-                          ? ''
-                          : '/competition/mission/registration'
+                          ? // jika regist omits
+                            ''
+                          : // jika regist selain omits (blum daftar)
+                            '/competition/mission/registration'
                       }
                     >
                       <Button

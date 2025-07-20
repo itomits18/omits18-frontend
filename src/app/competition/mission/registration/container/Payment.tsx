@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Landmark, QrCode } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface PaymentSummaryProps {
   onSubmit: () => void;
@@ -39,20 +39,24 @@ export default function PaymentSummary({
   setPayment,
   loadingPayment,
 }: PaymentSummaryProps) {
-  const [paymentMethod, setPaymentMethod] = useState<'qris' | 'va'>('qris');
+  const [paymentMethod, setPaymentMethod] = useState<'QRIS' | 'VA'>('QRIS');
   const mainItemPrice = 135000;
 
   let ppn = 0;
   const biayaAdmin = 400;
   let ppnLabel = 'PPN';
 
-  if (paymentMethod === 'qris') {
+  if (paymentMethod === 'QRIS') {
     ppn = mainItemPrice * 0.007;
     ppnLabel = 'PPN (0.7%)';
   } else {
     ppn = 4000;
     ppnLabel = 'PPN';
   }
+
+  useEffect(() => {
+    setPayment(paymentMethod.toUpperCase());
+  }, []);
 
   const subTotal = mainItemPrice + ppn + biayaAdmin;
 
@@ -88,12 +92,12 @@ export default function PaymentSummary({
       <div className="space-y-3">
         <div
           onClick={() => {
-            setPayment('qris');
-            setPaymentMethod('qris');
+            setPayment('QRIS');
+            setPaymentMethod('QRIS');
           }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
-            paymentMethod === 'qris'
+            paymentMethod === 'QRIS'
               ? 'border-blue-500 ring-2 ring-blue-200'
               : 'border-gray-200',
           )}
@@ -103,7 +107,7 @@ export default function PaymentSummary({
             <p className="font-semibold">QRIS Payments (Recommended)</p>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-blue-500">
-            {paymentMethod === 'qris' && (
+            {paymentMethod === 'QRIS' && (
               <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
             )}
           </div>
@@ -111,12 +115,12 @@ export default function PaymentSummary({
 
         <div
           onClick={() => {
-            setPayment('va');
-            setPaymentMethod('va');
+            setPayment('VA');
+            setPaymentMethod('VA');
           }}
           className={cn(
             'flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all',
-            paymentMethod === 'va'
+            paymentMethod === 'VA'
               ? 'border-blue-500 ring-2 ring-blue-200'
               : 'border-gray-200',
           )}
@@ -126,7 +130,7 @@ export default function PaymentSummary({
             <p className="font-semibold">Bank Virtual Account</p>
           </div>
           <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-blue-500">
-            {paymentMethod === 'va' && (
+            {paymentMethod === 'VA' && (
               <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
             )}
           </div>
@@ -164,7 +168,6 @@ export default function PaymentSummary({
         disabled={loadingPayment}
       >
         {loadingPayment ? 'Melakukan pembayaran...' : 'Register dan bayar'}
-        Bayar
       </Button>
     </div>
   );
