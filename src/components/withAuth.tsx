@@ -127,40 +127,41 @@ export default function withAuth<T>(
     React.useEffect(() => {
       const token = getToken();
       if (!token) {
-        logout();
+        isAuthenticated && logout();
         stopLoading();
-      }
 
-      const decodedToken = token ? jwtDecode<JWTType>(token) : null;
+        router.replace(`${LOGIN_ROUTE}`);
+        return;
+      } else if (!isAuthenticated && token) {
+        const decodedToken = token ? jwtDecode<JWTType>(token) : null;
 
-      const Redirect = () => {
-        if (isAuthenticated) {
-          if (routeRole === 'public') {
-            if (redirect) {
-              router.replace(redirect as string);
-            } else if (decodedToken?.role === 'admin') {
-              router.replace(ADMIN_ROUTE);
-            } else {
-              router.replace(USER_ROUTE);
+        const Redirect = () => {
+          if (isAuthenticated) {
+            if (routeRole === 'public') {
+              if (redirect) {
+                router.replace(redirect as string);
+              } else if (decodedToken?.role === 'admin') {
+                router.replace(ADMIN_ROUTE);
+              } else {
+                router.replace(USER_ROUTE);
+              }
             }
-          }
-          if (decodedToken?.role === 'user') {
-            if (routeRole === 'admin') {
-              router.replace(USER_ROUTE);
+            if (decodedToken?.role === 'user') {
+              if (routeRole === 'admin') {
+                router.replace(USER_ROUTE);
+              }
             }
-          }
-          if (decodedToken?.role === 'admin') {
-            if (routeRole === 'user') {
-              router.replace(ADMIN_ROUTE);
+            if (decodedToken?.role === 'admin') {
+              if (routeRole === 'user') {
+                router.replace(ADMIN_ROUTE);
+              }
             }
+          } else if (routeRole !== 'public') {
+            // router.replace(`${LOGIN_ROUTE}?redirect=${pathName}`);
+            router.replace(`${LOGIN_ROUTE}`);
           }
-        } else if (routeRole !== 'public') {
-          // router.replace(`${LOGIN_ROUTE}?redirect=${pathName}`);
-          router.replace(`${LOGIN_ROUTE}`);
-        }
-      };
+        };
 
-      if (!isLoading && decodedToken) {
         Redirect();
       }
     }, [isAuthenticated, isLoading, pathName, redirect, router, user]);
