@@ -30,6 +30,7 @@ export default function ModalInfo() {
             'bg-gradient-to-b from-[#D0E4EF] via-[#8FBFDA] via-30% to-[#D9BBC2]',
             'flex items-center justify-center border-none',
           )}
+          hideCloseButton
         >
           <VisuallyHidden asChild>
             <DialogTitle>Modal Title</DialogTitle>

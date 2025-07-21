@@ -12,7 +12,7 @@ import LabelText from './LabelText';
 type FilePreviewProps = {
   id: string;
   type: string;
-  label: string;
+  label?: string;
   name: string;
   link: string;
   readOnly?: boolean;
@@ -26,6 +26,7 @@ export default function ImagePreview({
   link,
   deleteFile,
   readOnly,
+  type,
 }: FilePreviewProps) {
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -52,9 +53,9 @@ export default function ImagePreview({
       <li
         className={cn(
           'flex h-fit w-full cursor-pointer items-center justify-between gap-2 rounded-lg px-3 py-3 transition-all duration-200',
-          readOnly
-            ? 'bg-black-100 hover:bg-gray-400'
-            : 'bg-green-200 hover:bg-green-300',
+          type === 'omits'
+            ? 'bg-green-200 hover:bg-green-300'
+            : 'bg-blue-400 hover:bg-blue-800',
         )}
         onClick={() => setIsOpen(true)}
       >

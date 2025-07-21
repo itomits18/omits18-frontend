@@ -52,7 +52,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
   const currentColor = colorType[type];
 
   return (
-    <div className="scrollbar-hide flex h-fit items-center justify-center space-x-[120px] max-md:justify-start max-md:overflow-x-auto max-md:overflow-y-hidden">
+    <div className="scrollbar-hide flex h-fit items-center justify-center space-x-[120px] max-md:h-[150px] max-md:justify-start max-md:overflow-x-auto max-md:overflow-y-hidden max-md:px-20 max-md:pb-24">
       <div className="relative flex w-fit flex-col items-center justify-center">
         <div
           className={cn(
@@ -69,7 +69,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           )}
         ></div>
 
-        <div className="absolute -bottom-12 -left-3/4 w-fit text-center">
+        <div className="absolute -bottom-12 -left-3/4 w-fit text-center max-md:-bottom-20">
           <Typography variant="bs" weight="bold" className="whitespace-nowrap">
             Pengisian Data Diri
           </Typography>
@@ -77,7 +77,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           <Typography
             variant="c"
             weight="regular"
-            className="whitespace-nowrap"
+            className="md:whitespace-nowrap"
           >
             Berhasil Mengisi Data Diri
           </Typography>
@@ -103,8 +103,10 @@ export default function WizardProgress({ type, data }: ProgressType) {
 
         <div
           className={cn(
-            'absolute -left-1/2 w-fit text-center',
-            STATUS === 'PAYMENT' ? '-bottom-21' : '-bottom-12',
+            'absolute -left-1/2 w-fit text-center max-md:-left-[30%]',
+            STATUS === 'PAYMENT'
+              ? '-bottom-21'
+              : '-bottom-12 max-md:-bottom-20',
           )}
         >
           <Typography variant="bs" weight="bold" className="whitespace-nowrap">
@@ -114,15 +116,13 @@ export default function WizardProgress({ type, data }: ProgressType) {
           <Typography
             variant="c"
             weight="regular"
-            className="whitespace-nowrap"
+            className="md:whitespace-nowrap"
           >
-            {STATUS === 'PAYMENT'
-              ? ContentProgress.PAYMENT.pending
-              : ContentProgress.PAYMENT.success}
+            {STATUS === 'PAYMENT' ? '' : ContentProgress.PAYMENT.success}
           </Typography>
 
           {STATUS === 'PAYMENT' && (
-            <Link href={''}>
+            <Link href={data.payment_url} target="_blank">
               <button className="mt-1 cursor-pointer rounded-lg bg-green-300 p-2 text-xs font-semibold text-neutral-50">
                 Link pembayaran
               </button>
@@ -148,7 +148,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           )}
         ></div>
 
-        <div className="absolute -bottom-12 -left-[70%] w-fit text-center">
+        <div className="absolute -bottom-12 -left-[70%] w-fit text-center max-md:-bottom-20 max-md:-left-[75%]">
           <Typography variant="bs" weight="bold" className="whitespace-nowrap">
             Verifikasi Data Diri
           </Typography>
@@ -156,7 +156,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           <Typography
             variant="c"
             weight="regular"
-            className="whitespace-nowrap"
+            className="md:whitespace-nowrap"
           >
             {STATUS === 'PENDING'
               ? ContentProgress.PENDING.pending
@@ -180,7 +180,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           <Check size={32} className="text-neutral-main" />
         </div>
 
-        <div className="absolute -bottom-12 -left-3/4 w-fit text-center">
+        <div className="absolute -bottom-12 -left-3/4 w-fit text-center max-md:-bottom-20">
           <Typography variant="bs" weight="bold" className="whitespace-nowrap">
             Pendaftaran Berhasil
           </Typography>
@@ -188,7 +188,7 @@ export default function WizardProgress({ type, data }: ProgressType) {
           <Typography
             variant="c"
             weight="regular"
-            className="whitespace-nowrap"
+            className="md:whitespace-nowrap"
           >
             {STATUS === 'VERIFIED'
               ? 'Berhasil mengisi data diri'
