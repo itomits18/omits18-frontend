@@ -10,8 +10,6 @@ export default function page() {
 
       <Hero />
       <Kompetisi />
-
-      <ModalInfo />
     </Layout>
   );
 }

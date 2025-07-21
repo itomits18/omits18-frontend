@@ -199,26 +199,30 @@ export default function OmitsRegistrationPage() {
         participants: participantsTeam,
       };
 
-      MutateBundle(findalDataTeam).then((res) => {
-        formData.detail?.map((user, i) => {
-          FinalDataPaymentTeam.details.push({
-            participant_id: res.created_participants[i].id,
-            participant_name: user.namaLengkap as string,
-            participant_student_id: user.buktiNISN,
+      MutateBundle(findalDataTeam)
+        .then((res) => {
+          formData.detail?.map((user, i) => {
+            FinalDataPaymentTeam.details.push({
+              participant_id: res.created_participants[i].id,
+              participant_name: user.namaLengkap as string,
+              participant_student_id: user.nomorNISN,
+            });
           });
+
+          toast.success('Berhasil mendaftar OMITS.');
+
+          MutatePayment(FinalDataPaymentTeam).then(() => {
+            setTimeout(() => {
+              toast.success('Berhasil memuat link pembayaran.');
+
+              localStorage.removeItem('om_sd1');
+              localStorage.removeItem('om_sd2');
+            }, 2000);
+          });
+        })
+        .catch(() => {
+          toast.error('Gagal mendaftar OMITS.');
         });
-
-        toast.success('Berhasil mendaftar OMITS.');
-
-        MutatePayment(FinalDataPaymentTeam).then(() => {
-          setTimeout(() => {
-            toast.success('Berhasil memuat link pembayaran.');
-
-            localStorage.removeItem('om_sd1');
-            localStorage.removeItem('om_sd2');
-          }, 2000);
-        });
-      });
     }
   };
 

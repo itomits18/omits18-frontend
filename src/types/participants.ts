@@ -29,4 +29,6 @@ export type Participant = {
   instance_address: string;
   participant_detail: ParticipantDetail;
   postal_detail: PostalDetail;
+  payment_url: string;
+  whatsapp_group_link: string;
 };
