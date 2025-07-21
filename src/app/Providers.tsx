@@ -1,5 +1,6 @@
 'use client';
 
+import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
 import {
   QueryClient,
   QueryClientProvider,
@@ -23,9 +24,15 @@ const queryClient = new QueryClient({
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Toaster position="top-center" richColors />
-      {children}
-    </QueryClientProvider>
+    <ProgressProvider
+      color="#8fbfda"
+      height="4px"
+      options={{ showSpinner: false }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Toaster position="top-center" richColors />
+        {children}
+      </QueryClientProvider>
+    </ProgressProvider>
   );
 }
