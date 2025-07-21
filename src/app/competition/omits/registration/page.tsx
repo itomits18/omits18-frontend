@@ -147,7 +147,7 @@ export default function OmitsRegistrationPage() {
         name: user.namaLengkap as string,
         user_id: null,
         email: user.email as string,
-        phone: (formData.detail && formData.detail[0].nomorTelepon) as string,
+        phone: user.nomorTelepon as string,
         participant_detail: {
           student_id: user.nomorNISN as string,
           student_id_url: user.buktiNISN,
