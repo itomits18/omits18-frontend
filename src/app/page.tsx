@@ -7,6 +7,7 @@ export default function page() {
   return (
     <Layout withFooter withNavbar>
       <ModalInfo />
+
       <Hero />
       <Kompetisi />
 
