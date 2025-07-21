@@ -41,35 +41,47 @@ export default function PesertaDetail({
         <ChevronDown className={cn('transition-all duration-200')} />
       </CollapsibleTrigger>
       <CollapsibleContent className="-mt-3 divide-y-2 rounded-md p-8 shadow-md">
-        <div className="grid grid-cols-1 gap-y-4 pb-6 md:grid-cols-2">
-          <div>
+        <div className="grid grid-cols-1 gap-x-3 gap-y-4 pb-6 md:grid-cols-2">
+          <div className="md:w-[90%]">
             <Typography variant="b" weight="bold" className="text-black-100">
               Nama Lengkap
             </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
+            <Typography
+              variant="t"
+              weight="bold"
+              className="text-black-300 break-words"
+            >
               {data.name}
             </Typography>
           </div>
 
-          <div>
+          <div className="md:w-[90%]">
             <Typography variant="b" weight="bold" className="text-black-100">
               Nomor Telepon
             </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
+            <Typography
+              variant="t"
+              weight="bold"
+              className="text-black-300 break-words"
+            >
               {data.phone}
             </Typography>
           </div>
 
-          <div>
+          <div className="md:w-[90%]">
             <Typography variant="b" weight="bold" className="text-black-100">
               Email
             </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
-              {data.phone}
+            <Typography
+              variant="t"
+              weight="bold"
+              className="text-black-300 break-words"
+            >
+              {data.email}
             </Typography>
           </div>
 
-          <div>
+          <div className="md:w-[90%]">
             <Typography variant="b" weight="bold" className="text-black-100">
               {type === 'mission' ? 'NIM/NRP' : 'NISN'}
             </Typography>

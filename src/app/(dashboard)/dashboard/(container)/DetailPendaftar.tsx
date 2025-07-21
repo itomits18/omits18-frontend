@@ -41,38 +41,52 @@ export default function DetailPendaftar({
             <Typography variant="b" weight="bold" className="text-black-100">
               Jenjang
             </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
+            <Typography
+              variant="t"
+              weight="bold"
+              className="text-black-300 break-words"
+            >
               {data.participant_detail.sub_type}
             </Typography>
           </div>
 
-          <div>
-            <Typography variant="b" weight="bold" className="text-black-100">
-              Region
-            </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
-              {
-                regionOptions.find(
-                  (x) =>
-                    x.value.toLowerCase() ===
-                    data.postal_detail.region.toLowerCase(),
-                )?.label
-              }
-            </Typography>
-          </div>
+          {type === 'omits' && (
+            <div>
+              <Typography variant="b" weight="bold" className="text-black-100">
+                Region
+              </Typography>
+              <Typography
+                variant="t"
+                weight="bold"
+                className="text-black-300 break-words"
+              >
+                {
+                  regionOptions.find(
+                    (x) =>
+                      x.value.toLowerCase() ===
+                      data.postal_detail.region.toLowerCase(),
+                  )?.label
+                }
+              </Typography>
+            </div>
+          )}
 
           <div>
             <Typography variant="b" weight="bold" className="text-black-100">
-              Nama Sekolah
+              {type === 'omits' ? 'Nama Sekolah' : 'Nama Institusi'}
             </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
+            <Typography
+              variant="t"
+              weight="bold"
+              className="text-black-300 break-words"
+            >
               {data.instance_name}
             </Typography>
           </div>
 
-          <div>
+          <div className={cn(type === 'mission' && 'col-span-2')}>
             <Typography variant="b" weight="bold" className="text-black-100">
-              Alamat Sekolah
+              {type === 'omits' ? 'Alamat Sekolah' : 'Alamat Institusi'}
             </Typography>
             <Typography
               variant="t"
@@ -83,23 +97,43 @@ export default function DetailPendaftar({
             </Typography>
           </div>
 
-          <div>
-            <Typography variant="b" weight="bold" className="text-black-100">
-              Provinsi
-            </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
-              {data.postal_detail.province}
-            </Typography>
-          </div>
+          {type !== 'mission' && (
+            <>
+              <div>
+                <Typography
+                  variant="b"
+                  weight="bold"
+                  className="text-black-100"
+                >
+                  Provinsi
+                </Typography>
+                <Typography
+                  variant="t"
+                  weight="bold"
+                  className="text-black-300"
+                >
+                  {data.postal_detail.province}
+                </Typography>
+              </div>
 
-          <div>
-            <Typography variant="b" weight="bold" className="text-black-100">
-              Kota/Kabupaten
-            </Typography>
-            <Typography variant="t" weight="bold" className="text-black-300">
-              {data.postal_detail.regency}
-            </Typography>
-          </div>
+              <div>
+                <Typography
+                  variant="b"
+                  weight="bold"
+                  className="text-black-100"
+                >
+                  Kota/Kabupaten
+                </Typography>
+                <Typography
+                  variant="t"
+                  weight="bold"
+                  className="text-black-300"
+                >
+                  {data.postal_detail.regency}
+                </Typography>
+              </div>
+            </>
+          )}
         </div>
       </CollapsibleContent>
     </Collapsible>
