@@ -12,7 +12,7 @@ import {
   RegistrationMISSION2,
 } from '@/validation/RegistrationSchema';
 import { Check, CreditCard, IdCard } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -32,7 +32,6 @@ export type missionFormDataType = z.infer<typeof RegistrationMISSION1> &
   z.infer<typeof RegistrationMISSION2>;
 
 export default function MissionRegistrationPage() {
-  const router = useRouter();
   const { participant } = useParticipantStore();
 
   const isRegistered = participant.length > 0;
@@ -157,7 +156,6 @@ export default function MissionRegistrationPage() {
           localStorage.removeItem('ms_sd1');
           localStorage.removeItem('ms_sd2');
         }, 2000);
-        router.push('/dashboard/kompetisi');
       });
     });
   };

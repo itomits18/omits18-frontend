@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Landmark, QrCode } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface PaymentSummaryProps {
   onSubmit: () => void;
@@ -73,6 +73,10 @@ export default function PaymentSummary({
       .format(amount)
       .replace('Rp', 'Rp ');
   };
+
+  useEffect(() => {
+    setPayment(paymentMethod.toUpperCase());
+  }, [paymentMethod, setPayment]);
 
   return (
     <div className="w-full rounded-2xl bg-white p-6 shadow-lg">
