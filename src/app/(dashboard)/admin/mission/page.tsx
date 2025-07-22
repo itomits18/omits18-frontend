@@ -62,7 +62,7 @@ export default function page() {
     sort_by: 'asc',
     limit: 10,
     page: 1,
-    type: 'MISSION',
+    type: 'OMITS',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -132,7 +132,15 @@ export default function page() {
       },
     });
 
-    setData(data.data ?? []);
+    if (!data.data || data.data.items.participants.length === 0) {
+      setData(undefined);
+      if (meta.page > 1) {
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+      }
+      return;
+    }
+
+    setData(data.data);
     setMetadata(data.pagination);
   };
 
@@ -149,17 +157,25 @@ export default function page() {
       setFilterValue('None');
     }
 
+    // const filterChoice = '';
     if (
       ['Primary Division', 'Secondary Division', 'Division'].includes(
         filterType,
       ) &&
-      !['Nonee', 'All'].includes(filterValue)
+      !['None', 'All'].includes(filterValue)
     ) {
       // const getSubdivID = AllSubdiv?.filter((x) => x.name === filterValue)[0]
       //   ?.id;
       // filterChoice = getSubdivID as string;
     }
 
+    const isFilterChange =
+      globalFilter || filterType !== 'Filter' || filterValue !== 'None';
+
+    if (isFilterChange) {
+      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+    }
+    const targetPage = isFilterChange ? 1 : pagination.pageIndex + 1;
     const newMetadata = {
       ...metadata,
       // filter: ['None', 'All'].includes(filterValue)
@@ -168,11 +184,11 @@ export default function page() {
       //     ? filterChoice
       //     : filterValue,
       // filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
-      // page: pagination.pageIndex + 1,
-      // take: pagination.pageSize,
+      page: targetPage,
+      limit: pagination.pageSize,
     };
 
-    setMetadata(() => newMetadata);
+    setMetadata(newMetadata);
     const APICall = setTimeout(() => {
       getAllData(newMetadata);
     }, 300);
@@ -192,7 +208,7 @@ export default function page() {
     data: data?.items?.participants || [],
     columns: columnDefs,
     // pageCount: metadata.total_page,
-    pageCount: 1,
+    pageCount: data?.pagination?.total_pages || 1,
     state: {
       globalFilter,
       sorting,
