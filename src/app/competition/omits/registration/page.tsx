@@ -156,37 +156,33 @@ export default function OmitsRegistrationPage() {
     });
 
     if (formData.bundle === 'Individu') {
-      MutateIndividu(finalDataIndividu)
-        .then((res) => {
-          const FinalDataPaymentIndividu: PaymentRegistration = {
-            payment_method: payment,
-            competition_type: 'OMITS',
-            competition_sub_type: formData.jenjangKompetisi,
-            details: [
-              {
-                participant_id: res.id,
-                participant_name: (formData.detail &&
-                  formData.detail[0].namaLengkap) as string,
-                participant_student_id: (formData.detail &&
-                  formData.detail[0].nomorNISN) as string,
-              },
-            ],
-          };
+      MutateIndividu(finalDataIndividu).then((res) => {
+        const FinalDataPaymentIndividu: PaymentRegistration = {
+          payment_method: payment,
+          competition_type: 'OMITS',
+          competition_sub_type: formData.jenjangKompetisi,
+          details: [
+            {
+              participant_id: res.id,
+              participant_name: (formData.detail &&
+                formData.detail[0].namaLengkap) as string,
+              participant_student_id: (formData.detail &&
+                formData.detail[0].nomorNISN) as string,
+            },
+          ],
+        };
 
-          toast.success('Berhasil mendaftar OMITS.');
+        toast.success('Berhasil mendaftar OMITS.');
 
-          MutatePayment(FinalDataPaymentIndividu).then(() => {
-            setTimeout(() => {
-              toast.success('Berhasil memuat link pembayaran.');
+        MutatePayment(FinalDataPaymentIndividu).then(() => {
+          setTimeout(() => {
+            toast.success('Berhasil memuat link pembayaran.');
 
-              localStorage.removeItem('om_sd1');
-              localStorage.removeItem('om_sd2');
-            }, 2000);
-          });
-        })
-        .catch(() => {
-          toast.error('Gagal mendaftar OMITS.');
+            localStorage.removeItem('om_sd1');
+            localStorage.removeItem('om_sd2');
+          }, 2000);
         });
+      });
     } else {
       // Bundle
       const findalDataTeam = {
