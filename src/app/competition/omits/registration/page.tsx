@@ -199,26 +199,30 @@ export default function OmitsRegistrationPage() {
         participants: participantsTeam,
       };
 
-      MutateBundle(findalDataTeam).then((res) => {
-        formData.detail?.map((user, i) => {
-          FinalDataPaymentTeam.details.push({
-            participant_id: res.created_participants[i].id,
-            participant_name: user.namaLengkap as string,
-            participant_student_id: user.buktiNISN,
+      MutateBundle(findalDataTeam)
+        .then((res) => {
+          formData.detail?.map((user, i) => {
+            FinalDataPaymentTeam.details.push({
+              participant_id: res.created_participants[i].id,
+              participant_name: user.namaLengkap as string,
+              participant_student_id: user.nomorNISN,
+            });
           });
+
+          toast.success('Berhasil mendaftar OMITS.');
+
+          MutatePayment(FinalDataPaymentTeam).then(() => {
+            setTimeout(() => {
+              toast.success('Berhasil memuat link pembayaran.');
+
+              localStorage.removeItem('om_sd1');
+              localStorage.removeItem('om_sd2');
+            }, 2000);
+          });
+        })
+        .catch(() => {
+          toast.error('Gagal mendaftar OMITS.');
         });
-
-        toast.success('Berhasil mendaftar OMITS.');
-
-        MutatePayment(FinalDataPaymentTeam).then(() => {
-          setTimeout(() => {
-            toast.success('Berhasil memuat link pembayaran.');
-
-            localStorage.removeItem('om_sd1');
-            localStorage.removeItem('om_sd2');
-          }, 2000);
-        });
-      });
     }
   };
 
@@ -306,14 +310,6 @@ export default function OmitsRegistrationPage() {
               : 'max-w-6xl p-0',
           )}
         >
-          {currentStep < 3 && (
-            <button
-              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
-              aria-label="Tutup"
-            >
-              &times;
-            </button>
-          )}
           <div className="flex flex-col items-center">
             {currentStep < 3 && (
               <Typography

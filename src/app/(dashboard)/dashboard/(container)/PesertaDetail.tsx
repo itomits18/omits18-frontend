@@ -71,7 +71,7 @@ export default function PesertaDetail({
 
           <div>
             <Typography variant="b" weight="bold" className="text-black-100">
-              NISN
+              {type === 'mission' ? 'NIM/NRP' : 'NISN'}
             </Typography>
             <Typography
               variant="t"

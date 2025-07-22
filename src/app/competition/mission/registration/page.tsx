@@ -125,41 +125,45 @@ export default function MissionRegistrationPage() {
       participants: participantsTeam,
     };
 
-    mutateAsync(finalDataTeam).then((res) => {
-      const FinalDataPayment: PaymentRegistration = {
-        payment_method: payment,
-        competition_type: 'MISSION',
-        competition_sub_type: 'MISSION',
-        details: [
-          {
-            participant_id: res.created_participants[0].id,
-            participant_name: (formData.detail &&
-              formData.detail[0].namaLengkap) as string,
-            participant_student_id: (formData.detail &&
-              formData.detail[0].nomorIdentitas) as string,
-          },
-          {
-            participant_id: res.created_participants[1].id,
-            participant_name: (formData.detail &&
-              formData.detail[1].namaLengkap) as string,
-            participant_student_id: (formData.detail &&
-              formData.detail[1].nomorIdentitas) as string,
-          },
-        ],
-      };
+    mutateAsync(finalDataTeam)
+      .then((res) => {
+        const FinalDataPayment: PaymentRegistration = {
+          payment_method: payment,
+          competition_type: 'MISSION',
+          competition_sub_type: 'MISSION',
+          details: [
+            {
+              participant_id: res.created_participants[0].id,
+              participant_name: (formData.detail &&
+                formData.detail[0].namaLengkap) as string,
+              participant_student_id: (formData.detail &&
+                formData.detail[0].nomorIdentitas) as string,
+            },
+            {
+              participant_id: res.created_participants[1].id,
+              participant_name: (formData.detail &&
+                formData.detail[1].namaLengkap) as string,
+              participant_student_id: (formData.detail &&
+                formData.detail[1].nomorIdentitas) as string,
+            },
+          ],
+        };
 
-      toast.success('Berhasil mendaftar MISSION.');
+        toast.success('Berhasil mendaftar MISSION.');
 
-      MutatePayment(FinalDataPayment).then(() => {
-        setTimeout(() => {
-          toast.success('Berhasil memuat link pembayaran.');
+        MutatePayment(FinalDataPayment).then(() => {
+          setTimeout(() => {
+            toast.success('Berhasil memuat link pembayaran.');
 
-          localStorage.removeItem('ms_sd1');
-          localStorage.removeItem('ms_sd2');
-        }, 2000);
-        router.push('/dashboard/kompetisi');
+            localStorage.removeItem('ms_sd1');
+            localStorage.removeItem('ms_sd2');
+          }, 2000);
+          router.push('/dashboard/kompetisi');
+        });
+      })
+      .catch(() => {
+        toast.error('Gagal mendaftar MISSION.');
       });
-    });
   };
 
   const renderCurrentStepForm = () => {
@@ -200,14 +204,6 @@ export default function MissionRegistrationPage() {
               : 'p-0 xl:max-w-5xl 2xl:max-w-6xl',
           )}
         >
-          {currentStep < 3 && (
-            <button
-              className="absolute top-5 right-5 font-sans text-2xl text-gray-500 hover:text-gray-800"
-              aria-label="Tutup"
-            >
-              &times;
-            </button>
-          )}
           <div className="flex flex-col items-center">
             {currentStep < 3 && (
               <Typography
