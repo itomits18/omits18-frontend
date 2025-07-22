@@ -62,7 +62,7 @@ export default function page() {
     sort_by: 'asc',
     limit: 10,
     page: 1,
-    type: 'OMITS',
+    type: 'MISSION',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -267,7 +267,7 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection section="omits" />
+      <StatisticSection section="mission" />
 
       <TableLayout
         data={data?.items.participants ?? []}
