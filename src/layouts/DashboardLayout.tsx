@@ -10,6 +10,7 @@ import {
   ChartColumnIncreasing,
   ChevronLeft,
   CircleUserRound,
+  LinkIcon,
   LogOut,
   LucideProps,
   NotepadText,
@@ -99,6 +100,11 @@ const ADMIN = {
       title: 'Peserta Penyisihan',
       link: '/admin/registrasi-penyisihan',
       icon: <UsersRound size={24} className="text-additions-brown-200" />,
+    },
+    {
+      title: 'Shorten Link',
+      link: '/admin/shorten-link',
+      icon: <LinkIcon size={24} className="text-additions-brown-200" />,
     },
   ],
 };

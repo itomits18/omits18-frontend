@@ -4,6 +4,7 @@ export type Metadata = {
   limit: number;
   page: number;
   type: 'OMITS' | 'MISSION';
+  total_pages?: number;
 };
 
 export type PaginateData<Data> = {

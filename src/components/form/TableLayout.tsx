@@ -18,6 +18,7 @@ type TableProps<T extends object> = {
   headerCustom?: React.ReactNode;
   omitSort?: boolean;
   withFilter?: boolean;
+  withHeader?: boolean;
   setPagination: React.Dispatch<
     React.SetStateAction<{
       pageIndex: number;
@@ -30,35 +31,38 @@ export default function TableLayout<T extends object>({
   table,
   headerCustom,
   data,
+  withHeader = true,
   setPagination,
 }: TableProps<T>) {
   return (
     <div className="w-full">
       <div className="my-5 min-h-fit w-full space-y-5 rounded-xl">
-        <div className="flex flex-col items-center justify-between gap-4 xl:flex-row">
-          <Search
-            table={table}
-            setPagination={setPagination}
-            className="w-full xl:w-auto"
-          />
+        {withHeader && (
+          <div className="flex flex-col items-center justify-between gap-4 xl:flex-row">
+            <Search
+              table={table}
+              setPagination={setPagination}
+              className="w-full rounded-lg border bg-white xl:w-auto"
+            />
 
-          <div className="flex min-w-full items-center justify-between space-x-3 max-md:flex-col max-md:space-y-3 max-md:space-x-0 md:w-auto md:space-y-0 xl:min-w-fit xl:justify-normal">
-            {headerCustom}
+            <div className="flex min-w-full items-center justify-between space-x-3 max-md:flex-col max-md:space-y-3 max-md:space-x-0 md:w-auto md:space-y-0 xl:min-w-fit xl:justify-normal">
+              {headerCustom}
 
-            <Option
-              value={table.getState().pagination.pageSize}
-              onChange={(e) => {
-                table.setPageSize(Number(e.target.value));
-              }}
-            >
-              {[10, 25, 50, 100, 500, 1000, 2000, 5000].map((page) => (
-                <option key={page} value={page} className="cursor">
-                  {page} Entries
-                </option>
-              ))}
-            </Option>
+              <Option
+                value={table.getState().pagination.pageSize}
+                onChange={(e) => {
+                  table.setPageSize(Number(e.target.value));
+                }}
+              >
+                {[10, 25, 50, 100, 500, 1000, 2000, 5000].map((page) => (
+                  <option key={page} value={page} className="cursor">
+                    {page} Entries
+                  </option>
+                ))}
+              </Option>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="w-full overflow-x-auto">
           <Table className="shadow-custom-white w-full overflow-hidden rounded-xl border-2 border-green-100">
@@ -112,6 +116,7 @@ export default function TableLayout<T extends object>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
+                        title={cell.getValue() as string}
                         className="truncate overflow-hidden border"
                       >
                         <Typography
