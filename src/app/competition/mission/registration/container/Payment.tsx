@@ -48,7 +48,7 @@ export default function PaymentSummary({
   loadingPayment,
 }: PaymentSummaryProps) {
   const [paymentMethod, setPaymentMethod] = useState<'QRIS' | 'VA'>('QRIS');
-  const mainItemPrice = 135000;
+  const mainItemPrice = 150000;
 
   let biayaLayanan = 0;
   let biayaLayananLabel = 'Biaya Admin';
