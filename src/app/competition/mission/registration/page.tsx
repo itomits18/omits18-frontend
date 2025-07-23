@@ -106,7 +106,7 @@ export default function MissionRegistrationPage() {
         name: user.namaLengkap as string,
         user_id: null,
         email: user.email as string,
-        phone: (formData.detail && formData.detail[0].nomorTelepon) as string,
+        phone: user.nomorTelepon,
         participant_detail: {
           student_id: user.nomorIdentitas as string,
           student_id_url: user.kartuIdentitas,
