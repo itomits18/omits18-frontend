@@ -85,8 +85,8 @@ export default function page() {
         const statusStyles = {
           PAYMENT: 'bg-blue-400 text-white',
           VERIFIED: 'bg-green-200 text-white',
-          REVISI: 'bg-yellow-300 text-white',
-          REJECT: 'bg-additions-brown-200 text-white',
+          NEED_REVISION: 'bg-yellow-300 text-white',
+          REJECTED: 'bg-additions-brown-200 text-white',
           default: 'bg-black-100 text-black',
         };
 
@@ -101,7 +101,7 @@ export default function page() {
             }
           >
             <Typography variant="p" weight="medium" className="capitalize">
-              {status}
+              {status === 'NEED_REVISION' ? 'REVISI' : status}
             </Typography>
           </div>
         );
