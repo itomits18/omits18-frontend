@@ -31,12 +31,13 @@ export type GetParticipants = {
 
 export default function useGetDetailParticipants(id: string) {
   const { data, isLoading } = useQuery<GetParticipants>({
-    queryKey: ['get-detail'],
+    queryKey: ['get-detail-', id],
     queryFn: async () => {
       const { data } = await api.get('/participants/' + id);
 
       return data.data;
     },
+    refetchOnWindowFocus: true,
   });
 
   return { data, isLoading };

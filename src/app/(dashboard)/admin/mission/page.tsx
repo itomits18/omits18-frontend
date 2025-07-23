@@ -31,17 +31,8 @@ type metadataType = {
 type Participant = GetParticipants['participants'][number];
 
 export default function page() {
-  const filterTypeList = [
-    'Filter',
-    'Status',
-    'Division',
-    'Primary Division',
-    'Secondary Division',
-  ];
-  const filterValueLists = [
-    'None',
-    ['All', 'Interviewed', 'Pending', 'Accepted', 'Rejected'],
-  ];
+  const filterTypeList = ['Filter', 'Status'];
+  const filterValueLists = ['None', ['All']];
 
   // const { data: AllSubdiv } = useGetSubdivision();
   // const newAllSubdiv = AllSubdiv?.map((x) => x.name) ?? [];
@@ -63,6 +54,7 @@ export default function page() {
     limit: 10,
     page: 1,
     type: 'MISSION',
+    sub_type: '',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -91,6 +83,7 @@ export default function page() {
         const status = info.getValue() as string;
 
         const statusStyles = {
+          PAYMENT: 'bg-blue-400 text-white',
           VERIFIED: 'bg-green-200 text-white',
           REVISI: 'bg-yellow-300 text-white',
           REJECT: 'bg-additions-brown-200 text-white',
@@ -178,14 +171,12 @@ export default function page() {
     const targetPage = isFilterChange ? 1 : pagination.pageIndex + 1;
     const newMetadata = {
       ...metadata,
-      // filter: ['None', 'All'].includes(filterValue)
-      //   ? globalFilter
-      //   : filterChoice
-      //     ? filterChoice
-      //     : filterValue,
-      // filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
+      sort_by: 'asc' as const,
+      order_by: 'created_at',
       page: targetPage,
       limit: pagination.pageSize,
+      type: 'MISSION' as const,
+      sub_type: '',
     };
 
     setMetadata(newMetadata);
@@ -267,7 +258,7 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection section="mission" />
+      <StatisticSection section="omits" />
 
       <TableLayout
         data={data?.items.participants ?? []}

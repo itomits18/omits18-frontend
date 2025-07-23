@@ -87,7 +87,7 @@ export default function PaginationControl<T extends RowData>({
             key={index}
             className={cn(
               'bg-neutral-10 hover:bg-info-main active:bg-info-main flex min-w-[38px] justify-center rounded-md border-none !p-2 !font-semibold text-gray-600 shadow-none',
-              currentPage === pageIndex && 'text-white-50',
+              currentPage === pageIndex && 'bg-green-200 text-neutral-50',
             )}
             onClick={() => {
               handlePageControlClick(pageIndex);

@@ -233,22 +233,22 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               <Input
                 labelTextClassname="text-black-300"
                 id="phone_number"
-                label="Nomor Telpon Peserta (masih wali*)"
+                label="Nomor Telpon Peserta"
                 defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
-              <Input
+              {/* <Input
                 labelTextClassname="text-black-300"
                 id="wali_phone_number"
                 label="Nomor Telpon Wali Peserta "
                 defaultValue={data?.phone}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
-              />
+              /> */}
 
               {store.proof_identitas ? (
-                <div className="col-span-2 max-md:col-span-1">
+                <div className="col-span-1 max-md:col-span-1">
                   <ImagePreview
                     type="omits"
                     id="proof_identitas"
@@ -260,7 +260,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               ) : (
-                <div className="col-span-2 max-md:col-span-1">
+                <div className="col-span-1 max-md:col-span-1">
                   <FileUpload
                     id="document"
                     label="Bukti Identitas"

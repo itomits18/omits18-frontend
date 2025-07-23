@@ -4,6 +4,7 @@ export type Metadata = {
   limit: number;
   page: number;
   type: 'OMITS' | 'MISSION';
+  sub_type?: string;
   total_pages?: number;
 };
 
