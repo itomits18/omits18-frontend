@@ -239,7 +239,7 @@ export default function page() {
                         disabled={isRegistered && !isRegisterMISSION}
                       >
                         {isRegistered && !isRegisterMISSION
-                          ? 'Terdaftar OMITS'
+                          ? 'Terdaftar Mission'
                           : 'Daftar Sekarang'}
                       </Button>
                     </Link>
