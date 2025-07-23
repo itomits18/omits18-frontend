@@ -229,7 +229,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 labelTextClassname="text-black-300"
                 id="identitas"
                 label="Nomor Identitas"
-                defaultValue={data?.user_id}
+                defaultValue={data?.participant_detail.student_id}
                 placeholder="Text placeholder"
                 disabled={!isEdit}
               />
