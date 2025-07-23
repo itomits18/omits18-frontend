@@ -55,6 +55,7 @@ export default function page() {
     page: 1,
     type: 'MISSION',
     sub_type: '',
+    status: '',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -177,6 +178,7 @@ export default function page() {
       limit: pagination.pageSize,
       type: 'MISSION' as const,
       sub_type: '',
+      status: '' as const,
     };
 
     setMetadata(newMetadata);

@@ -6,6 +6,7 @@ export type Metadata = {
   type: 'OMITS' | 'MISSION';
   sub_type?: string;
   total_pages?: number;
+  status?: '';
 };
 
 export type PaginateData<Data> = {

@@ -54,6 +54,7 @@ export default function page() {
     limit: 10,
     page: 1,
     type: 'OMITS',
+    status: '',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -180,6 +181,7 @@ export default function page() {
       order_by: 'created_at',
       page: targetPage,
       limit: pagination.pageSize,
+      status: '' as const,
     };
 
     setMetadata(newMetadata);
