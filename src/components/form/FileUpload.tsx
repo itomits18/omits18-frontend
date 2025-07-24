@@ -34,6 +34,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   labelTextClassName,
   supportFiles = ['png', 'jpeg', 'jpg'],
   isRequired = false,
+  ...rest
 }) => {
   const {
     setValue,
@@ -58,7 +59,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       return;
     }
 
-    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const fileExtension = file && file.name.split('.').pop()?.toLowerCase();
     const isValidExtension = supportFiles.includes(fileExtension || '');
 
     if (!isValidExtension) {
@@ -139,7 +140,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
             validate: (file) => {
               if (!file && isRequired) return 'File is required';
               if (file) {
-                const fileExtension = file.name.split('.').pop()?.toLowerCase();
+                const fileExtension =
+                  file.name && file.name.split('.').pop()?.toLowerCase();
                 const maxFileSize = 3 * 1024 * 1024;
                 if (!supportFiles.includes(fileExtension || '')) {
                   return `Invalid file format. Allowed formats: ${supportFiles.join(
@@ -162,6 +164,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           aria-describedby={id}
           required={isRequired}
+          {...rest}
         />
 
         <span

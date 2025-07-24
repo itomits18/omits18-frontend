@@ -6,13 +6,25 @@ import FileUpload from '@/components/form/FileUpload';
 import ImagePreview from '@/components/form/ImagePreview';
 import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { regionOptions } from '@/contents/ListRegions';
+import { cn } from '@/lib/utils';
+import { EditDataSchema } from '@/validation/EditDataSchema';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { use, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { use, useEffect, useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import ModalVerification from '../(container)/ModalVerification';
 import useGetDetailParticipants, {
+  detailDefaultValue,
   GetParticipants,
 } from '../../hooks/useGetDetailParticipants';
 
@@ -27,15 +39,17 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
     proof_identitas: 'https://dummyimage.com/600x400/000/fff',
   });
   const [isEdit, setIsEdit] = useState(false);
+  const [updateData, setUpdateData] =
+    useState<GetParticipants>(detailDefaultValue);
 
-  const { data } = useGetDetailParticipants(id);
+  const { data, isLoading } = useGetDetailParticipants(id);
   const { data: DataRegion } = useGetRegion(data?.postal.toString() || '1');
 
-  const region = regionOptions.find(
-    (x) => x.value.toUpperCase() === DataRegion?.region,
-  );
+  // const region = regionOptions.find(
+  //   (x) => x.value.toUpperCase() === DataRegion?.region,
+  // );
 
-  const methods = useForm({
+  const methods = useForm<z.infer<typeof EditDataSchema>>({
     mode: 'onTouched',
   });
 
@@ -43,6 +57,58 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
     let _testsubmit = '';
     _testsubmit += 'hello world';
   };
+
+  const onChangeData = () => {
+    const GetData: z.infer<typeof EditDataSchema> = methods.getValues();
+    const [type, sub_type] = GetData.jenjang.includes('-')
+      ? GetData.jenjang.split(' - ')
+      : '';
+
+    const newData: GetParticipants = {
+      ...updateData,
+      name: GetData.fullname || updateData.name,
+      instance_name: GetData.nama_sekolah || updateData.instance_name,
+      instance_address: GetData.alamat_sekolah || updateData.instance_address,
+      phone: GetData.phone_number || updateData.phone,
+      participant_detail: {
+        ...updateData.participant_detail,
+        student_id:
+          GetData.identitas || updateData.participant_detail.student_id,
+        guardian_phone:
+          GetData.wali_phone_number ||
+          updateData.participant_detail.guardian_phone ||
+          'None',
+        student_id_url: !GetData.proof_identitas.startsWith('https')
+          ? GetData.proof_identitas
+          : GetData.proof_identitas.slice(
+              'https://s3.jkt.dewavps.com/omits-storage/'.length,
+            ),
+        type,
+        sub_type,
+      },
+      postal_detail: {
+        ...updateData.postal_detail,
+        region: GetData.region.toUpperCase(),
+      },
+    };
+
+    setUpdateData((pre) => ({
+      ...pre,
+      ...newData,
+    }));
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      setUpdateData(data as GetParticipants);
+      setStore({
+        proof_identitas: data?.participant_detail.student_id_url as string,
+      });
+      methods.register('proof_identitas', {
+        value: data?.participant_detail.student_id_url as string,
+      });
+    }
+  }, [isLoading]);
 
   return (
     <>
@@ -116,7 +182,10 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                   onClick={() => {
                     if (isEdit) {
                       setRevisiConfirm(true);
+
+                      onChangeData();
                     }
+
                     setIsEdit((pre) => !pre);
                   }}
                   disabled={['VERIFIED', 'REJECTED'].includes(
@@ -146,28 +215,138 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               onSubmit={methods.handleSubmit(onSubmit)}
               className="grid w-full grid-cols-1 gap-4 gap-x-8 md:grid-cols-2"
             >
-              <Input
-                labelTextClassname="text-black-300"
-                id="jenjang"
-                label="Jenjang"
-                defaultValue={data?.participant_detail.type}
-                placeholder="Text placeholder"
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="region"
-                label="Region"
-                defaultValue={region?.label}
-                placeholder="Text placeholder"
-                disabled={!isEdit}
-              />
+              <div className="w-full">
+                <Typography
+                  variant="p"
+                  weight="bold"
+                  className={cn('text-white-500', 'md:text-lg')}
+                >
+                  Jenjang
+                </Typography>
+
+                {!isLoading && (
+                  <Controller
+                    name={'jenjang'}
+                    control={methods.control}
+                    defaultValue={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
+                    disabled={!isEdit}
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        disabled={!isEdit}
+                      >
+                        <SelectTrigger
+                          id={id}
+                          className={cn(
+                            'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                            'px-6',
+                            field.value &&
+                              'border-black-400 text-black-400 focus:ring-0',
+                          )}
+                        >
+                          <SelectValue
+                            placeholder={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
+                          <SelectGroup>
+                            {[
+                              { value: 'OMITS - SD', label: 'OMITS - SD' },
+                              { value: 'OMITS - SMP', label: 'OMITS - SMP' },
+                              { value: 'OMITS - SMA', label: 'OMITS - SMA' },
+                              {
+                                value: 'MISSION - MISSION',
+                                label: 'MISSION - MISSION',
+                              },
+                            ].map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                                className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                )}
+              </div>
+
+              <div className="w-full">
+                <Typography
+                  variant="p"
+                  weight="bold"
+                  className={cn('text-white-500', 'md:text-lg')}
+                >
+                  Region
+                </Typography>
+
+                {!isLoading && (
+                  <Controller
+                    name={'region'}
+                    control={methods.control}
+                    disabled={!isEdit}
+                    defaultValue={
+                      regionOptions.find(
+                        (x) =>
+                          x.value.toLowerCase() ===
+                          data?.postal_detail.region.toLowerCase(),
+                      )?.value
+                    }
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        disabled={!isEdit}
+                      >
+                        <SelectTrigger
+                          id={id}
+                          className={cn(
+                            'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                            'px-6',
+                            field.value &&
+                              'border-black-400 text-black-400 focus:ring-0',
+                          )}
+                        >
+                          <SelectValue
+                            placeholder={
+                              regionOptions.find(
+                                (x) =>
+                                  x.value.toLowerCase() ===
+                                  data?.postal_detail.region.toLowerCase(),
+                              )?.label
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
+                          <SelectGroup>
+                            {regionOptions.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                                className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                )}
+              </div>
+
               <Input
                 labelTextClassname="text-black-300"
                 id="nama_sekolah"
                 label="Nama Sekolah"
                 defaultValue={data?.instance_name}
-                placeholder="Text placeholder"
+                placeholder="Load data..."
                 disabled={!isEdit}
               />
               <Input
@@ -175,7 +354,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 id="alamat_sekolah"
                 label="Alamat Sekolah"
                 defaultValue={data?.instance_address}
-                placeholder="Text placeholder"
+                placeholder="Load data..."
                 disabled={!isEdit}
               />
               <Input
@@ -183,16 +362,16 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 id="provinsi"
                 label="Provinsi"
                 defaultValue={DataRegion?.province}
-                placeholder="Text placeholder"
-                disabled={!isEdit}
+                placeholder="Load data..."
+                disabled={true}
               />
               <Input
                 labelTextClassname="text-black-300"
                 id="kota"
                 label="Kota/Kabupaten"
                 defaultValue={DataRegion?.regency}
-                placeholder="Text placeholder"
-                disabled={!isEdit}
+                placeholder="Load data..."
+                disabled={true}
               />
             </form>
           </FormProvider>
@@ -219,7 +398,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 id="fullname"
                 label="Nama Lengkap"
                 defaultValue={data?.name}
-                placeholder="Text placeholder"
+                placeholder="Load data..."
                 disabled={!isEdit}
               />
               <Input
@@ -227,7 +406,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 id="identitas"
                 label="Nomor Identitas"
                 defaultValue={data?.participant_detail.student_id}
-                placeholder="Text placeholder"
+                placeholder="Load data..."
                 disabled={!isEdit}
               />
               <Input
@@ -235,34 +414,35 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 id="phone_number"
                 label="Nomor Telpon Peserta"
                 defaultValue={data?.phone}
-                placeholder="Text placeholder"
+                placeholder="Load data..."
                 disabled={!isEdit}
               />
-              {/* <Input
+              <Input
                 labelTextClassname="text-black-300"
                 id="wali_phone_number"
                 label="Nomor Telpon Wali Peserta "
-                defaultValue={data?.phone}
-                placeholder="Text placeholder"
+                defaultValue={data?.participant_detail.guardian_phone ?? 'None'}
+                placeholder="Load data..."
                 disabled={!isEdit}
-              /> */}
+              />
 
               {store.proof_identitas ? (
-                <div className="col-span-1 max-md:col-span-1">
+                <div className="col-span-2 max-md:col-span-1">
                   <ImagePreview
                     type="omits"
                     id="proof_identitas"
                     name="Bukti Identitas"
-                    link={data?.participant_detail.student_id_url ?? ''}
+                    link={data?.participant_detail.student_id_url as string}
                     label="Bukti Kartu Identitas"
-                    readOnly={isEdit}
+                    readOnly={!isEdit}
                     deleteFile={setStore}
                   />
                 </div>
               ) : (
-                <div className="col-span-1 max-md:col-span-1">
+                <div className="col-span-2 max-md:col-span-1">
                   <FileUpload
-                    id="document"
+                    type="omits"
+                    id="proof_identitas"
                     label="Bukti Identitas"
                     supportFiles={['png', 'jpeg', 'jpg', 'pdf']}
                     isRequired={false}
@@ -298,6 +478,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         modalOpen={revisiConfirm}
         setModalOpen={setRevisiConfirm}
         data={data as GetParticipants}
+        updateData={updateData}
       />
     </>
   );

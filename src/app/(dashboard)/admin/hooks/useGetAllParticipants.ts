@@ -42,6 +42,7 @@ export default function useGetAllParticipants(params: Metadata) {
 
       return data.data;
     },
+    refetchOnWindowFocus: true,
   });
 
   return { data, isLoading };

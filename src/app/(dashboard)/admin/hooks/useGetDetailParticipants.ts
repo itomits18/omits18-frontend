@@ -15,6 +15,7 @@ export type GetParticipants = {
     id: number;
     participant_id: number;
     student_id: string;
+    guardian_phone: string;
     student_id_url: string;
     status: string;
     type: string;
@@ -27,6 +28,35 @@ export type GetParticipants = {
     province: string;
     region: string;
   };
+};
+
+export const detailDefaultValue = {
+  id: 0,
+  name: '',
+  user_id: 0,
+  participant_number: '',
+  email: '',
+  postal: 0,
+  phone: '',
+  instance_name: '',
+  instance_address: '',
+  participant_detail: {
+    id: 0,
+    participant_id: 0,
+    guardian_phone: '',
+    student_id: '',
+    student_id_url: '',
+    status: '',
+    type: '',
+    sub_type: '',
+  },
+  postal_detail: {
+    code: 0,
+    district: '',
+    regency: '',
+    province: '',
+    region: '',
+  },
 };
 
 export default function useGetDetailParticipants(id: string) {
