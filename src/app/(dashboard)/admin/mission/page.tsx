@@ -260,7 +260,7 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection section="omits" />
+      <StatisticSection />
 
       <TableLayout
         data={data?.items.participants ?? []}

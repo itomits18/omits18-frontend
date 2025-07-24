@@ -64,6 +64,12 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
       ? GetData.jenjang.split(' - ')
       : '';
 
+    const sliceString = GetData.proof_identitas.slice(
+      'https://s3.jkt.dewavps.com/omits-storage/'.length,
+    );
+    const match = sliceString.match(/([\w-]+)\.(jpe?g|png)/gi);
+    const cleanUrl = match ? match[0] : '';
+
     const newData: GetParticipants = {
       ...updateData,
       name: GetData.fullname || updateData.name,
@@ -80,9 +86,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
           'None',
         student_id_url: !GetData.proof_identitas.startsWith('https')
           ? GetData.proof_identitas
-          : GetData.proof_identitas.slice(
-              'https://s3.jkt.dewavps.com/omits-storage/'.length,
-            ),
+          : cleanUrl,
         type,
         sub_type,
       },
@@ -439,7 +443,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                   />
                 </div>
               ) : (
-                <div className="col-span-2 max-md:col-span-1">
+                <div className="relative col-span-2 max-md:col-span-1">
                   <FileUpload
                     type="omits"
                     id="proof_identitas"

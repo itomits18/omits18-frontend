@@ -31,6 +31,7 @@ export default function ModalVerification({
     ...data,
     participant_detail: {
       ...data?.participant_detail,
+      guardian_phone: updateData?.participant_detail.guardian_phone || 'None',
       status:
         type === 'terima'
           ? 'VERIFIED'
@@ -97,9 +98,13 @@ export default function ModalVerification({
                 if (type === 'revisi') {
                   mutate(updateDataV2);
                 } else {
-                  mutate(newData);
+                  mutate(updateDataV2);
                 }
                 setModalOpen(false);
+
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
               }}
             >
               Submit
