@@ -115,375 +115,381 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
   }, [isLoading]);
 
   return (
-    <>
-      <section className="space-y-5">
-        <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-          <div className="flex items-center space-x-4">
-            <Link href={'/admin/omits'}>
-              <div className="w-fit cursor-pointer rounded-full bg-green-300 p-3 transition-all duration-200 hover:bg-green-400">
-                <ChevronLeft size={20} className="text-neutral-main" />
-              </div>
-            </Link>
+    !isLoading && (
+      <>
+        <section className="space-y-5">
+          <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
+            <div className="flex items-center space-x-4">
+              <Link href={'/admin/omits'}>
+                <div className="w-fit cursor-pointer rounded-full bg-green-300 p-3 transition-all duration-200 hover:bg-green-400">
+                  <ChevronLeft size={20} className="text-neutral-main" />
+                </div>
+              </Link>
 
-            <Typography variant="t" weight="medium">
-              Kembali
-            </Typography>
-          </div>
+              <Typography variant="t" weight="medium">
+                Kembali
+              </Typography>
+            </div>
 
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start max-md:space-y-4 md:space-y-0">
-            <Typography
-              variant="h4"
-              weight="semibold"
-              className="font-semibold text-green-500 max-[350px]:text-2xl max-md:text-3xl md:w-[50%]"
-            >
-              Detail Pendaftar
-            </Typography>
-
-            <div className="flex flex-col justify-end gap-2 max-[350px]:w-full">
-              <Button
-                asChild
-                variant="green"
-                size="md"
-                className="border-2 border-green-200 bg-transparent text-green-200 hover:bg-green-50"
+            <div className="flex items-center justify-between max-md:flex-col max-md:items-start max-md:space-y-4 md:space-y-0">
+              <Typography
+                variant="h4"
+                weight="semibold"
+                className="font-semibold text-green-500 max-[350px]:text-2xl max-md:text-3xl md:w-[50%]"
               >
-                <Link href={'https://wa.me/+62' + data?.phone.substring(1)}>
-                  <Phone size={32} className="h-8 w-8" />
-                  <span className="font-semibold">Contact Pendaftar</span>
-                </Link>
-              </Button>
+                Detail Pendaftar
+              </Typography>
 
-              <div className="flex items-center justify-center gap-2 max-[350px]:grid max-[350px]:grid-cols-2">
+              <div className="flex flex-col justify-end gap-2 max-[350px]:w-full">
                 <Button
-                  variant={'green'}
+                  asChild
+                  variant="green"
                   size="md"
-                  onClick={() => {
-                    if (data?.participant_detail.status === 'VERIFIED') return;
-                    setTerimaConfirm(true);
-                  }}
-                  disabled={['REJECTED'].includes(
-                    data?.participant_detail.status as string,
-                  )}
+                  className="border-2 border-green-200 bg-transparent text-green-200 hover:bg-green-50"
                 >
-                  Terima
+                  <Link href={'https://wa.me/+62' + data?.phone.substring(1)}>
+                    <Phone size={32} className="h-8 w-8" />
+                    <span className="font-semibold">Contact Pendaftar</span>
+                  </Link>
                 </Button>
-                <Button
-                  variant={'brown'}
-                  size="md"
-                  onClick={() => {
-                    if (data?.participant_detail.status === 'REJECTED') return;
-                    setTolakConfirm(true);
-                  }}
-                  disabled={['VERIFIED'].includes(
-                    data?.participant_detail.status as string,
-                  )}
-                >
-                  Tolak
-                </Button>
-                <Button
-                  variant={isEdit ? 'blue' : 'yellow'}
-                  size="md"
-                  className="max-[350px]:col-span-2"
-                  onClick={() => {
-                    if (isEdit) {
-                      setRevisiConfirm(true);
 
-                      onChangeData();
-                    }
+                <div className="flex items-center justify-center gap-2 max-[350px]:grid max-[350px]:grid-cols-2">
+                  <Button
+                    variant={'green'}
+                    size="md"
+                    onClick={() => {
+                      if (data?.participant_detail.status === 'VERIFIED')
+                        return;
+                      setTerimaConfirm(true);
+                    }}
+                    disabled={['REJECTED'].includes(
+                      data?.participant_detail.status as string,
+                    )}
+                  >
+                    Terima
+                  </Button>
+                  <Button
+                    variant={'brown'}
+                    size="md"
+                    onClick={() => {
+                      if (data?.participant_detail.status === 'REJECTED')
+                        return;
+                      setTolakConfirm(true);
+                    }}
+                    disabled={['VERIFIED'].includes(
+                      data?.participant_detail.status as string,
+                    )}
+                  >
+                    Tolak
+                  </Button>
+                  <Button
+                    variant={isEdit ? 'blue' : 'yellow'}
+                    size="md"
+                    className="max-[350px]:col-span-2"
+                    onClick={() => {
+                      if (isEdit) {
+                        setRevisiConfirm(true);
 
-                    setIsEdit((pre) => !pre);
-                  }}
-                  disabled={['VERIFIED', 'REJECTED'].includes(
-                    data?.participant_detail.status as string,
-                  )}
-                >
-                  {isEdit ? 'Simpan' : 'Revisi'}
-                </Button>
+                        onChangeData();
+                      }
+
+                      setIsEdit((pre) => !pre);
+                    }}
+                    disabled={['VERIFIED', 'REJECTED'].includes(
+                      data?.participant_detail.status as string,
+                    )}
+                  >
+                    {isEdit ? 'Simpan' : 'Revisi'}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="gap-4 space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-          <div className="w-full rounded-lg bg-green-300 p-3 text-center">
-            <Typography
-              variant="t"
-              weight="semibold"
-              className="text-neutral-main"
-            >
-              Informasi Pendaftar
-            </Typography>
-          </div>
+          <section className="gap-4 space-y-8 rounded-xl bg-[#FFFDF0] p-8">
+            <div className="w-full rounded-lg bg-green-300 p-3 text-center">
+              <Typography
+                variant="t"
+                weight="semibold"
+                className="text-neutral-main"
+              >
+                Informasi Pendaftar
+              </Typography>
+            </div>
 
-          <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="grid w-full grid-cols-1 gap-4 gap-x-8 md:grid-cols-2"
-            >
-              <div className="w-full">
-                <Typography
-                  variant="p"
-                  weight="bold"
-                  className={cn('text-white-500', 'md:text-lg')}
-                >
-                  Jenjang
-                </Typography>
+            <FormProvider {...methods}>
+              <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                className="grid w-full grid-cols-1 gap-4 gap-x-8 md:grid-cols-2"
+              >
+                <div className="w-full">
+                  <Typography
+                    variant="p"
+                    weight="bold"
+                    className={cn('text-white-500', 'md:text-lg')}
+                  >
+                    Jenjang
+                  </Typography>
 
-                {!isLoading && (
-                  <Controller
-                    name={'jenjang'}
-                    control={methods.control}
-                    defaultValue={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
-                    disabled={!isEdit}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        disabled={!isEdit}
-                      >
-                        <SelectTrigger
-                          id={id}
-                          className={cn(
-                            'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
-                            'px-6',
-                            field.value &&
-                              'border-black-400 text-black-400 focus:ring-0',
-                          )}
+                  {!isLoading && (
+                    <Controller
+                      name={'jenjang'}
+                      control={methods.control}
+                      defaultValue={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
+                      disabled={!isEdit}
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          disabled={!isEdit}
                         >
-                          <SelectValue
-                            placeholder={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
-                          />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
-                          <SelectGroup>
-                            {[
-                              { value: 'OMITS - SD', label: 'OMITS - SD' },
-                              { value: 'OMITS - SMP', label: 'OMITS - SMP' },
-                              { value: 'OMITS - SMA', label: 'OMITS - SMA' },
-                              {
-                                value: 'MISSION - MISSION',
-                                label: 'MISSION - MISSION',
-                              },
-                            ].map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                )}
-              </div>
+                          <SelectTrigger
+                            id={id}
+                            className={cn(
+                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                              'px-6',
+                              field.value &&
+                                'border-black-400 text-black-400 focus:ring-0',
+                            )}
+                          >
+                            <SelectValue
+                              placeholder={`${data?.participant_detail.type} - ${data?.participant_detail.sub_type}`}
+                            />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
+                            <SelectGroup>
+                              {[
+                                { value: 'OMITS - SD', label: 'OMITS - SD' },
+                                { value: 'OMITS - SMP', label: 'OMITS - SMP' },
+                                { value: 'OMITS - SMA', label: 'OMITS - SMA' },
+                                {
+                                  value: 'MISSION - MISSION',
+                                  label: 'MISSION - MISSION',
+                                },
+                              ].map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  )}
+                </div>
 
-              <div className="w-full">
-                <Typography
-                  variant="p"
-                  weight="bold"
-                  className={cn('text-white-500', 'md:text-lg')}
-                >
-                  Region
-                </Typography>
+                <div className="w-full">
+                  <Typography
+                    variant="p"
+                    weight="bold"
+                    className={cn('text-white-500', 'md:text-lg')}
+                  >
+                    Region
+                  </Typography>
 
-                {!isLoading && (
-                  <Controller
-                    name={'region'}
-                    control={methods.control}
-                    disabled={!isEdit}
-                    defaultValue={
-                      regionOptions.find(
-                        (x) =>
-                          x.value.toLowerCase() ===
-                          data?.postal_detail.region.toLowerCase(),
-                      )?.value
-                    }
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        disabled={!isEdit}
-                      >
-                        <SelectTrigger
-                          id={id}
-                          className={cn(
-                            'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
-                            'px-6',
-                            field.value &&
-                              'border-black-400 text-black-400 focus:ring-0',
-                          )}
+                  {!isLoading && (
+                    <Controller
+                      name={'region'}
+                      control={methods.control}
+                      disabled={!isEdit}
+                      defaultValue={
+                        regionOptions.find(
+                          (x) =>
+                            x.value.toLowerCase() ===
+                            data?.postal_detail.region.toLowerCase(),
+                        )?.value
+                      }
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          disabled={!isEdit}
                         >
-                          <SelectValue
-                            placeholder={
-                              regionOptions.find(
-                                (x) =>
-                                  x.value.toLowerCase() ===
-                                  data?.postal_detail.region.toLowerCase(),
-                              )?.label
-                            }
-                          />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
-                          <SelectGroup>
-                            {regionOptions.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                                className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
+                          <SelectTrigger
+                            id={id}
+                            className={cn(
+                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                              'px-6',
+                              field.value &&
+                                'border-black-400 text-black-400 focus:ring-0',
+                            )}
+                          >
+                            <SelectValue
+                              placeholder={
+                                regionOptions.find(
+                                  (x) =>
+                                    x.value.toLowerCase() ===
+                                    data?.postal_detail.region.toLowerCase(),
+                                )?.label
+                              }
+                            />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-md border border-gray-200 bg-white shadow-lg">
+                            <SelectGroup>
+                              {regionOptions.map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                  className="cursor-pointer px-4 py-2 text-[#8F8B8A] hover:bg-[#E7E6E6]"
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  )}
+                </div>
+
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="nama_sekolah"
+                  label="Nama Sekolah"
+                  defaultValue={data?.instance_name}
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="alamat_sekolah"
+                  label="Alamat Sekolah"
+                  defaultValue={data?.instance_address}
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="provinsi"
+                  label="Provinsi"
+                  defaultValue={DataRegion?.province}
+                  placeholder="Load data..."
+                  disabled={true}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="kota"
+                  label="Kota/Kabupaten"
+                  defaultValue={DataRegion?.regency}
+                  placeholder="Load data..."
+                  disabled={true}
+                />
+              </form>
+            </FormProvider>
+          </section>
+
+          <section className="gap-4 space-y-8 rounded-xl bg-[#FFFDF0] p-8">
+            <div className="w-full rounded-lg bg-green-300 p-3 text-center">
+              <Typography
+                variant="t"
+                weight="semibold"
+                className="text-neutral-main"
+              >
+                Data Peserta
+              </Typography>
+            </div>
+
+            <FormProvider {...methods}>
+              <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                className="grid w-full grid-cols-1 gap-4 gap-x-8 md:grid-cols-2"
+              >
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="fullname"
+                  label="Nama Lengkap"
+                  defaultValue={data?.name}
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="identitas"
+                  label="Nomor Identitas"
+                  defaultValue={data?.participant_detail.student_id}
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="phone_number"
+                  label="Nomor Telpon Peserta"
+                  defaultValue={data?.phone}
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+                <Input
+                  labelTextClassname="text-black-300"
+                  id="wali_phone_number"
+                  label="Nomor Telpon Wali Peserta "
+                  defaultValue={
+                    data?.participant_detail.guardian_phone || 'None'
+                  }
+                  placeholder="Load data..."
+                  disabled={!isEdit}
+                />
+
+                {store.proof_identitas ? (
+                  <div className="col-span-2 max-md:col-span-1">
+                    <ImagePreview
+                      type="omits"
+                      id="proof_identitas"
+                      name="Bukti Identitas"
+                      link={data?.participant_detail.student_id_url as string}
+                      label="Bukti Kartu Identitas"
+                      readOnly={!isEdit}
+                      deleteFile={setStore}
+                    />
+                  </div>
+                ) : (
+                  <div className="relative col-span-2 max-md:col-span-1">
+                    <FileUpload
+                      type="omits"
+                      id="proof_identitas"
+                      label="Bukti Identitas"
+                      supportFiles={['png', 'jpeg', 'jpg', 'pdf']}
+                      isRequired={false}
+                      labelTextClassName="text-black-300"
+                      // onStatusChange={(status, fileName) => {
+                      //   console.log(`Status: ${status}, File: ${fileName}`);
+                      // }}
+                    />
+                  </div>
                 )}
-              </div>
-
-              <Input
-                labelTextClassname="text-black-300"
-                id="nama_sekolah"
-                label="Nama Sekolah"
-                defaultValue={data?.instance_name}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="alamat_sekolah"
-                label="Alamat Sekolah"
-                defaultValue={data?.instance_address}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="provinsi"
-                label="Provinsi"
-                defaultValue={DataRegion?.province}
-                placeholder="Load data..."
-                disabled={true}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="kota"
-                label="Kota/Kabupaten"
-                defaultValue={DataRegion?.regency}
-                placeholder="Load data..."
-                disabled={true}
-              />
-            </form>
-          </FormProvider>
+              </form>
+            </FormProvider>
+          </section>
         </section>
 
-        <section className="gap-4 space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-          <div className="w-full rounded-lg bg-green-300 p-3 text-center">
-            <Typography
-              variant="t"
-              weight="semibold"
-              className="text-neutral-main"
-            >
-              Data Peserta
-            </Typography>
-          </div>
-
-          <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="grid w-full grid-cols-1 gap-4 gap-x-8 md:grid-cols-2"
-            >
-              <Input
-                labelTextClassname="text-black-300"
-                id="fullname"
-                label="Nama Lengkap"
-                defaultValue={data?.name}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="identitas"
-                label="Nomor Identitas"
-                defaultValue={data?.participant_detail.student_id}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="phone_number"
-                label="Nomor Telpon Peserta"
-                defaultValue={data?.phone}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-              <Input
-                labelTextClassname="text-black-300"
-                id="wali_phone_number"
-                label="Nomor Telpon Wali Peserta "
-                defaultValue={data?.participant_detail.guardian_phone ?? 'None'}
-                placeholder="Load data..."
-                disabled={!isEdit}
-              />
-
-              {store.proof_identitas ? (
-                <div className="col-span-2 max-md:col-span-1">
-                  <ImagePreview
-                    type="omits"
-                    id="proof_identitas"
-                    name="Bukti Identitas"
-                    link={data?.participant_detail.student_id_url as string}
-                    label="Bukti Kartu Identitas"
-                    readOnly={!isEdit}
-                    deleteFile={setStore}
-                  />
-                </div>
-              ) : (
-                <div className="relative col-span-2 max-md:col-span-1">
-                  <FileUpload
-                    type="omits"
-                    id="proof_identitas"
-                    label="Bukti Identitas"
-                    supportFiles={['png', 'jpeg', 'jpg', 'pdf']}
-                    isRequired={false}
-                    labelTextClassName="text-black-300"
-                    // onStatusChange={(status, fileName) => {
-                    //   console.log(`Status: ${status}, File: ${fileName}`);
-                    // }}
-                  />
-                </div>
-              )}
-            </form>
-          </FormProvider>
-        </section>
-      </section>
-
-      <ModalVerification
-        id={id}
-        type="terima"
-        modalOpen={terimaConfirm}
-        setModalOpen={setTerimaConfirm}
-        data={data as GetParticipants}
-      />
-      <ModalVerification
-        id={id}
-        type="tolak"
-        modalOpen={tolakConfirm}
-        setModalOpen={setTolakConfirm}
-        data={data as GetParticipants}
-      />
-      <ModalVerification
-        id={id}
-        type="revisi"
-        modalOpen={revisiConfirm}
-        setModalOpen={setRevisiConfirm}
-        data={data as GetParticipants}
-        updateData={updateData}
-      />
-    </>
+        <ModalVerification
+          id={id}
+          type="terima"
+          modalOpen={terimaConfirm}
+          setModalOpen={setTerimaConfirm}
+          data={data as GetParticipants}
+        />
+        <ModalVerification
+          id={id}
+          type="tolak"
+          modalOpen={tolakConfirm}
+          setModalOpen={setTolakConfirm}
+          data={data as GetParticipants}
+        />
+        <ModalVerification
+          id={id}
+          type="revisi"
+          modalOpen={revisiConfirm}
+          setModalOpen={setRevisiConfirm}
+          data={data as GetParticipants}
+          updateData={updateData}
+        />
+      </>
+    )
   );
 }
