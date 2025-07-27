@@ -2,7 +2,13 @@
 
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
-import { CircleCheck } from 'lucide-react';
+import {
+  BookText,
+  CircleCheck,
+  CircleX,
+  CreditCard,
+  Loader,
+} from 'lucide-react';
 
 import {
   Carousel,
@@ -22,6 +28,14 @@ export default function StatisticSection() {
     REJECTED: 'bg-additions-brown-100',
     NEED_REVISION: 'bg-yellow-300',
     PAYMENT: 'bg-blue-400',
+  };
+
+  const ICON = {
+    VERIFIED: <CircleCheck />,
+    PENDING: <Loader />,
+    REJECTED: <CircleX />,
+    NEED_REVISION: <BookText />,
+    PAYMENT: <CreditCard />,
   };
 
   const { data: DataStatistic } = useGetStatistics();
@@ -82,7 +96,7 @@ export default function StatisticSection() {
               )}
             >
               <div className="flex items-center justify-center space-x-3">
-                <CircleCheck />
+                {ICON[v.key as keyof typeof ICON]}
                 <Typography variant="t" weight="medium" className="capitalize">
                   {v.key === 'NEED_REVISION' ? 'REVISI' : v.key}
                 </Typography>

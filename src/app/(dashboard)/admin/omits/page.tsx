@@ -17,22 +17,28 @@ import {
 } from '@tanstack/react-table';
 import Link from 'next/link';
 import * as React from 'react';
+import ModalExportData from '../(container)/ModalExportData';
 import StatisticSection from '../(container)/StatisticSection';
 import { GetParticipants } from '../hooks/useGetAllParticipants';
 
-type metadataType = {
-  order_by: string;
-  sort_by: 'asc' | 'dsc';
-  limit: number;
-  page: number;
-  type: 'OMITS' | 'MISSION';
-};
+// type metadataType = {
+//   order_by: string;
+//   sort_by: 'asc' | 'dsc';
+//   limit: number;
+//   page: number;
+//   type: 'OMITS' | 'MISSION';
+//   status: string;
+// };
 
 type Participant = GetParticipants['participants'][number];
 
 export default function page() {
-  const filterTypeList = ['Filter', 'Status'];
-  const filterValueLists = ['None', ['All']];
+  const filterTypeList = ['Filter', 'Status', 'Jenjang'];
+  const filterValueLists = [
+    'None',
+    ['All', 'PAYMENT', 'PENDING', 'REVISI', 'VERIFIED', 'REJECTED'],
+    ['All', 'SD', 'SMP', 'SMA'],
+  ];
 
   // const { data: AllSubdiv } = useGetSubdivision();
   // const newAllSubdiv = AllSubdiv?.map((x) => x.name) ?? [];
@@ -51,11 +57,13 @@ export default function page() {
   const [metadata, setMetadata] = React.useState<Metadata>({
     order_by: 'created_at',
     sort_by: 'asc',
-    limit: 10,
-    page: 1,
+    limit: pagination.pageSize,
+    page: 0,
     type: 'OMITS',
     status: '',
   });
+
+  const [modalExport, setModalExport] = React.useState(false);
 
   const columnDefs: ColumnDef<Participant>[] = [
     {
@@ -69,8 +77,8 @@ export default function page() {
       header: 'Nama',
     },
     {
-      accessorKey: 'participant_detail.type',
-      header: 'Tipe',
+      accessorKey: 'participant_detail.sub_type',
+      header: 'Jenjang',
     },
     {
       accessorKey: 'instance_name',
@@ -111,14 +119,14 @@ export default function page() {
       id: 'id',
       header: 'Detail',
       cell: (info) => (
-        <Link href={'/admin/omits/' + info.row.original.id}>
+        <Link href={'/admin/omits/' + info.row.original.id} target="_blank">
           <Typography className="underline">Lihat Detail</Typography>
         </Link>
       ),
     },
   ];
 
-  const getAllData = async (meta: metadataType) => {
+  const getAllData = async (meta: Metadata) => {
     const { data } = await api.get('/participants', {
       params: {
         ...meta,
@@ -138,50 +146,27 @@ export default function page() {
   };
 
   React.useEffect(() => {
-    // let filterBy = '';
-    // if (filterType === 'Primary Division') filterBy = 'primary_division';
-    // else if (filterType === 'Secondary Division')
-    //   filterBy = 'secondary_division';
-    // else if (filterType === 'Status') filterBy = 'status';
-    // else if (filterType === 'Division') filterBy = 'choice_division';
-
     if (globalFilter) {
       setFilterType('Filter');
       setFilterValue('None');
     }
 
-    // const filterChoice = '';
-    if (
-      ['Primary Division', 'Secondary Division', 'Division'].includes(
-        filterType,
-      ) &&
-      !['None', 'All'].includes(filterValue)
-    ) {
-      // const getSubdivID = AllSubdiv?.filter((x) => x.name === filterValue)[0]
-      //   ?.id;
-      // filterChoice = getSubdivID as string;
-    }
-
-    const isFilterChange =
-      globalFilter || filterType !== 'Filter' || filterValue !== 'None';
-
-    if (isFilterChange) {
-      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    }
-    const targetPage = isFilterChange ? 1 : pagination.pageIndex + 1;
-    const newMetadata = {
+    const newMetadata: Metadata = {
       ...metadata,
-      // filter: ['None', 'All'].includes(filterValue)
-      //   ? globalFilter
-      //   : filterChoice
-      //     ? filterChoice
-      //     : filterValue,
-      // filter_by: ['None', 'All'].includes(filterValue) ? 'name' : filterBy,
       sort_by: 'asc' as const,
       order_by: 'created_at',
-      page: targetPage,
+      page: pagination.pageIndex + 1,
       limit: pagination.pageSize,
-      status: '' as const,
+      type: 'OMITS',
+      sub_type:
+        filterType === 'Jenjang' && filterValue !== 'All' ? filterValue : '',
+      status:
+        filterType === 'Status' && filterValue !== 'All'
+          ? filterValue === 'REVISI'
+            ? 'NEED_REVISION'
+            : filterValue
+          : '',
+      search: globalFilter,
     };
 
     setMetadata(newMetadata);
@@ -231,12 +216,16 @@ export default function page() {
     const filterResult = indexValue ? filterValueLists[indexValue] : ['None'];
 
     return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 max-md:w-full">
         <Option
           value={filterType}
           onChange={(e) => {
             setFilterType(e.target.value);
             setFilterValue('');
+            setPagination((pre) => ({
+              ...pre,
+              pageIndex: 0,
+            }));
           }}
         >
           {filterTypeList.map((page) => (
@@ -262,15 +251,39 @@ export default function page() {
   };
 
   return (
-    <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection />
+    <>
+      <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
+        {/* <div className="flex items-center justify-between gap-3 max-md:flex-col">
+          <Typography
+            variant="h5"
+            weight="semibold"
+            className="text-center text-green-300 max-md:text-3xl"
+          >
+            Dashboard OMITS
+          </Typography>
 
-      <TableLayout
-        data={data?.items.participants ?? []}
-        table={table}
-        headerCustom={<HeaderCustom />}
-        setPagination={setPagination}
-      />
-    </section>
+          <Button
+            variant="green"
+            size={'lg'}
+            className="flex items-center justify-center space-x-1 py-3"
+            onClick={() => setModalExport(true)}
+          >
+            <FileText size={32} />
+            <span>Download Spreadsheet</span>
+          </Button>
+        </div> */}
+
+        <StatisticSection />
+
+        <TableLayout
+          data={data?.items.participants ?? []}
+          table={table}
+          headerCustom={<HeaderCustom />}
+          setPagination={setPagination}
+        />
+      </section>
+
+      <ModalExportData open={modalExport} setOpen={setModalExport} />
+    </>
   );
 }
