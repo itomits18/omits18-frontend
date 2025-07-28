@@ -58,7 +58,7 @@ export default function page() {
     order_by: 'created_at',
     sort_by: 'asc',
     limit: pagination.pageSize,
-    page: 0,
+    page: pagination.pageIndex,
     type: 'OMITS',
     status: '',
   });
@@ -70,7 +70,7 @@ export default function page() {
       id: 'no',
       header: 'No',
       cell: (info) =>
-        pagination.pageIndex * pagination.pageSize + info.row.index + 1,
+        (pagination.pageIndex - 1) * pagination.pageSize + info.row.index + 1,
     },
     {
       accessorKey: 'name',
@@ -133,14 +133,6 @@ export default function page() {
       },
     });
 
-    if (!data.data || data.data.items.participants.length === 0) {
-      setData(undefined);
-      if (meta.page > 1) {
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-      }
-      return;
-    }
-
     setData(data.data);
     setMetadata(data.pagination);
   };
@@ -155,7 +147,7 @@ export default function page() {
       ...metadata,
       sort_by: 'asc' as const,
       order_by: 'created_at',
-      page: pagination.pageIndex + 1,
+      page: pagination.pageIndex,
       limit: pagination.pageSize,
       type: 'OMITS',
       sub_type:
@@ -224,7 +216,7 @@ export default function page() {
             setFilterValue('');
             setPagination((pre) => ({
               ...pre,
-              pageIndex: 0,
+              pageIndex: 1,
             }));
           }}
         >

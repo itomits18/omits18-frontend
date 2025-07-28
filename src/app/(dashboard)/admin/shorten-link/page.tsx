@@ -41,7 +41,7 @@ export default function page() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
   });
 

@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
   QueryOptions,
 } from '@tanstack/react-query';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Toaster } from 'sonner';
 
 import api from '@/lib/api';
@@ -24,15 +25,17 @@ const queryClient = new QueryClient({
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ProgressProvider
-      color="#8fbfda"
-      height="4px"
-      options={{ showSpinner: false }}
-    >
-      <QueryClientProvider client={queryClient}>
-        <Toaster position="top-center" richColors />
-        {children}
-      </QueryClientProvider>
-    </ProgressProvider>
+    <NuqsAdapter>
+      <ProgressProvider
+        color="#8fbfda"
+        height="4px"
+        options={{ showSpinner: false }}
+      >
+        <QueryClientProvider client={queryClient}>
+          <Toaster position="top-center" richColors />
+          {children}
+        </QueryClientProvider>
+      </ProgressProvider>
+    </NuqsAdapter>
   );
 }

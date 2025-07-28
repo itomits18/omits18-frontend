@@ -39,6 +39,7 @@
     "lint-staged": "^15.4.3",
     "lucide-react": "^0.479.0",
     "next": "15.3.3",
+    "nuqs": "^2.4.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "react": "^19.1.0",
