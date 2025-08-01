@@ -84,8 +84,8 @@ export default function PaymentSummary({
   let biayaLayananLabel = 'Biaya Admin';
 
   if (paymentMethod === 'QRIS') {
-    biayaLayanan = priceAfterDiscount * 0.007;
-    biayaLayananLabel = 'Biaya Admin (0.7%)';
+    biayaLayanan = priceAfterDiscount * 0.02;
+    biayaLayananLabel = 'Biaya Admin (2%)';
   } else {
     biayaLayanan = 4400;
     biayaLayananLabel = 'Biaya Admin';
