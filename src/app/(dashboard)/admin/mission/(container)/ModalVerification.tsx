@@ -18,17 +18,20 @@ export default function ModalVerification({
   type,
   modalOpen,
   setModalOpen,
+  updateData,
 }: {
   data: GetParticipants;
   id: string;
   type: 'terima' | 'revisi' | 'tolak';
   modalOpen: boolean;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  updateData?: GetParticipants;
 }) {
   const newData: GetParticipants = {
     ...data,
     participant_detail: {
       ...data?.participant_detail,
+      guardian_phone: updateData?.participant_detail.guardian_phone || 'None',
       status:
         type === 'terima'
           ? 'VERIFIED'
@@ -36,6 +39,11 @@ export default function ModalVerification({
             ? 'REJECTED'
             : 'NEED_REVISION',
     },
+  };
+
+  const updateDataV2 = {
+    ...newData,
+    ...updateData,
   };
 
   const { mutate, isPending } = useChangeVerification(id);
@@ -87,8 +95,16 @@ export default function ModalVerification({
               className="w-full"
               disabled={isPending}
               onClick={() => {
-                mutate(newData);
+                if (type === 'revisi') {
+                  mutate(updateDataV2);
+                } else {
+                  mutate(updateDataV2);
+                }
                 setModalOpen(false);
+
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
               }}
             >
               Submit

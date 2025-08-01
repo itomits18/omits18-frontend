@@ -20,19 +20,23 @@ import * as React from 'react';
 import StatisticSection from '../(container)/StatisticSection';
 import { GetParticipants } from '../hooks/useGetAllParticipants';
 
-type metadataType = {
-  order_by: string;
-  sort_by: 'asc' | 'dsc';
-  limit: number;
-  page: number;
-  type: 'OMITS' | 'MISSION';
-};
+// type metadataType = {
+//   order_by: string;
+//   sort_by: 'asc' | 'dsc';
+//   limit: number;
+//   page: number;
+//   type: 'OMITS' | 'MISSION';
+//   status: string;
+// };
 
 type Participant = GetParticipants['participants'][number];
 
 export default function page() {
   const filterTypeList = ['Filter', 'Status'];
-  const filterValueLists = ['None', ['All']];
+  const filterValueLists = [
+    'None',
+    ['All', 'PAYMENT', 'PENDING', 'REVISI', 'VERIFIED', 'REJECTED'],
+  ];
 
   // const { data: AllSubdiv } = useGetSubdivision();
   // const newAllSubdiv = AllSubdiv?.map((x) => x.name) ?? [];
@@ -43,7 +47,7 @@ export default function page() {
   const [globalFilter, setGlobalFilter] = React.useState('');
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
+    pageIndex: 1,
     pageSize: 10,
   });
 
@@ -51,10 +55,10 @@ export default function page() {
   const [metadata, setMetadata] = React.useState<Metadata>({
     order_by: 'created_at',
     sort_by: 'asc',
-    limit: 10,
-    page: 1,
+    limit: pagination.pageSize,
+    page: pagination.pageIndex,
     type: 'MISSION',
-    sub_type: '',
+    status: '',
   });
 
   const columnDefs: ColumnDef<Participant>[] = [
@@ -62,15 +66,15 @@ export default function page() {
       id: 'no',
       header: 'No',
       cell: (info) =>
-        pagination.pageIndex * pagination.pageSize + info.row.index + 1,
+        (pagination.pageIndex - 1) * pagination.pageSize + info.row.index + 1,
     },
     {
       accessorKey: 'name',
       header: 'Nama',
     },
     {
-      accessorKey: 'participant_detail.type',
-      header: 'Tipe',
+      accessorKey: 'participant_detail.sub_type',
+      header: 'Jenjang',
     },
     {
       accessorKey: 'instance_name',
@@ -85,8 +89,8 @@ export default function page() {
         const statusStyles = {
           PAYMENT: 'bg-blue-400 text-white',
           VERIFIED: 'bg-green-200 text-white',
-          REVISI: 'bg-yellow-300 text-white',
-          REJECT: 'bg-additions-brown-200 text-white',
+          NEED_REVISION: 'bg-yellow-300 text-white',
+          REJECTED: 'bg-additions-brown-200 text-white',
           default: 'bg-black-100 text-black',
         };
 
@@ -101,7 +105,7 @@ export default function page() {
             }
           >
             <Typography variant="p" weight="medium" className="capitalize">
-              {status}
+              {status === 'NEED_REVISION' ? 'REVISI' : status}
             </Typography>
           </div>
         );
@@ -111,72 +115,46 @@ export default function page() {
       id: 'id',
       header: 'Detail',
       cell: (info) => (
-        <Link href={'/admin/mission/' + info.row.original.id}>
+        <Link href={'/admin/mission/' + info.row.original.id} target="_blank">
           <Typography className="underline">Lihat Detail</Typography>
         </Link>
       ),
     },
   ];
 
-  const getAllData = async (meta: metadataType) => {
+  const getAllData = async (meta: Metadata) => {
     const { data } = await api.get('/participants', {
       params: {
         ...meta,
       },
     });
 
-    if (!data.data || data.data.items.participants.length === 0) {
-      setData(undefined);
-      if (meta.page > 1) {
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-      }
-      return;
-    }
-
     setData(data.data);
     setMetadata(data.pagination);
   };
 
   React.useEffect(() => {
-    // let filterBy = '';
-    // if (filterType === 'Primary Division') filterBy = 'primary_division';
-    // else if (filterType === 'Secondary Division')
-    //   filterBy = 'secondary_division';
-    // else if (filterType === 'Status') filterBy = 'status';
-    // else if (filterType === 'Division') filterBy = 'choice_division';
-
     if (globalFilter) {
       setFilterType('Filter');
       setFilterValue('None');
     }
 
-    // const filterChoice = '';
-    if (
-      ['Primary Division', 'Secondary Division', 'Division'].includes(
-        filterType,
-      ) &&
-      !['None', 'All'].includes(filterValue)
-    ) {
-      // const getSubdivID = AllSubdiv?.filter((x) => x.name === filterValue)[0]
-      //   ?.id;
-      // filterChoice = getSubdivID as string;
-    }
-
-    const isFilterChange =
-      globalFilter || filterType !== 'Filter' || filterValue !== 'None';
-
-    if (isFilterChange) {
-      setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-    }
-    const targetPage = isFilterChange ? 1 : pagination.pageIndex + 1;
-    const newMetadata = {
+    const newMetadata: Metadata = {
       ...metadata,
       sort_by: 'asc' as const,
       order_by: 'created_at',
-      page: targetPage,
+      page: pagination.pageIndex,
       limit: pagination.pageSize,
-      type: 'MISSION' as const,
-      sub_type: '',
+      type: 'MISSION',
+      sub_type:
+        filterType === 'Jenjang' && filterValue !== 'All' ? filterValue : '',
+      status:
+        filterType === 'Status' && filterValue !== 'All'
+          ? filterValue === 'REVISI'
+            ? 'NEED_REVISION'
+            : filterValue
+          : '',
+      search: globalFilter,
     };
 
     setMetadata(newMetadata);
@@ -226,12 +204,16 @@ export default function page() {
     const filterResult = indexValue ? filterValueLists[indexValue] : ['None'];
 
     return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 max-md:w-full">
         <Option
           value={filterType}
           onChange={(e) => {
             setFilterType(e.target.value);
             setFilterValue('');
+            setPagination((pre) => ({
+              ...pre,
+              pageIndex: 1,
+            }));
           }}
         >
           {filterTypeList.map((page) => (
@@ -258,7 +240,7 @@ export default function page() {
 
   return (
     <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-      <StatisticSection section="omits" />
+      <StatisticSection />
 
       <TableLayout
         data={data?.items.participants ?? []}

@@ -7,6 +7,7 @@ export type RegistrationForm = {
   instance_name?: string;
   instance_address?: string;
   participant_detail: {
+    guardian_phone?: string;
     student_id: string;
     student_id_url: string;
     status?: string;

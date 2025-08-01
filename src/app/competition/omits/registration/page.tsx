@@ -125,6 +125,7 @@ export default function OmitsRegistrationPage() {
       instance_name: formData.namaSekolah as string,
       instance_address: formData.alamatSekolah as string,
       participant_detail: {
+        guardian_phone: (formData.detail && formData.nomorWali) as string,
         student_id: (formData.detail && formData.detail[0].nomorNISN) as string,
         student_id_url: (formData.detail &&
           formData.detail[0].buktiNISN) as string,
@@ -149,6 +150,7 @@ export default function OmitsRegistrationPage() {
         email: user.email as string,
         phone: user.nomorTelepon as string,
         participant_detail: {
+          guardian_phone: formData.nomorWali,
           student_id: user.nomorNISN as string,
           student_id_url: user.buktiNISN,
         },

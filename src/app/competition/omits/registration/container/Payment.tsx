@@ -60,13 +60,13 @@ export default function PaymentSummary({
   let quantityForMainItem: number | string = 1;
 
   if (jenjangKompetisiType === 'SD') {
-    basePrice = 65000;
-  } else if (jenjangKompetisiType === 'SMP') {
-    basePrice = 70000;
-  } else if (jenjangKompetisiType === 'SMA') {
     basePrice = 75000;
+  } else if (jenjangKompetisiType === 'SMP') {
+    basePrice = 80000;
+  } else if (jenjangKompetisiType === 'SMA') {
+    basePrice = 85000;
   } else {
-    basePrice = 65000;
+    basePrice = 75000;
   }
 
   mainItemPrice = basePrice;

@@ -34,7 +34,7 @@ export default function Search<T extends RowData>({
       table.setGlobalFilter(Search);
       setPagination((pre) => ({
         ...pre,
-        pageIndex: 0,
+        pageIndex: 1,
       }));
     }, 300);
     return () => clearTimeout(timeout);

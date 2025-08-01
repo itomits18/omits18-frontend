@@ -12,7 +12,11 @@ export default function useChangeVerification(id: string) {
       return data.data;
     },
     onSuccess: () => {
-      toast.success('Berhasil mengubah data peserta');
+      toast.success('Berhasil mengubah data peserta.');
+
+      setTimeout(() => {
+        toast.success('Memuat ulang halaman.');
+      }, 1000);
     },
     onError: () => {
       toast.error('Gagal mengubah data peserta');

@@ -1,9 +1,13 @@
+'use client';
+
 import { RowData, Table } from '@tanstack/react-table';
 import * as React from 'react';
 // import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { parseAsInteger, useQueryStates } from 'nuqs';
 import Typography from '../Typography';
 import { Button } from '../ui/button';
 // import { buildPaginationControl } from "@/lib/pagination";
@@ -28,9 +32,38 @@ export default function PaginationControl<T extends RowData>({
   table,
   ...rest
 }: PaginationControlProps<T>) {
-  const currentPage: number = table.getState().pagination.pageIndex + 1;
+  const currentPage: number = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
   //   const paginationControl = buildPaginationControl(currentPage, pageCount);
+
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [pageNuqs, setPageNuqs] = useQueryStates({
+    page: parseAsInteger.withDefault(1),
+  });
+
+  const pageQuery = Number(useSearchParams().get('page'));
+
+  React.useEffect(() => {
+    if (table.getState().globalFilter) {
+      setPageNuqs((pre) => ({
+        ...pre,
+        page: 1,
+      }));
+    }
+
+    if (!pageQuery) {
+      router.push(`${pathname}?page=${pageNuqs.page}`);
+    }
+
+    if (table.getState().pagination) {
+      table.setPagination((pre) => ({
+        ...pre,
+        pageIndex: pageNuqs.page,
+      }));
+    }
+  }, [table.getState().globalFilter, currentPage]);
 
   const ListPage = () => {
     if (pageCount < 5)
@@ -52,14 +85,14 @@ export default function PaginationControl<T extends RowData>({
 
   const handlePageControlClick = (page: string | number) => {
     if (page !== '...') {
-      table.setPageIndex((page as number) - 1);
+      table.setPageIndex(page as number);
     }
   };
 
   return (
     <div
       className={cn(
-        'flex items-center justify-between gap-x-2 md:justify-between',
+        'flex items-center justify-between gap-x-2 max-md:flex-col md:justify-between',
         className,
       )}
       {...rest}
@@ -79,6 +112,9 @@ export default function PaginationControl<T extends RowData>({
             !table.getCanPreviousPage() && 'cursor-not-allowed text-gray-700',
           )}
           onClick={() => {
+            setPageNuqs(() => ({
+              page: currentPage - 1,
+            }));
             table.previousPage();
           }}
         />
@@ -91,6 +127,9 @@ export default function PaginationControl<T extends RowData>({
             )}
             onClick={() => {
               handlePageControlClick(pageIndex);
+              setPageNuqs(() => ({
+                page: pageIndex,
+              }));
             }}
           >
             <Typography variant="t" weight="medium">
@@ -106,6 +145,9 @@ export default function PaginationControl<T extends RowData>({
             !table.getCanNextPage() && 'cursor-not-allowed text-gray-700',
           )}
           onClick={() => {
+            setPageNuqs(() => ({
+              page: currentPage + 1,
+            }));
             table.nextPage();
           }}
         />

@@ -34,6 +34,26 @@ export default function TableLayout<T extends object>({
   withHeader = true,
   setPagination,
 }: TableProps<T>) {
+  // const pathname = usePathname();
+  // const [page, _setPage] = useQueryStates({
+  //   page: parseAsInteger.withDefault(1),
+  //   takes: parseAsInteger.withDefault(10),
+  // });
+
+  // const router = useRouter();
+  // React.useEffect(() => {
+  //   if (!(page.page && page.takes)) {
+  //     router.push(
+  //       `${pathname}?page=1&takes=${page.takes > 100 ? 100 : page.takes}`,
+  //     );
+  //   }
+
+  //   table.setPagination({
+  //     pageIndex: page.page,
+  //     pageSize: page.takes > 100 ? 100 : page.takes,
+  //   });
+  // }, []);
+
   return (
     <div className="w-full">
       <div className="my-5 min-h-fit w-full space-y-5 rounded-xl">

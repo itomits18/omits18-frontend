@@ -3,7 +3,6 @@ import 'yet-another-react-lightbox/styles.css';
 import * as React from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 
-import { ImageStore } from '@/app/(dashboard)/admin/mission/[id]/page';
 import Typography from '@/components/Typography';
 import { cn } from '@/lib/utils';
 import { Trash } from 'lucide-react';
@@ -16,11 +15,12 @@ type FilePreviewProps = {
   name: string;
   link: string;
   readOnly?: boolean;
-  deleteFile?: React.Dispatch<React.SetStateAction<ImageStore>>;
+  deleteFile?: React.Dispatch<
+    React.SetStateAction<{ proof_identitas: string }>
+  >;
 };
 
 export default function ImagePreview({
-  id,
   label,
   name,
   link,
@@ -31,11 +31,10 @@ export default function ImagePreview({
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
 
-    if (readOnly && deleteFile) {
-      deleteFile((pre) => ({
-        ...pre,
-        [id]: '',
-      }));
+    if (!readOnly && deleteFile) {
+      deleteFile({
+        proof_identitas: '',
+      });
     }
   };
 
