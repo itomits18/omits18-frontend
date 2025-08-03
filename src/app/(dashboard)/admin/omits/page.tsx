@@ -4,6 +4,7 @@ import Typography from '@/components/Typography';
 import Option from '@/components/form/Option';
 import TableLayout from '@/components/form/TableLayout';
 
+import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
 import { Metadata, PaginateData } from '@/types/api';
 import {
@@ -15,6 +16,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { FileText } from 'lucide-react';
 import Link from 'next/link';
 import * as React from 'react';
 import ModalExportData from '../(container)/ModalExportData';
@@ -63,7 +65,7 @@ export default function page() {
     status: '',
   });
 
-  const [modalExport, setModalExport] = React.useState(false);
+  const [, setModalExport] = React.useState(false);
 
   const columnDefs: ColumnDef<Participant>[] = [
     {
@@ -245,7 +247,7 @@ export default function page() {
   return (
     <>
       <section className="space-y-8 rounded-xl bg-[#FFFDF0] p-8">
-        {/* <div className="flex items-center justify-between gap-3 max-md:flex-col">
+        <div className="flex items-center justify-between gap-3 max-md:flex-col">
           <Typography
             variant="h5"
             weight="semibold"
@@ -263,7 +265,7 @@ export default function page() {
             <FileText size={32} />
             <span>Download Spreadsheet</span>
           </Button>
-        </div> */}
+        </div>
 
         <StatisticSection />
 
@@ -275,7 +277,12 @@ export default function page() {
         />
       </section>
 
-      <ModalExportData open={modalExport} setOpen={setModalExport} />
+      <ModalExportData
+        open={true}
+        setOpen={setModalExport}
+        table={table as any}
+        metadata={metadata}
+      />
     </>
   );
 }
