@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function LoadingPage() {
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-[#D0FAFC] to-[#E5DBA6] overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#D0FAFC] to-[#E5DBA6]">
       {/*Mobile*/}
       <Image
         src="/images/loading/castle.png"
@@ -18,7 +18,7 @@ export default function LoadingPage() {
         width={373}
         height={254}
         alt="rumput"
-        className="absolute bottom-0 right-0 md:hidden"
+        className="absolute right-0 bottom-0 md:hidden"
       />
 
       <Image
@@ -26,7 +26,7 @@ export default function LoadingPage() {
         width={172}
         height={288}
         alt="pohon"
-        className="absolute bottom-0 right-0 z-20 md:w-[300px] md:h-[450px]"
+        className="absolute right-0 bottom-0 z-20 max-[350px]:w-[100px] lg:hidden"
       />
 
       <Image
@@ -83,7 +83,7 @@ export default function LoadingPage() {
         width={663}
         height={187}
         alt="grass"
-        className="absolute bottom-0 right-0 hidden md:block"
+        className="absolute right-0 bottom-0 hidden md:block"
       />
 
       <Image
@@ -115,7 +115,7 @@ export default function LoadingPage() {
         width={425}
         height={136}
         alt="cloud"
-        className="absolute left-0 bottom-[50%] z-0 hidden md:block"
+        className="absolute bottom-[50%] left-0 z-0 hidden md:block"
       />
 
       <Image
@@ -123,7 +123,7 @@ export default function LoadingPage() {
         width={240}
         height={144}
         alt="bola"
-        className="absolute left-1/2 top-[40%] transform -translate-x-1/2 -translate-y-1/2 md:w-[408px] md:h-[244px] md:top-[38%] z-20"
+        className="animated-vertical absolute top-[38%] left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform md:top-[36%] md:h-[244px] md:w-[408px]"
       />
 
       <Image
@@ -131,7 +131,7 @@ export default function LoadingPage() {
         width={192}
         height={113}
         alt="book 1"
-        className="absolute left-[40%] top-[40%] transform -translate-x-1/2 md:w-[326px] md:h-[102px] md:top-[45%] md:left-[45%] z-10"
+        className="absolute top-[40%] left-[40%] z-10 -translate-x-1/2 transform md:top-[45%] md:left-[45%] md:h-[102px] md:w-[326px]"
       />
 
       <Image
@@ -139,7 +139,7 @@ export default function LoadingPage() {
         width={192}
         height={113}
         alt="book 2"
-        className="absolute left-[60%] top-[40%] transform -translate-x-1/2 md:w-[326px] md:h-[102px] md:top-[45%] md:left-[55%] z-10"
+        className="absolute top-[40%] left-[60%] z-10 -translate-x-1/2 transform md:top-[45%] md:left-[55%] md:h-[102px] md:w-[326px]"
       />
 
       <Image
@@ -147,14 +147,16 @@ export default function LoadingPage() {
         width={98}
         height={65}
         alt="Layer"
-        className="absolute left-1/2 top-[45%] transform -translate-x-1/2 md:w-[167px] md:h-[110px] md:top-[45%] z-10"
+        className="absolute top-[45%] left-1/2 z-10 -translate-x-1/2 transform md:top-[45%] md:h-[110px] md:w-[167px]"
       />
 
       <Typography
         font="CinzelDecorative"
-        className="absolute left-1/2 top-[55%] transform -translate-x-1/2 text-[#337357] text-3xl md:text-4xl md:top-[60%] font-bold z-20"
+        variant="h3"
+        className="absolute top-[58%] left-1/2 z-20 -translate-x-1/2 transform text-3xl font-bold text-[#337357] max-[350px]:top-[60%] max-md:text-4xl md:top-[65%]"
       >
-        Loading...
+        Loading
+        <span className="dots"></span>
       </Typography>
     </div>
   );
