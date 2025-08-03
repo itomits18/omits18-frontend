@@ -130,6 +130,7 @@ export default function PaymentSummary({
       <div className="space-y-3">
         <div
           onClick={() => {
+            if (bundleType === 'bundle') return;
             setPayment('QRIS');
             setPaymentMethod('QRIS');
           }}
@@ -138,6 +139,7 @@ export default function PaymentSummary({
             paymentMethod === 'QRIS'
               ? 'border-green-200 ring-2 ring-green-300'
               : 'border-gray-200',
+            bundleType === 'bundle' && 'cursor-not-allowed opacity-50',
           )}
         >
           <QrCode className="h-6 w-6 text-gray-700" />
