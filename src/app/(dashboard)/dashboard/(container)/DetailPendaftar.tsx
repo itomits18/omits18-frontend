@@ -142,29 +142,37 @@ export default function DetailPendaftar({
           </div>
 
           <div className="pt-6">
-            <div className="space-y-2">
-              <Typography variant="t" weight="bold" className="text-black-300">
-                Whatsapp Group
-              </Typography>
-              <Link href={data.whatsapp_group_link} target="_blank">
-                <div
-                  className={cn(
-                    'flex cursor-pointer justify-between rounded-lg p-3 px-4 transition-all duration-200',
-                    type === 'omits'
-                      ? 'bg-green-200 hover:bg-green-300'
-                      : 'bg-blue-400 hover:bg-blue-900',
-                  )}
+            {!['PAYMENT', 'REJECTED'].includes(
+              data.participant_detail.status,
+            ) && (
+              <div className="space-y-2">
+                <Typography
+                  variant="t"
+                  weight="bold"
+                  className="text-black-300"
                 >
-                  <div className="flex items-center space-x-2">
-                    <Typography variant="b" className="text-neutral-main">
-                      Join Whatsapp Group
-                    </Typography>
-                  </div>
+                  Whatsapp Group
+                </Typography>
+                <Link href={data.whatsapp_group_link} target="_blank">
+                  <div
+                    className={cn(
+                      'flex cursor-pointer justify-between rounded-lg p-3 px-4 transition-all duration-200',
+                      type === 'omits'
+                        ? 'bg-green-200 hover:bg-green-300'
+                        : 'bg-blue-400 hover:bg-blue-900',
+                    )}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Typography variant="b" className="text-neutral-main">
+                        Join Whatsapp Group
+                      </Typography>
+                    </div>
 
-                  <ExternalLink className="text-white" />
-                </div>
-              </Link>
-            </div>
+                    <ExternalLink className="text-white" />
+                  </div>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </CollapsibleContent>
