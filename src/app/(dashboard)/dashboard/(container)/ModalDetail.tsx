@@ -17,6 +17,7 @@ import useParticipantStore from '@/app/store/useParticipantStore';
 import { Participant } from '@/types/participants';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ChevronDown } from 'lucide-react';
+import CbtAkun from './CbtAkun';
 
 type ModalType = {
   type: 'omits' | 'mission';
@@ -93,6 +94,20 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
             </div>
 
             <div className="mx-auto w-[80%] pt-10 max-md:w-full md:pt-20">
+              {participant.length > 0 &&
+                !['PAYMENT', 'REJECTED'].includes(
+                  participant[number - 1].participant_detail.status,
+                ) && (
+                  <CbtAkun
+                    type={type}
+                    data={
+                      participant
+                        ? participant[number - 1]
+                        : ({} as Participant)
+                    }
+                  />
+                )}
+
               <DetailPendaftar
                 type={type}
                 data={
