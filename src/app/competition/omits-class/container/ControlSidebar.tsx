@@ -40,14 +40,6 @@ const ControlSidebar = React.memo(
                   >
                     {subject.name}
                   </Typography>
-                  <Typography
-                    variant="bs"
-                    font="Lora"
-                    weight="bold"
-                    className="text-[#4C4E60] max-md:text-[11px]"
-                  >
-                    {subject.presenter}
-                  </Typography>
                 </div>
               </div>
             );
