@@ -37,7 +37,7 @@ export default function DetailPendaftar({
       </CollapsibleTrigger>
       <CollapsibleContent>
         <div className="divide-y-2 rounded-md p-8 shadow-md">
-          <div className="-mt-3 grid grid-cols-1 gap-y-6 pt-6 pb-6 md:grid-cols-2">
+          <div className="-mt-3 grid grid-cols-1 gap-y-6 pb-6 md:grid-cols-2">
             <div>
               <Typography variant="b" weight="bold" className="text-black-100">
                 Jenjang
