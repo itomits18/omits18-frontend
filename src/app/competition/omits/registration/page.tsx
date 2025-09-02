@@ -35,6 +35,7 @@ const steps = [
 ];
 
 export default function OmitsRegistrationPage() {
+  return redirect('/dashboard/kompetisi');
   const { participant } = useParticipantStore();
 
   const isRegistered = participant.length > 0;

@@ -32,6 +32,8 @@ export type missionFormDataType = z.infer<typeof RegistrationMISSION1> &
   z.infer<typeof RegistrationMISSION2>;
 
 export default function MissionRegistrationPage() {
+  return redirect('/dashboard/kompetisi');
+
   const { participant } = useParticipantStore();
 
   const isRegistered = participant.length > 0;

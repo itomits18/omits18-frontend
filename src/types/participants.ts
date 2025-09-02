@@ -31,4 +31,5 @@ export type Participant = {
   postal_detail: PostalDetail;
   payment_url: string;
   whatsapp_group_link: string;
+  my_its_pass: string;
 };

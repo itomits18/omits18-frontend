@@ -143,7 +143,7 @@ export default function page() {
                   {isRegistered && !isRegisterMISSION ? (
                     // Jika kedaftar omiits
                     <div className="space-x-2">
-                      <Link href="/competition/omits/registration">
+                      {/* <Link href="/competition/omits/registration">
                         <Button
                           variant="green"
                           size="md"
@@ -151,7 +151,7 @@ export default function page() {
                         >
                           Daftar sekarang
                         </Button>
-                      </Link>
+                      </Link> */}
                       <Button
                         variant="green"
                         size="md"
@@ -172,7 +172,7 @@ export default function page() {
                           ? // regist mission
                             ''
                           : //jika ga daftar apa2 (blum daftar)
-                            '/competition/omits/registration'
+                            '/'
                       }
                     >
                       <Button
@@ -183,7 +183,7 @@ export default function page() {
                       >
                         {isRegistered && isRegisterMISSION
                           ? 'Terdaftar MISSION'
-                          : 'Daftar Sekarang'}
+                          : 'Pendaftaran ditutup'}
                       </Button>
                     </Link>
                   )}
@@ -229,7 +229,7 @@ export default function page() {
                           ? // jika regist omits
                             ''
                           : // jika regist selain omits (blum daftar)
-                            '/competition/mission/registration'
+                            '/'
                       }
                     >
                       <Button
@@ -240,7 +240,7 @@ export default function page() {
                       >
                         {isRegistered && !isRegisterMISSION
                           ? 'Terdaftar OMITS'
-                          : 'Daftar Sekarang'}
+                          : 'Pendaftaran ditutup'}
                       </Button>
                     </Link>
                   )}
