@@ -115,7 +115,10 @@ export default function PaginationControl<T extends RowData>({
             setPageNuqs(() => ({
               page: currentPage - 1,
             }));
-            table.previousPage();
+            table.setPagination((pre) => ({
+              ...pre,
+              pageIndex: pre.pageIndex - 1,
+            }));
           }}
         />
         {(ListPage() as number[]).map((pageIndex, index) => (
@@ -142,13 +145,17 @@ export default function PaginationControl<T extends RowData>({
           size={18}
           className={cn(
             'text-white-50 h-auto w-8 cursor-pointer',
-            !table.getCanNextPage() && 'cursor-not-allowed text-gray-700',
+            table.getState().pagination.pageIndex === table.getPageCount() &&
+              'cursor-not-allowed text-gray-700',
           )}
           onClick={() => {
             setPageNuqs(() => ({
               page: currentPage + 1,
             }));
-            table.nextPage();
+            table.setPagination((pre) => ({
+              ...pre,
+              pageIndex: pre.pageIndex + 1,
+            }));
           }}
         />
       </div>

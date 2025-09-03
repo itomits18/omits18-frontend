@@ -5,7 +5,7 @@ import Input from '@/components/form/Input';
 import TableLayout from '@/components/form/TableLayout';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
-import { Metadata } from '@/types/api';
+import { Metadata, PaginateData } from '@/types/api';
 import { ShortLinkSchema } from '@/validation/ShortLinkSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -25,11 +25,13 @@ import { z } from 'zod';
 import useCreateLink from './hooks/useCreateLink';
 
 type LinkType = {
-  id: number;
-  name: string;
-  shorten_link: string;
-  original_link: string;
-  visits: number;
+  short_links: {
+    id: number;
+    name: string;
+    shorten_link: string;
+    original_link: string;
+    visits: number;
+  }[];
 };
 
 export default function page() {
@@ -45,22 +47,22 @@ export default function page() {
     pageSize: 10,
   });
 
-  const [data, setData] = React.useState<LinkType[]>();
+  const [data, setData] = React.useState<PaginateData<LinkType>>();
   const [metadata, setMetadata] = React.useState<Metadata>({
     order_by: 'created_at',
     sort_by: 'asc',
-    limit: 10,
-    page: 1,
+    limit: pagination.pageSize,
+    page: pagination.pageIndex,
     type: 'OMITS',
     total_pages: 1,
   });
 
-  const columnDefs: ColumnDef<LinkType>[] = [
+  const columnDefs: ColumnDef<LinkType['short_links'][number]>[] = [
     {
       id: 'no',
       header: 'No',
       cell: (info) =>
-        pagination.pageIndex * pagination.pageSize + info.row.index + 1,
+        (pagination.pageIndex - 1) * pagination.pageSize + info.row.index + 1,
     },
     {
       accessorKey: 'name',
@@ -107,34 +109,36 @@ export default function page() {
   ];
 
   const getAllData = async (meta: Metadata) => {
-    const response = await api.get('/links', {
-      params: meta,
+    const { data } = await api.get('/links', {
+      params: { ...meta },
     });
 
-    setData(response.data.data.items.short_links ?? []);
-    setMetadata({
-      ...metadata,
-      page: response.data.data.pagination.current_page,
-      total_pages: response.data.data.pagination.total_pages,
-      limit: response.data.data.pagination.per_page,
-    });
+    setData(data.data);
+    setMetadata(data.pagination);
   };
 
   React.useEffect(() => {
-    setMetadata(() => metadata);
-    const APICall = setTimeout(() => {
-      getAllData(metadata);
-    }, 300);
+    const newMetadata: Metadata = {
+      ...metadata,
+      sort_by: 'asc' as const,
+      order_by: 'created_at',
+      page: pagination.pageIndex,
+      limit: pagination.pageSize,
+    };
 
+    setMetadata(newMetadata);
+    const APICall = setTimeout(() => {
+      getAllData(newMetadata);
+    }, 300);
     return () => {
       clearTimeout(APICall);
     };
   }, [pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable({
-    data: data || [],
+    data: data?.items?.short_links || [],
     columns: columnDefs,
-    pageCount: metadata.total_pages,
+    pageCount: data?.pagination.total_pages,
     state: {
       globalFilter,
       sorting,
@@ -257,7 +261,7 @@ export default function page() {
 
       <div className="flex flex-col items-center justify-between space-y-10 rounded-xl bg-[#FFFDF0] p-8">
         <TableLayout
-          data={data as LinkType[]}
+          data={data?.items.short_links ?? []}
           table={table}
           withHeader={false}
           setPagination={setPagination}
