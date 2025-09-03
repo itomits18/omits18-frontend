@@ -32,4 +32,5 @@ export type Participant = {
   payment_url: string;
   whatsapp_group_link: string;
   my_its_pass: string;
+  is_omits_class: boolean;
 };

@@ -1,13 +1,23 @@
 'use client';
 
+import useParticipantStore from '@/app/store/useParticipantStore';
 import { Subject, subjects } from '@/contents/OmitsClass';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import ContentDisplay from './container/ContentDisplay';
 import ControlSidebar from './container/ControlSidebar';
 
 export default function OmitsClass() {
+  const { participant } = useParticipantStore();
+  if (!participant) return;
+
+  if (participant.length > 1 || !participant[0].is_omits_class) {
+    return redirect('/dashboard');
+  }
+
   const [activeSubject, setActiveSubject] = useState<Subject>(subjects[0]);
+
   return (
     <section className="relative min-h-[115vh] w-full overflow-hidden bg-gradient-to-b from-[#658E78] from-[0%] to-[#C4C7C6] to-[50%] md:min-h-screen xl:min-h-[117vh] 2xl:min-h-[130vh]">
       <Image

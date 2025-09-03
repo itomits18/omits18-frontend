@@ -217,10 +217,10 @@ export default function DashboardLayout({
               />
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex space-x-4">
               <CircleUserRound size={40} />
 
-              <div>
+              <div className="">
                 <Typography
                   variant="t"
                   weight="bold"
@@ -231,7 +231,7 @@ export default function DashboardLayout({
                 <Typography
                   variant="bs"
                   weight="medium"
-                  className="text-[#D19891]"
+                  className="max-w-[200px] break-words text-[#D19891]"
                 >
                   {user?.email}
                 </Typography>
