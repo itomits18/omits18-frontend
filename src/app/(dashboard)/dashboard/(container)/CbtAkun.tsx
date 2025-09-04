@@ -7,7 +7,8 @@ import {
 } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import { Participant } from '@/types/participants';
-import { ChevronDown, Copy } from 'lucide-react';
+import { ChevronDown, Copy, SquareCheck } from 'lucide-react';
+import { useState } from 'react';
 
 export default function CbtAkun({
   type,
@@ -16,6 +17,25 @@ export default function CbtAkun({
   type: string;
   data: Participant;
 }) {
+  const [copy, setCopy] = useState({
+    email: false,
+    password: false,
+  });
+
+  function copyText(state: string) {
+    setCopy((pre) => ({
+      ...pre,
+      [state]: true,
+    }));
+
+    setTimeout(() => {
+      setCopy((pre) => ({
+        ...pre,
+        [state]: false,
+      }));
+    }, 3000);
+  }
+
   return (
     <Collapsible open={true}>
       <CollapsibleTrigger
@@ -46,13 +66,27 @@ export default function CbtAkun({
                   weight="bold"
                   className="truncate text-gray-600"
                 >
-                  {`${data.participant_detail.sub_type}2025_${data.participant_number}@mail.com`}
+                  {`${data.participant_number}@mail.com`}
                 </Typography>
 
-                <Copy
-                  size={20}
-                  className="cursor-pointer text-gray-700 hover:text-gray-500"
-                />
+                {copy.email ? (
+                  <SquareCheck
+                    size={20}
+                    className="cursor-pointer text-gray-700 hover:text-gray-500"
+                  />
+                ) : (
+                  <Copy
+                    size={20}
+                    className="cursor-pointer text-gray-700 hover:text-gray-500"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `${data.participant_number}@mail.com`,
+                      );
+
+                      copyText('email');
+                    }}
+                  />
+                )}
               </div>
             </div>
 
@@ -69,13 +103,33 @@ export default function CbtAkun({
                   {data.my_its_pass || '-'}
                 </Typography>
 
-                <Copy
-                  size={20}
-                  className="cursor-pointer text-gray-700 hover:text-gray-500"
-                />
+                {copy.password ? (
+                  <SquareCheck
+                    size={20}
+                    className="cursor-pointer text-gray-700 hover:text-gray-500"
+                  />
+                ) : (
+                  <Copy
+                    size={20}
+                    className="cursor-pointer text-gray-700 hover:text-gray-500"
+                    onClick={() => {
+                      navigator.clipboard.writeText(data.my_its_pass || '');
+
+                      copyText('password');
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
+
+          <Typography variant="b" className="mt-3" weight="semibold">
+            Silakan akses website{' '}
+            <a href="https://cbt.its.ac.id/" className="text-blue-500">
+              cbt.its.ac.id
+            </a>{' '}
+            untuk login menggunakan akun ujian yang telah diberikan.
+          </Typography>
         </div>
       </CollapsibleContent>
     </Collapsible>
