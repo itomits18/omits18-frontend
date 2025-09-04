@@ -125,7 +125,10 @@ export default function CbtAkun({
 
           <Typography variant="b" className="mt-3" weight="semibold">
             Silakan akses website{' '}
-            <a href="https://cbt.its.ac.id/" className="text-blue-500">
+            <a
+              href="https://cbt.its.ac.id/login/index.php"
+              className="text-blue-500"
+            >
               cbt.its.ac.id
             </a>{' '}
             untuk login menggunakan akun ujian yang telah diberikan.
