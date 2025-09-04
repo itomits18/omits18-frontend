@@ -58,7 +58,7 @@ export default function CbtAkun({
           <div className="-mt-3 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <Typography variant="b" weight="bold" className="text-black-200">
-                Email Akun
+                Username
               </Typography>
               <div className="flex items-center justify-between rounded-md bg-gray-300 p-3">
                 <Typography
@@ -66,7 +66,7 @@ export default function CbtAkun({
                   weight="bold"
                   className="truncate text-gray-600"
                 >
-                  {`${data.participant_number}@mail.its.com`}
+                  {`${data.participant_number}`}
                 </Typography>
 
                 {copy.email ? (
@@ -80,7 +80,7 @@ export default function CbtAkun({
                     className="cursor-pointer text-gray-700 hover:text-gray-500"
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `${data.participant_number}@mail.its.com`,
+                        `${data.participant_number}`,
                       );
 
                       copyText('email');
