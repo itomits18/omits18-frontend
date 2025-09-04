@@ -101,7 +101,7 @@ export default function PesertaDetail({
             id="proof_identitas"
             name="Bukti Identitas"
             link={data.participant_detail.student_id_url}
-            label="Upload Scan KTP/Kartu Pelajar"
+            label="Bukti Scan KTP/Kartu Pelajar"
             readOnly={true}
           />
         </div>
