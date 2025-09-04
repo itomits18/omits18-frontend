@@ -100,8 +100,7 @@ export default function CbtAkun({
                   weight="bold"
                   className="text-black-300 break-words"
                 >
-                  {/* {data.my_its_pass || '-'} */}
-                  SMA1031595#
+                  {data.my_its_pass || '-'}
                 </Typography>
 
                 {copy.password ? (
