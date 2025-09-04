@@ -114,8 +114,7 @@ export default function CbtAkun({
                     size={20}
                     className="cursor-pointer text-gray-700 hover:text-gray-500"
                     onClick={() => {
-                      // navigator.clipboard.writeText(data.my_its_pass || '')
-                      navigator.clipboard.writeText('SMA1031594#');
+                      navigator.clipboard.writeText(data.my_its_pass || '');
 
                       copyText('password');
                     }}
@@ -124,6 +123,14 @@ export default function CbtAkun({
               </div>
             </div>
           </div>
+
+          <Typography variant="b" className="mt-3" weight="semibold">
+            Silakan akses website{' '}
+            <a href="https://cbt.its.ac.id/" className="text-blue-500">
+              cbt.its.ac.id
+            </a>{' '}
+            untuk login menggunakan akun ujian yang telah diberikan.
+          </Typography>
         </div>
       </CollapsibleContent>
     </Collapsible>
