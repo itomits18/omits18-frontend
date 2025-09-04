@@ -16,7 +16,7 @@ export default function HelperText({
         as="p"
         weight="regular"
         className={cn(
-          'text-xs !leading-tight text-gray-900 md:text-xs',
+          'text-xs leading-tight! text-gray-900 md:text-xs',
           helperTextClassName,
         )}
       >

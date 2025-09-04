@@ -22,6 +22,7 @@ export type InputProps = {
   leftIcon?: LucideIconType;
   rightIconClassName?: string;
   leftIconClassName?: string;
+  labelTextClassname?: string;
   theme?: string;
   sizes?: 'sm' | 'lg';
 } & React.ComponentPropsWithoutRef<'input'>;
@@ -41,6 +42,7 @@ export default function Input({
   rightIconClassName,
   leftIconClassName,
   helperTextClassName,
+  labelTextClassname,
   sizes = 'lg',
   theme = 'light',
   ...rest
@@ -66,8 +68,8 @@ export default function Input({
     <div className="w-full space-y-2">
       {label && (
         <LabelText
-          required={validation?.required ? true : false}
-          labelTextClasname={(theme === 'dark' && 'text-black-main') as string}
+          required={rest.required}
+          labelTextClasname={labelTextClassname}
         >
           {label}
         </LabelText>
@@ -100,7 +102,7 @@ export default function Input({
               {LeftIcon && (
                 <div
                   className={cn(
-                    'absolute left-0 top-0 flex h-full items-center pl-2.5 text-lg text-gray-900',
+                    'absolute top-0 left-0 flex h-full items-center pl-2.5 text-lg text-gray-900',
                     leftIconClassName,
                   )}
                 >
@@ -125,19 +127,18 @@ export default function Input({
                 name={id}
                 readOnly={readOnly}
                 disabled={readOnly}
-                onChange={(e) => setHasValue(!!e.target.value)}
                 className={cn(
-                  'border-white-50 h-full w-full rounded-md border px-3 py-2.5 text-base caret-gray-900',
+                  'h-full w-full rounded-md border px-3 py-2.5 text-base caret-gray-900 disabled:bg-gray-50 disabled:text-gray-400',
                   sizes === 'lg' ? 'px-6 py-3' : 'px-3 py-2',
                   LeftIcon && 'pl-9',
                   RightIcon && 'pr-9',
                   readOnly ? 'cursor-not-allowed bg-gray-100' : 'bg-white',
-                  'focus:border-white-50 focus:border-2 focus:outline-none focus:ring-0',
+                  'focus:border-black-100 focus:border-2 focus:ring focus:outline-hidden',
                   hasValue
                     ? 'border-black-400 text-black-400 border-2'
-                    : 'focus:border-0 focus:outline-none',
+                    : 'focus:border-0 focus:outline-hidden',
                   error &&
-                    'border-none ring-2 ring-inset ring-red-300 placeholder:text-gray-500 focus:ring-red-300',
+                    'border-none ring-2 ring-red-300 ring-inset placeholder:text-gray-500 focus:ring-red-300',
                   className,
                 )}
                 aria-describedby={id}
@@ -146,7 +147,7 @@ export default function Input({
               {RightIcon && type !== 'password' && (
                 <div
                   className={cn(
-                    'absolute right-0 top-0 flex h-full items-center pr-2.5 text-lg text-gray-900',
+                    'absolute top-0 right-0 flex h-full items-center pr-2.5 text-lg text-gray-900',
                     rightIconClassName,
                   )}
                 >
@@ -156,7 +157,7 @@ export default function Input({
               {type === 'password' && (
                 <div
                   className={cn(
-                    'absolute right-0 top-0 flex h-full items-center pr-3 text-lg text-gray-900',
+                    'absolute top-0 right-0 flex h-full cursor-pointer items-center pr-3 text-lg opacity-40',
                     rightIconClassName,
                   )}
                   onClick={() => setShowPassword(!showPassword)}

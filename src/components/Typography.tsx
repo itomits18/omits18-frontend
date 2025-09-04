@@ -61,7 +61,6 @@ export default function Typography<T extends React.ElementType>({
       id={id}
       className={cn(
         // *=============== Font Type ==================
-        'text-black',
         font === 'OZWizard' ? 'Cowardly_Lion' : 'regular',
         [
           font === 'Cinzel' && 'font-Cinzel',
@@ -72,6 +71,7 @@ export default function Typography<T extends React.ElementType>({
         [
           weight === 'regular' && 'font-normal',
           weight === 'medium' && 'font-medium',
+          weight === 'semibold' && 'font-semibold',
           weight === 'bold' && 'font-bold',
           weight === 'black' && 'font-black',
         ],

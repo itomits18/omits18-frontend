@@ -1,5 +1,15 @@
-import { redirect } from 'next/navigation';
+import Layout from '@/layouts/Layout';
+import ModalInfo from './(container)/ModalInfo';
+import Hero from './(container)/landing/Hero';
+import Kompetisi from './(container)/landing/Kompetisi';
 
 export default function page() {
-  return redirect('/coming-soon');
+  return (
+    <Layout withFooter withNavbar>
+      <ModalInfo />
+
+      <Hero />
+      <Kompetisi />
+    </Layout>
+  );
 }

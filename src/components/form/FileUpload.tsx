@@ -1,3 +1,4 @@
+import { useUploadFile } from '@/app/competition/hooks/useUploadFile';
 import { cn } from '@/lib/utils';
 import { Upload, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
@@ -11,12 +12,15 @@ interface FileUploadProps {
   validation?: RegisterOptions;
   className?: string;
   helpertext?: string | React.ReactNode;
+  type?: 'omits' | 'mission';
   onStatusChange?: (
     status: 'success' | 'error' | null,
     fileName?: string,
   ) => void;
   supportFiles?: string[];
   isRequired?: boolean;
+  labelTextClassName?: string;
+  sizes?: 'sm' | 'lg';
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -25,32 +29,37 @@ const FileUpload: React.FC<FileUploadProps> = ({
   validation,
   className,
   helpertext,
+  type,
   onStatusChange,
+  labelTextClassName,
   supportFiles = ['png', 'jpeg', 'jpg'],
   isRequired = false,
+  ...rest
 }) => {
   const {
     setValue,
     register,
     formState: { errors },
+    setError,
   } = useFormContext();
   const [uploadStatus, setUploadStatus] = useState<'success' | 'error' | null>(
     null,
   );
   const [fileName, setFileName] = useState<string | null>(null);
+  const { mutateAsync: UploadFile, isPending: LoadingUpload } = useUploadFile();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    const maxSize = 3 * 1048576;
+    const maxSize = 3 * 1048576; // 3 mb
 
     if (!file) {
       resetFile();
       return;
     }
 
-    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const fileExtension = file && file.name.split('.').pop()?.toLowerCase();
     const isValidExtension = supportFiles.includes(fileExtension || '');
 
     if (!isValidExtension) {
@@ -61,8 +70,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
     } else if (file.size > maxSize) {
       updateStatus('error', 'File size is too large');
     } else {
-      updateStatus('success', file.name);
-      setValue(id, file);
+      UploadFile(file)
+        .then((res) => {
+          updateStatus('success', file.name);
+          setValue(id, res.key);
+        })
+        .catch((err) => {
+          if (err.status === 413) {
+            updateStatus(
+              'error',
+              'Terdapat masalah pada file. file terlalu besar',
+            );
+          } else {
+            updateStatus('error', err.message || 'Gagal upload file');
+          }
+
+          setError(id, { type: 'manual', message: err.message });
+        });
     }
   };
 
@@ -90,7 +114,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <div className="w-full space-y-2">
       {label && (
-        <LabelText required={isRequired}>
+        <LabelText required={isRequired} labelTextClasname={labelTextClassName}>
           {label}
           {/* {isRequired && <span className="text-red-500">*</span>} */}
         </LabelText>
@@ -98,12 +122,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       <div
         className={cn(
-          'relative flex h-full w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
+          'relative flex w-full cursor-pointer items-center justify-between rounded-md border px-5 py-3 text-sm',
+          'py-3',
           uploadStatus === 'success'
-            ? 'bg-white-50 border-gray-300'
+            ? type === 'omits'
+              ? 'bg-green-200'
+              : 'bg-blue-300'
             : uploadStatus === 'error'
-              ? 'border-red-300 bg-red-50'
-              : 'bg-white-50 border-gray-300',
+              ? 'border-additions-brown-100 bg-additions-brown-100'
+              : 'bg-neutral-main',
           className,
         )}
       >
@@ -113,8 +140,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
             validate: (file) => {
               if (!file && isRequired) return 'File is required';
               if (file) {
-                const fileExtension = file.name.split('.').pop()?.toLowerCase();
-                const maxFileSize = 3 * 1024;
+                const fileExtension =
+                  file.name && file.name.split('.').pop()?.toLowerCase();
+                const maxFileSize = 3 * 1024 * 1024;
                 if (!supportFiles.includes(fileExtension || '')) {
                   return `Invalid file format. Allowed formats: ${supportFiles.join(
                     ', ',
@@ -130,11 +158,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
           type="file"
           id={id}
           name={id}
+          accept={supportFiles.map((ext) => `.${ext}`).join(', ')}
           ref={fileInputRef}
           onChange={handleFileChange}
           className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           aria-describedby={id}
           required={isRequired}
+          {...rest}
         />
 
         <span
@@ -142,26 +172,28 @@ const FileUpload: React.FC<FileUploadProps> = ({
           className={cn(
             'pointer-events-none',
             uploadStatus === 'success'
-              ? 'text-black-400'
+              ? 'text-neutral-main'
               : uploadStatus === 'error'
-                ? 'text-red-500'
+                ? 'text-neutral-50'
                 : 'text-gray-600',
           )}
         >
-          {fileName || 'Upload here'}
+          {LoadingUpload ? 'Uploading File...' : fileName || 'Upload disini'}
         </span>
 
         <div>
           {uploadStatus ? (
             <X
               className={cn(
-                'absolute right-[4%] top-1/4 h-5 w-5',
-                uploadStatus === 'error' ? 'text-red-500' : 'text-black-300',
+                'absolute top-1/4 right-[4%] h-5 w-5',
+                uploadStatus === 'error'
+                  ? 'text-neutral-main'
+                  : 'text-neutral-main',
               )}
               onClick={resetFile}
             />
           ) : (
-            <Upload className="h-4 w-4 text-black-300" />
+            <Upload className="text-black-300 h-4 w-4" />
           )}
         </div>
       </div>
@@ -170,7 +202,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         <HelperText
           helperTextClassName={cn(
             uploadStatus === 'error' || errors[id]
-              ? 'text-red-600'
+              ? 'text-neutral-10'
               : 'text-black-50',
           )}
         >

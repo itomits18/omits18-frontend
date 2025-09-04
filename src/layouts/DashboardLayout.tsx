@@ -1,5 +1,6 @@
 'use client';
 
+import useAuthStore from '@/app/store/useAuthStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,7 @@ import {
   ChartColumnIncreasing,
   ChevronLeft,
   CircleUserRound,
+  LinkIcon,
   LogOut,
   LucideProps,
   NotepadText,
@@ -66,8 +68,8 @@ const USER = {
 const ADMIN = {
   navigation: [
     {
-      title: 'Graph',
-      link: '/admin/graph',
+      title: 'Insight',
+      link: '/admin/insight',
       icon: (
         <ChartColumnIncreasing size={24} className="text-additions-brown-200" />
       ),
@@ -99,6 +101,11 @@ const ADMIN = {
       link: '/admin/registrasi-penyisihan',
       icon: <UsersRound size={24} className="text-additions-brown-200" />,
     },
+    {
+      title: 'Shorten Link',
+      link: '/admin/shorten-link',
+      icon: <LinkIcon size={24} className="text-additions-brown-200" />,
+    },
   ],
 };
 
@@ -110,7 +117,7 @@ export default function DashboardLayout({
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
-  //   const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const isDesktoplg = useMediaQuery({ query: '(max-width: 1024px)' });
 
   const handleClickNav = () => {
@@ -129,7 +136,7 @@ export default function DashboardLayout({
   }, [path]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
+    <section className="relative min-h-screen w-full overflow-x-hidden bg-linear-to-b from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
       <Image
         src="/images/dashboard/layout/assets-bl.png"
         width={930}
@@ -142,14 +149,14 @@ export default function DashboardLayout({
         width={930}
         height={614}
         alt="assets images"
-        className="absolute bottom-0 right-0 w-[30%]"
+        className="absolute right-0 bottom-0 w-[30%]"
       />
       <Image
         src="/images/dashboard/layout/assets-tr.png"
         width={286}
         height={144}
         alt="assets images"
-        className="absolute right-0 top-52 w-[15%]"
+        className="absolute top-52 right-0 w-[15%]"
         quality={100}
       />
       <Image
@@ -157,7 +164,7 @@ export default function DashboardLayout({
         width={286}
         height={144}
         alt="assets images"
-        className="absolute left-0 top-72 w-[15%]"
+        className="absolute top-72 left-0 w-[15%]"
       />
 
       {/* mobile */}
@@ -172,15 +179,15 @@ export default function DashboardLayout({
           width={193}
           height={186}
           alt="assets images"
-          className="absolute inset-x-0 top-4 mx-auto w-[12%]"
+          className="absolute inset-x-0 top-4 mx-auto w-[12%] md:w-[8%]"
         />
       </div>
 
       {/* desktop */}
-      <div className="z-20 flex w-full px-8 py-6 lg:space-x-8 lg:px-12 lg:py-10 xl:space-x-10 xl:px-16">
+      <div className="z-20 flex px-8 py-6 lg:space-x-8 lg:px-0 lg:py-10 xl:space-x-10 xl:px-16">
         <div
           className={cn(
-            'bg-black-main/30 absolute top-0 z-[52] min-h-screen w-full transition-all duration-200 lg:hidden',
+            'bg-black-main/30 absolute top-0 z-52 min-h-screen w-full transition-all duration-200 lg:hidden',
             open ? 'block opacity-100' : 'hidden opacity-0',
           )}
           onClick={handleClickNav}
@@ -188,8 +195,8 @@ export default function DashboardLayout({
         {/* sidebar */}
         <div
           className={cn(
-            'relative h-fit flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-fit lg:px-8 lg:py-14',
-            'left-0 top-0 z-[53] min-h-screen px-6 py-12 max-lg:absolute lg:flex',
+            'relative h-fit flex-shrink-0 flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-[300px] lg:px-8 lg:py-14 xl:min-w-fit',
+            'top-0 left-0 z-50 min-h-screen px-6 py-12 max-lg:absolute max-md:z-[53] lg:flex',
             'max-lg:scrollbar-hide transition-all duration-200 max-lg:max-h-screen max-lg:overflow-y-scroll',
             open ? 'max-lg:left-0' : 'max-lg:-left-96',
           )}
@@ -203,30 +210,30 @@ export default function DashboardLayout({
               className="mx-auto w-[50%] max-md:w-[40%]"
             />
 
-            <div className="absolute right-5 top-3 rounded-full bg-additions-brown-100 p-2 shadow-md lg:hidden">
+            <div className="bg-additions-brown-100 absolute top-3 right-5 rounded-full p-2 shadow-md lg:hidden">
               <ChevronLeft
                 className="text-[#FFFDF0]"
                 onClick={handleClickNav}
               />
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex max-w-[280px] space-x-4">
               <CircleUserRound size={40} />
 
-              <div>
+              <div className="">
                 <Typography
                   variant="t"
                   weight="bold"
                   className="text-additions-brown-100"
                 >
-                  Admin ITS
+                  {user?.name}
                 </Typography>
                 <Typography
                   variant="bs"
                   weight="medium"
-                  className="text-[#D19891]"
+                  className="break-words text-[#D19891]"
                 >
-                  emailadmin@its.id
+                  {user?.email}
                 </Typography>
               </div>
             </div>
@@ -239,10 +246,12 @@ export default function DashboardLayout({
                   {(path.startsWith('/dashboard') ? USER : ADMIN)[
                     nav as keyof NavigationType
                   ].map((link, k) => (
-                    <Link href={link.link} className="">
+                    <Link key={k} href={link.link} className="">
                       <div
-                        key={k}
-                        className="flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]"
+                        className={cn(
+                          'flex w-[250px] cursor-pointer items-center space-x-2 rounded-lg px-4 py-4 transition-all duration-200 hover:bg-[#F9DDD8]',
+                          path.startsWith(link.link) && 'bg-[#F9DDD8]',
+                        )}
                       >
                         {link.icon}
                         <Typography
@@ -262,15 +271,19 @@ export default function DashboardLayout({
 
           <div className="w-full py-6">
             <Button
-              className="w-full bg-additions-brown-200 font-semibold"
+              className="bg-additions-brown-200 w-full font-semibold"
               size="lg"
+              onClick={logout}
             >
               <LogOut size={32} className="h-6 w-6" />
               <span>Keluar</span>
             </Button>
           </div>
         </div>
-        <div className="z-40 w-full">{children}</div>
+
+        <div className="z-50 w-0 flex-1 overflow-hidden lg:pr-8 xl:pr-0">
+          {children}
+        </div>
       </div>
     </section>
   );
