@@ -5,16 +5,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, Search } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
-
-type ParticipantData = {
-  id: string;
-  nama: string;
-  jenjang: string;
-  nomorPeserta: string;
-  region: string;
-  namaSekolah: string;
-  sudahRegistrasi: boolean;
-};
+import { useParticipantRegistration } from './hooks/useChangeRegistered';
 
 const DisplayField = ({ label, value }: { label: string; value: string }) => (
   <div className="space-y-1">
@@ -32,79 +23,21 @@ const DisplayField = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-export default function page() {
-  const [participantsDB, setParticipantsDB] = useState<ParticipantData[]>([
-    {
-      id: '12345',
-      nama: 'Cristiano Ronaldo',
-      jenjang: 'SMA',
-      nomorPeserta: '170502002',
-      region: 'Offline 1 - Surabaya',
-      namaSekolah: 'SMA Negeri Surabaya',
-      sudahRegistrasi: false,
-    },
-    {
-      id: '67890',
-      nama: 'Lamine Yamal',
-      jenjang: 'SMP',
-      nomorPeserta: '210304005',
-      region: 'Offline 2 - Sidoarjo dan Pasuruan',
-      namaSekolah: 'SMP Negeri 1 Sidoarjo',
-      sudahRegistrasi: false,
-    },
-    {
-      id: '11223',
-      nama: 'Lionel Messi',
-      jenjang: 'SD',
-      nomorPeserta: '190807011',
-      region: 'Online 2 - DI Yogyakarta dan Jawa Tengah',
-      namaSekolah: 'SD Negeri 1 Yogyakarta',
-      sudahRegistrasi: true,
-    },
-  ]);
+export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [foundParticipant, setFoundParticipant] =
-    useState<ParticipantData | null>(null);
-  const [searchError, setSearchError] = useState<string | null>(null);
+  const {
+    isSearching,
+    isUpdating,
+    foundParticipant,
+    searchError,
+    searchParticipant,
+    markAsRegistered,
+  } = useParticipantRegistration();
 
-  const handleSearch = async (e: FormEvent) => {
+  const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     if (!searchQuery) return;
-
-    setIsLoading(true);
-    setFoundParticipant(null);
-    setSearchError(null);
-
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    const query = searchQuery.trim();
-    const result = participantsDB.find(
-      (participant) =>
-        participant.nama.toLowerCase() === query.toLowerCase() ||
-        participant.nomorPeserta === query,
-    );
-
-    if (result) {
-      setFoundParticipant(result);
-    } else {
-      setSearchError(
-        'Peserta tidak ditemukan, Periksa kembali nama atau nomor peserta.',
-      );
-    }
-    setIsLoading(false);
-  };
-
-  const handleMarkAsRegistered = async () => {
-    if (!foundParticipant) return;
-    setParticipantsDB((currentDB) =>
-      currentDB.map((p) =>
-        p.id === foundParticipant.id ? { ...p, sudahRegistrasi: true } : p,
-      ),
-    );
-    setFoundParticipant((prev) =>
-      prev ? { ...prev, sudahRegistrasi: true } : null,
-    );
+    searchParticipant(searchQuery);
   };
 
   return (
@@ -135,7 +68,7 @@ export default function page() {
         width={390}
         height={219}
         alt="rock"
-        className="absolute bottom-4 right-0 w-full md:hidden"
+        className="absolute right-0 bottom-4 w-full md:hidden"
       />
       <Image
         src="/images/registrasi-penyisihan/cloud-desktop.png"
@@ -151,7 +84,6 @@ export default function page() {
         alt="grass"
         className="absolute bottom-0 hidden w-full md:block xl:-bottom-8 2xl:-bottom-[5%]"
       />
-
       <Image
         src="/images/registrasi-penyisihan/rock-desktop.png"
         width={1060}
@@ -171,8 +103,9 @@ export default function page() {
         width={386}
         height={441}
         alt="tree"
-        className="absolute bottom-[10%] right-0 hidden md:block xl:bottom-[18%] 2xl:bottom-[25%]"
+        className="absolute right-0 bottom-[10%] hidden md:block xl:bottom-[18%] 2xl:bottom-[25%]"
       />
+
       <div className="relative w-full max-w-4xl rounded-2xl bg-[#FFFDF0] p-6 shadow-2xl md:p-10">
         <Typography
           variant="h1"
@@ -186,7 +119,7 @@ export default function page() {
           variant="h5"
           font="Cinzel"
           weight="bold"
-          className="mb-8 text-center text-additions-brown-200"
+          className="text-additions-brown-200 mb-8 text-center"
         >
           PARTICIPANT REGISTRATION
         </Typography>
@@ -201,15 +134,15 @@ export default function page() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari nomor peserta atau nama..."
             className="h-12 w-full rounded-md border border-gray-300 bg-white px-4 pr-14 text-base shadow-sm focus:border-green-500 focus:ring-green-500"
-            disabled={isLoading}
+            disabled={isSearching}
           />
           <Button
             type="submit"
             size="sm"
-            className="absolute right-1 top-1/2 h-10 w-10 -translate-y-1/2 bg-green-300 hover:bg-green-400"
-            disabled={isLoading}
+            className="absolute top-1/2 right-1 h-10 w-10 -translate-y-1/2 bg-green-300 hover:bg-green-400"
+            disabled={isSearching}
           >
-            {isLoading ? (
+            {isSearching ? (
               <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
             ) : (
               <Search size={20} />
@@ -217,51 +150,55 @@ export default function page() {
           </Button>
         </form>
 
-        {isLoading && (
+        {isSearching && (
           <div className="animate-pulse py-8 text-center text-gray-500">
             Mencari data peserta...
           </div>
         )}
 
-        {searchError && !isLoading && (
+        {searchError && !isSearching && (
           <div className="py-8 text-center font-semibold text-red-600">
-            {searchError}
+            {searchError.message || 'Terjadi kesalahan saat mencari peserta.'}
           </div>
         )}
 
-        {foundParticipant && !isLoading && (
+        {foundParticipant && !isSearching && (
           <div className="animate-in fade-in duration-500">
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
               <div className="md:col-span-2">
-                <DisplayField label="Nama" value={foundParticipant.nama} />
+                <DisplayField label="Nama" value={foundParticipant.name} />
               </div>
               <DisplayField
                 label="Jenjang Kompetisi"
-                value={foundParticipant.jenjang}
+                value={foundParticipant.participant_detail.sub_type}
               />
               <DisplayField
                 label="Nomor Peserta"
-                value={foundParticipant.nomorPeserta}
+                value={foundParticipant.participant_number}
               />
-              <DisplayField label="Region" value={foundParticipant.region} />
+              <DisplayField
+                label="Region"
+                value={foundParticipant.postal_detail.region}
+              />
               <DisplayField
                 label="Nama Sekolah"
-                value={foundParticipant.namaSekolah}
+                value={foundParticipant.instance_name}
               />
             </div>
 
             <div className="mt-8 text-center">
-              {!foundParticipant.sudahRegistrasi ? (
+              {foundParticipant.participant_detail.status === 'VERIFIED' ? (
                 <Button
-                  onClick={handleMarkAsRegistered}
-                  className="font-regular w-full bg-[#9A3B3B] py-2 font-Lora text-white hover:bg-[#802a2a] md:text-lg"
+                  onClick={markAsRegistered}
+                  disabled={isUpdating}
+                  className="font-regular font-Lora w-full bg-[#9A3B3B] py-2 text-white hover:bg-[#802a2a] md:text-lg"
                 >
-                  Tandai Telah Registrasi
+                  {isUpdating ? 'Menyimpan...' : 'Tandai Telah Registrasi'}
                 </Button>
               ) : (
                 <div className="animate-in fade-in zoom-in-95 inline-flex items-center gap-2 text-lg font-semibold text-green-600">
                   <CheckCircle size={24} />
-                  Registrasi berhasil
+                  Peserta Telah Teregistrasi
                 </div>
               )}
             </div>
