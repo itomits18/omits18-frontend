@@ -126,6 +126,7 @@ export default function CbtAkun({
           <Typography variant="b" className="mt-3" weight="semibold">
             Silakan akses website{' '}
             <a
+              target="_blank"
               href="https://cbt.its.ac.id/login/index.php"
               className="text-blue-500"
             >
