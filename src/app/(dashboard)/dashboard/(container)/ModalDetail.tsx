@@ -126,13 +126,13 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
                         : ({} as Participant)
                     }
                   />
-                  <PesertaDetail
+                  {/* <PesertaDetail
                     number={number + 1}
                     type={type}
                     data={
                       participant ? participant[number] : ({} as Participant)
                     }
-                  />
+                  /> */}
                 </>
               ) : (
                 <PesertaDetail
