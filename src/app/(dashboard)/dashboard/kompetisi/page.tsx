@@ -294,7 +294,7 @@ export default function page() {
                   OMITS CLASS
                 </Typography>
                 <Link
-                  href="/omits-class"
+                  href="/competition/omits-class"
                   className="font-Lora rounded-md bg-[#565098] px-2 py-1 text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
                 >
                   Lihat detail

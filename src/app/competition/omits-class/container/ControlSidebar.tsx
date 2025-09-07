@@ -76,7 +76,7 @@ const ControlSidebar = React.memo(
                     weight="bold"
                     className="bg-gradient-to-b from-[#191717] to-[#7F7575] bg-clip-text text-transparent max-md:text-[14px]"
                   >
-                    File Pembahasan
+                    Soal Try Out
                   </Typography>
                 </div>
               </div>
