@@ -22,7 +22,6 @@ export default function useGetVideo() {
       }));
     } catch (error: any) {
       if (error.response?.status === 403) {
-        console.warn('403: User mencoba mengakses video tanpa izin');
         throw { code: 403, message: 'Tidak memiliki akses ke video ini' };
       }
       throw error;

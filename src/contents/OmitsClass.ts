@@ -7,22 +7,12 @@ export interface Subject {
 export const subjects: Subject[] = [
   {
     id: 1,
-    name: 'VIDEO 1',
+    name: 'Pembahasan Soal',
     videoUrl: 'placeholder_video_SD',
   },
   {
     id: 2,
-    name: 'VIDEO 2',
+    name: 'Record Zoom',
     videoUrl: 'placeholder_video_SMP',
-  },
-  {
-    id: 3,
-    name: 'VIDEO 3',
-    videoUrl: 'placeholder_video_SMA',
-  },
-  {
-    id: 4,
-    name: 'RECORD 1',
-    videoUrl: 'placeholder_video_MISSION',
   },
 ];
