@@ -50,7 +50,7 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
               type === 'omits' ? 'text-green-300' : 'text-[#244D80]',
             )}
           >
-            {type}
+            {type.toUpperCase()}
           </Typography>
 
           {type === 'omits' && (

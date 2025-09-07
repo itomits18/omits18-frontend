@@ -2,6 +2,7 @@
 import useParticipantStore from '@/app/store/useParticipantStore';
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -16,6 +17,8 @@ export default function page() {
   // const { user } = useAuthStore();
   const { participant } = useParticipantStore();
 
+  const isOmitsClass =
+    participant && participant.length === 1 && participant[0].is_omits_class;
   const isRegistered = participant.length > 0;
 
   const isRegisterMISSION =
@@ -92,10 +95,17 @@ export default function page() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex w-fit flex-col items-center md:flex-row md:items-start md:justify-center">
-            <div className="hidden items-start justify-center md:flex">
-              {/* omits class */}
-              <div className="relative hidden transform overflow-hidden rounded-2xl shadow-lg">
+          <div className="flex w-fit flex-col items-center gap-6 md:flex-row md:items-stretch md:justify-center">
+            {/* omits class */}
+            <div
+              className={cn('items-start justify-center max-md:hidden md:flex')}
+            >
+              <div
+                className={cn(
+                  'relative hidden transform overflow-hidden rounded-xl shadow-lg',
+                  isOmitsClass ? 'block' : 'hidden',
+                )}
+              >
                 <Image
                   src="/images/competition/dashboard/bg-omits-class-desktop.png"
                   alt="OMITS Class"
@@ -113,7 +123,7 @@ export default function page() {
                     OMITS ClASS
                   </Typography>
                   <Link
-                    href="/omits-class"
+                    href="/competition/omits-class"
                     className="font-Lora rounded-md bg-[#565098] px-4 py-2 text-sm font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
                   >
                     Lihat detail
@@ -122,7 +132,15 @@ export default function page() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 max-md:gap-4 2xl:flex-row">
+            <div
+              className={cn(
+                'flex flex-col max-md:gap-4 2xl:flex-row',
+                isOmitsClass
+                  ? 'min-h-full flex-col justify-between gap-0 2xl:flex-col'
+                  : 'gap-6',
+              )}
+            >
+              {/* OMITS */}
               <div className="relative transform overflow-hidden rounded-md shadow-lg lg:rounded-xl">
                 <Image
                   src="/images/competition/dashboard/bg-omits.png"
@@ -189,6 +207,8 @@ export default function page() {
                   )}
                 </div>
               </div>
+
+              {/* MISSION */}
               <div className="relative transform overflow-hidden rounded-md shadow-lg lg:rounded-xl">
                 <Image
                   src="/images/competition/dashboard/bg-mission.png"
@@ -250,8 +270,13 @@ export default function page() {
           </div>
 
           {/* omitsclass mobile */}
-          <div className="hidden justify-center">
-            <div className="relative transform overflow-hidden rounded-xl shadow-lg">
+          <div
+            className={cn(
+              'justify-center md:hidden',
+              isOmitsClass ? 'block' : 'hidden',
+            )}
+          >
+            <div className="relative transform overflow-hidden rounded-md shadow-lg">
               <Image
                 src="/images/competition/dashboard/bg-omits-class-mobile.png"
                 alt="OMITS Class Mobile"
@@ -269,7 +294,7 @@ export default function page() {
                   OMITS CLASS
                 </Typography>
                 <Link
-                  href="/omits-class"
+                  href="/competition/omits-class"
                   className="font-Lora rounded-md bg-[#565098] px-2 py-1 text-xs font-semibold text-[#EEE2DF] transition duration-300 ease-in-out hover:bg-[#453e8a]"
                 >
                   Lihat detail
