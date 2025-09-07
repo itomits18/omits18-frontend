@@ -12,6 +12,7 @@ export type Participant = {
     id: number;
     sub_type: string;
     status: 'VERIFIED' | 'REGISTERED' | string;
+    student_id_url: string;
   };
   postal_detail: {
     region: string;
@@ -70,10 +71,16 @@ export const useParticipantRegistration = () => {
 
   const { mutate: updateRegistration, isPending: isUpdating } = useMutation({
     mutationFn: async (participantData: Participant) => {
+      const baseString = participantData.participant_detail.student_id_url;
+      const sliceString = baseString.startsWith('https://s3.jkt.dewavps.com')
+        ? baseString.slice('https://s3.jkt.dewavps.com/omits-storage/'.length)
+        : baseString;
+
       const payload = {
         ...participantData,
         participant_detail: {
           ...participantData.participant_detail,
+          student_id_url: sliceString,
           status: 'REGISTERED',
         },
       };
