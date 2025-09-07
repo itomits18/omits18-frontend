@@ -66,7 +66,7 @@ export default function CbtAkun({
                   weight="bold"
                   className="truncate text-gray-600"
                 >
-                  {`${data.participant_number}@mail.its.com`}
+                  {`${data.participant_number}`}
                 </Typography>
 
                 {copy.email ? (
@@ -80,7 +80,7 @@ export default function CbtAkun({
                     className="cursor-pointer text-gray-700 hover:text-gray-500"
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `${data.participant_number}@mail.its.com`,
+                        `${data.participant_number}`,
                       );
 
                       copyText('email');
