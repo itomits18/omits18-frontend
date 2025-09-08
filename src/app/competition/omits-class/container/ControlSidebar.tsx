@@ -2,7 +2,7 @@ import Typography from '@/components/Typography';
 import { subjects } from '@/contents/OmitsClass';
 import type { Subject } from '@/contents/OmitsClass';
 import { cn } from '@/lib/utils';
-import { Download, File, NotebookPen, Video } from 'lucide-react';
+import { ExternalLink, File, NotebookPen, Video } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -58,7 +58,7 @@ const ControlSidebar = React.memo(
             );
           })}
 
-          <Link href={fileLink}>
+          <Link href={fileLink} target="_blank">
             <div
               className={cn(
                 'flex cursor-pointer items-center justify-between space-x-3 rounded-lg border-2 p-3 transition-all',
@@ -76,12 +76,12 @@ const ControlSidebar = React.memo(
                     weight="bold"
                     className="bg-gradient-to-b from-[#191717] to-[#7F7575] bg-clip-text text-transparent max-md:text-[14px]"
                   >
-                    Soal Try Out
+                    Soal Try Out dan Pembahasan
                   </Typography>
                 </div>
               </div>
 
-              <Download size={26} className={cn('text-[#658E78]')} />
+              <ExternalLink size={26} className={cn('text-[#658E78]')} />
             </div>
           </Link>
         </div>

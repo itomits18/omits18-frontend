@@ -28,10 +28,10 @@ const ContentDisplay = React.memo(
 
       let fixedVideo = '';
 
-      if (sub_type === 'SD') fixedVideo = videos[0].url;
-      else if (sub_type === 'SMP') fixedVideo = videos[1].url;
-      else if (sub_type === 'SMA') fixedVideo = videos[2].url;
-      else if (sub_type === 'MISSION') fixedVideo = videos[3].url;
+      if (sub_type === 'SD') fixedVideo = videos[2].url;
+      else if (sub_type === 'SMP') fixedVideo = videos[3].url;
+      else if (sub_type === 'SMA') fixedVideo = videos[0].url;
+      else if (sub_type === 'MISSION') fixedVideo = videos[1].url;
 
       const matchVideo = fixedVideo.split(';')[(subject.id as number) - 1];
 
@@ -41,10 +41,10 @@ const ContentDisplay = React.memo(
     useEffect(() => {
       if (videos) {
         let fixedVideo = '';
-        if (sub_type === 'SD') fixedVideo = videos[0].url;
-        else if (sub_type === 'SMP') fixedVideo = videos[1].url;
-        else if (sub_type === 'SMA') fixedVideo = videos[2].url;
-        else if (sub_type === 'MISSION') fixedVideo = videos[3].url;
+        if (sub_type === 'SD') fixedVideo = videos[2].url;
+        else if (sub_type === 'SMP') fixedVideo = videos[3].url;
+        else if (sub_type === 'SMA') fixedVideo = videos[0].url;
+        else if (sub_type === 'MISSION') fixedVideo = videos[1].url;
 
         setFile(fixedVideo.split(';')[2]); // hanya update kalau ada videos
       }
