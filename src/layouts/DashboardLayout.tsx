@@ -57,11 +57,6 @@ const USER = {
       link: '/dashboard/kompetisi',
       icon: <BookOpen size={24} className="text-additions-brown-200" />,
     },
-    {
-      title: 'OMITS Class',
-      link: '/dashboard/omits-class',
-      icon: <TvMinimalPlay size={24} className="text-additions-brown-200" />,
-    },
   ],
 };
 
