@@ -69,7 +69,7 @@ export default function OmitsClass() {
           height={262}
           className="absolute top-40 hidden md:block lg:top-30"
         />
-        <div className="flex min-h-screen items-center justify-center p-4 md:p-8">
+        <div className="relative z-20 flex min-h-screen items-center justify-center p-4 md:p-8">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 max-md:gap-4 lg:flex-row lg:items-stretch xl:max-w-[90vw] 2xl:max-w-[80vw]">
             <div className="w-full lg:w-2/3">
               <div className="flex h-full flex-col overflow-hidden rounded-md bg-white shadow-xl backdrop-blur-sm">
