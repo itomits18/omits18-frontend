@@ -114,6 +114,8 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [isLoading]);
 
+  const splitInstance = data?.instance_name.split('|');
+
   return (
     !isLoading && (
       <>
@@ -352,7 +354,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                   labelTextClassname="text-black-300"
                   id="nama_sekolah"
                   label="Nama Sekolah"
-                  defaultValue={data?.instance_name}
+                  defaultValue={splitInstance && splitInstance[0]}
                   placeholder="Load data..."
                   disabled={!isEdit}
                 />

@@ -83,6 +83,10 @@ export default function page() {
     {
       accessorKey: 'instance_name',
       header: 'Sekolah',
+      cell: (info) => {
+        const splitter = info.row.original.instance_name.split('|');
+        return <>{splitter[0]}</>;
+      },
     },
     {
       accessorKey: 'participant_detail.status',
