@@ -4,6 +4,7 @@ import Typography from '@/components/Typography';
 import Option from '@/components/form/Option';
 import TableLayout from '@/components/form/TableLayout';
 
+import useAuthStore from '@/app/store/useAuthStore';
 import api from '@/lib/api';
 import { Metadata, PaginateData } from '@/types/api';
 import {
@@ -16,6 +17,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import * as React from 'react';
 import ModalExportData from '../(container)/ModalExportData';
 import StatisticSection from '../(container)/StatisticSection';
@@ -33,6 +35,12 @@ import { GetParticipants } from '../hooks/useGetAllParticipants';
 type Participant = GetParticipants['participants'][number];
 
 export default function page() {
+  const { user } = useAuthStore();
+
+  if (user?.email === 'admin@omits.com') {
+    return redirect('/registrasi-penyisihan');
+  }
+
   const filterTypeList = ['Filter', 'Status', 'Jenjang'];
   const filterValueLists = [
     'None',

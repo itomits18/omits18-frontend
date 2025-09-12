@@ -15,9 +15,7 @@ import {
   LucideProps,
   NotepadText,
   Trophy,
-  TvMinimalPlay,
   User,
-  UsersRound,
 } from 'lucide-react';
 // import useAuthStore from '@/app/store/useAuthStore';
 import Image from 'next/image';
@@ -79,22 +77,12 @@ const ADMIN = {
       link: '/admin/mission',
       icon: <Trophy size={24} className="text-additions-brown-200" />,
     },
-    {
-      title: 'OMITS Class',
-      link: '/admin/omits-class',
-      icon: <TvMinimalPlay size={24} className="text-additions-brown-200" />,
-    },
   ],
   registrasi: [
     {
       title: 'Registrasi Penyisihan',
       link: '/registrasi-penyisihan',
       icon: <NotepadText size={24} className="text-additions-brown-200" />,
-    },
-    {
-      title: 'Peserta Penyisihan',
-      link: '/admin/registrasi-penyisihan',
-      icon: <UsersRound size={24} className="text-additions-brown-200" />,
     },
     {
       title: 'Shorten Link',
