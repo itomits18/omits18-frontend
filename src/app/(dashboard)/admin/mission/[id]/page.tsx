@@ -1,6 +1,7 @@
 'use client';
 
 import useGetRegion from '@/app/competition/hooks/useGetRegion';
+import useAuthStore from '@/app/store/useAuthStore';
 import Typography from '@/components/Typography';
 import FileUpload from '@/components/form/FileUpload';
 import ImagePreview from '@/components/form/ImagePreview';
@@ -19,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { EditDataSchema } from '@/validation/EditDataSchema';
 import { ChevronLeft, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,6 +31,12 @@ import useGetDetailParticipants, {
 } from '../../hooks/useGetDetailParticipants';
 
 export default function page({ params }: { params: Promise<{ id: string }> }) {
+  const { user } = useAuthStore();
+
+  if (user?.email === 'admin@omits.com') {
+    return redirect('/registrasi-penyisihan');
+  }
+
   const { id } = use(params);
 
   const [terimaConfirm, setTerimaConfirm] = useState(false);
