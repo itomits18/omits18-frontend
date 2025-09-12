@@ -28,7 +28,7 @@ export default function PesertaDetail({
       <CollapsibleTrigger
         className={cn(
           'text-neutral-main relative z-20 flex w-full justify-between rounded-xl px-8 py-4 focus:ring-0',
-          'cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
+          'cursor-pointer focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
             : 'bg-gradient-to-r from-[#4580B2] to-[#1D374C]',

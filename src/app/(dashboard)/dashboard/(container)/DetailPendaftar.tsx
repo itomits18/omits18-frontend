@@ -23,7 +23,7 @@ export default function DetailPendaftar({
       <CollapsibleTrigger
         className={cn(
           'text-neutral-main relative z-20 flex w-full cursor-pointer justify-between rounded-xl px-8 py-4',
-          'focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
+          'focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
           type === 'omits'
             ? 'bg-gradient-to-r from-green-200 to-green-500'
             : 'bg-gradient-to-r from-[#4580B2] to-[#1D374C]',
