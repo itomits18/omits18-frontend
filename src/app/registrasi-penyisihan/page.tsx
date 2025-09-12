@@ -2,7 +2,7 @@
 
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Search } from 'lucide-react';
+import { CheckCircle, Search, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 import { useParticipantRegistration } from './hooks/useChangeRegistered';
@@ -197,6 +197,13 @@ export default function Page() {
                 >
                   {isUpdating ? 'Menyimpan...' : 'Tandai Telah Registrasi'}
                 </Button>
+              ) : ['PAYMENT', 'REJECTED'].includes(
+                  foundParticipant.participant_detail.status,
+                ) ? (
+                <div className="animate-in fade-in zoom-in-95 text-additions-brown-200 inline-flex items-center gap-2 text-lg font-semibold">
+                  <XCircle size={24} />
+                  Peserta Belum Terdaftar
+                </div>
               ) : (
                 <div className="animate-in fade-in zoom-in-95 inline-flex items-center gap-2 text-lg font-semibold text-green-600">
                   <CheckCircle size={24} />

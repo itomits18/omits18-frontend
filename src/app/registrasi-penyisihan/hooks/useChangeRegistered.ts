@@ -13,6 +13,7 @@ export type Participant = {
     sub_type: string;
     status: 'VERIFIED' | 'REGISTERED' | string;
     student_id_url: string;
+    guardian_phone: string;
   };
   postal_detail: {
     region: string;
@@ -80,10 +81,13 @@ export const useParticipantRegistration = () => {
         ...participantData,
         participant_detail: {
           ...participantData.participant_detail,
+          guardian_phone:
+            participantData.participant_detail.guardian_phone || '081',
           student_id_url: sliceString,
           status: 'REGISTERED',
         },
       };
+
       const { data } = await api.put(
         `/participants/${participantData.id}`,
         payload,
