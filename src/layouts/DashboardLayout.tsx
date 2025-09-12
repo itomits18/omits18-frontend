@@ -119,7 +119,7 @@ export default function DashboardLayout({
   }, [path]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-linear-to-b from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
+    <section className="bg-linear-to-b relative min-h-screen w-full overflow-x-hidden from-[#EEE2DF] via-[#CFEBD1] via-50% to-[#658E78]">
       <Image
         src="/images/dashboard/layout/assets-bl.png"
         width={930}
@@ -132,14 +132,14 @@ export default function DashboardLayout({
         width={930}
         height={614}
         alt="assets images"
-        className="absolute right-0 bottom-0 w-[30%]"
+        className="absolute bottom-0 right-0 w-[30%]"
       />
       <Image
         src="/images/dashboard/layout/assets-tr.png"
         width={286}
         height={144}
         alt="assets images"
-        className="absolute top-52 right-0 w-[15%]"
+        className="absolute right-0 top-52 w-[15%]"
         quality={100}
       />
       <Image
@@ -147,7 +147,7 @@ export default function DashboardLayout({
         width={286}
         height={144}
         alt="assets images"
-        className="absolute top-72 left-0 w-[15%]"
+        className="absolute left-0 top-72 w-[15%]"
       />
 
       {/* mobile */}
@@ -170,7 +170,7 @@ export default function DashboardLayout({
       <div className="z-20 flex px-8 py-6 lg:space-x-8 lg:px-0 lg:py-10 xl:space-x-10 xl:px-16">
         <div
           className={cn(
-            'bg-black-main/30 absolute top-0 z-52 min-h-screen w-full transition-all duration-200 lg:hidden',
+            'bg-black-main/30 z-52 absolute top-0 min-h-screen w-full transition-all duration-200 lg:hidden',
             open ? 'block opacity-100' : 'hidden opacity-0',
           )}
           onClick={handleClickNav}
@@ -179,7 +179,7 @@ export default function DashboardLayout({
         <div
           className={cn(
             'relative h-fit flex-shrink-0 flex-col items-center rounded-xl bg-[#FFFDF0] lg:flex lg:min-w-[300px] lg:px-8 lg:py-14 xl:min-w-fit',
-            'top-0 left-0 z-50 min-h-screen px-6 py-12 max-lg:absolute max-md:z-[53] lg:flex',
+            'left-0 top-0 z-50 min-h-screen px-6 py-12 max-lg:absolute max-md:z-[53] lg:flex',
             'max-lg:scrollbar-hide transition-all duration-200 max-lg:max-h-screen max-lg:overflow-y-scroll',
             open ? 'max-lg:left-0' : 'max-lg:-left-96',
           )}
@@ -193,7 +193,7 @@ export default function DashboardLayout({
               className="mx-auto w-[50%] max-md:w-[40%]"
             />
 
-            <div className="bg-additions-brown-100 absolute top-3 right-5 rounded-full p-2 shadow-md lg:hidden">
+            <div className="bg-additions-brown-100 absolute right-5 top-3 rounded-full p-2 shadow-md lg:hidden">
               <ChevronLeft
                 className="text-[#FFFDF0]"
                 onClick={handleClickNav}

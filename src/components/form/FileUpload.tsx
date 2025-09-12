@@ -185,7 +185,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {uploadStatus ? (
             <X
               className={cn(
-                'absolute top-1/4 right-[4%] h-5 w-5',
+                'absolute right-[4%] top-1/4 h-5 w-5',
                 uploadStatus === 'error'
                   ? 'text-neutral-main'
                   : 'text-neutral-main',

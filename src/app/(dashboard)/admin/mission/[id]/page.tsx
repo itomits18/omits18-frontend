@@ -137,7 +137,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               <Typography
                 variant="h4"
                 weight="semibold"
-                className="font-semibold text-green-500 max-[350px]:text-2xl max-md:text-3xl md:w-[50%]"
+                className="font-semibold text-green-500 max-md:text-3xl max-[350px]:text-2xl md:w-[50%]"
               >
                 Detail Pendaftar
               </Typography>
@@ -248,7 +248,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                           <SelectTrigger
                             id={id}
                             className={cn(
-                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:outline-none focus:ring-2',
                               'px-6',
                               field.value &&
                                 'border-black-400 text-black-400 focus:ring-0',
@@ -315,7 +315,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                           <SelectTrigger
                             id={id}
                             className={cn(
-                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:ring-2 focus:outline-none',
+                              'bg-neutral-main w-full cursor-pointer rounded-lg focus:outline-none focus:ring-2',
                               'px-6',
                               field.value &&
                                 'border-black-400 text-black-400 focus:ring-0',

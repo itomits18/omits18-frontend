@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 export default function ModalInfo() {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -42,7 +42,7 @@ export default function ModalInfo() {
               width={980}
               height={722}
               alt="assets"
-              className="absolute right-0 bottom-0 max-lg:hidden lg:w-[30%]"
+              className="absolute bottom-0 right-0 max-lg:hidden lg:w-[30%]"
             />
             <Image
               src="/images/landing/modal/batu-kiri.png"
@@ -56,7 +56,7 @@ export default function ModalInfo() {
               width={304}
               height={322}
               alt="assets"
-              className="absolute right-0 bottom-0 w-[40%] lg:hidden"
+              className="absolute bottom-0 right-0 w-[40%] lg:hidden"
             />
             <Image
               src="/images/landing/modal/batu-kiri-mobile.png"
@@ -88,7 +88,7 @@ export default function ModalInfo() {
             width={968}
             height={478}
             alt="assets"
-            className="absolute bottom-28 z-10 mx-auto w-full max-[350px]:bottom-24 max-md:w-[90%] md:w-[75%] lg:bottom-16 lg:w-[40%] xl:bottom-24"
+            className="absolute bottom-28 z-10 mx-auto w-full max-md:w-[90%] max-[350px]:bottom-24 md:w-[75%] lg:bottom-16 lg:w-[40%] xl:bottom-24"
           />
 
           <Image
@@ -104,7 +104,7 @@ export default function ModalInfo() {
             width={296}
             height={972}
             alt="assets"
-            className="absolute right-0 bottom-0 z-[5] max-lg:hidden lg:w-[15%]"
+            className="absolute bottom-0 right-0 z-[5] max-lg:hidden lg:w-[15%]"
           />
           <Image
             src="/images/landing/modal/bola-atas.png"
@@ -118,21 +118,21 @@ export default function ModalInfo() {
             width={634}
             height={458}
             alt="assets"
-            className="absolute top-0 right-0 z-[4] mx-auto opacity-80 mix-blend-overlay max-lg:w-[40%] md:w-[30%] lg:hidden"
+            className="absolute right-0 top-0 z-[4] mx-auto opacity-80 mix-blend-overlay max-lg:w-[40%] md:w-[30%] lg:hidden"
           />
           <Image
             src="/images/landing/modal/awan-lt.png"
             width={219}
             height={98}
             alt="assets"
-            className="absolute top-0 left-0 max-md:w-[50%] lg:w-[20%]"
+            className="absolute left-0 top-0 max-md:w-[50%] lg:w-[20%]"
           />
           <Image
             src="/images/landing/modal/awan-rt.png"
             width={260}
             height={98}
             alt="assets"
-            className="absolute top-32 right-72 z-[2] max-md:top-52 max-md:right-10 max-md:w-[30%] md:right-40 md:w-[20%] lg:w-[10%] 2xl:right-72"
+            className="absolute right-72 top-32 z-[2] max-md:right-10 max-md:top-52 max-md:w-[30%] md:right-40 md:w-[20%] lg:w-[10%] 2xl:right-72"
           />
 
           <div className="relative z-30 mb-20 flex flex-col items-center justify-center space-y-4">
@@ -171,7 +171,7 @@ export default function ModalInfo() {
             <Button
               variant="purple"
               size="lg"
-              className="mx-auto border-0 shadow-none outline-none focus:ring-0 focus:outline-none"
+              className="mx-auto border-0 shadow-none outline-none focus:outline-none focus:ring-0"
               asChild
             >
               <Link href="/login">

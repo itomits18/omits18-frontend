@@ -62,7 +62,7 @@ export default function Hero() {
           width={1061}
           height={1394}
           alt="assets"
-          className="absolute right-0 bottom-0 z-20 max-lg:bottom-32 max-lg:w-[50%] md:w-[40%] lg:w-[30%]"
+          className="absolute bottom-0 right-0 z-20 max-lg:bottom-32 max-lg:w-[50%] md:w-[40%] lg:w-[30%]"
           data-aos="fade-up"
           data-aos-duration="500"
           data-aos-delay="100"
@@ -92,7 +92,7 @@ export default function Hero() {
           width={694}
           height={208}
           alt="assets"
-          className="absolute z-20 max-md:top-28 max-md:left-10 max-md:w-[45%] md:top-28 md:left-20 md:w-[40%] lg:w-[25%]"
+          className="absolute z-20 max-md:left-10 max-md:top-28 max-md:w-[45%] md:left-20 md:top-28 md:w-[40%] lg:w-[25%]"
           data-aos="zoom-in"
           data-aos-duration="500"
           data-aos-delay="500"
@@ -102,7 +102,7 @@ export default function Hero() {
           width={694}
           height={208}
           alt="assets"
-          className="absolute top-32 right-0 opacity-50 max-md:w-[30%] md:w-[40%] lg:w-[30%]"
+          className="absolute right-0 top-32 opacity-50 max-md:w-[30%] md:w-[40%] lg:w-[30%]"
           data-aos="zoom-in"
           data-aos-duration="500"
           data-aos-delay="500"
@@ -232,7 +232,7 @@ export default function Hero() {
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute bottom-20 -left-10 md:bottom-10 md:left-0 lg:-left-20"
+          className="absolute -left-10 bottom-20 md:bottom-10 md:left-0 lg:-left-20"
           data-aos="fade-right"
           data-aos-duration="500"
           data-aos-delay="200"
@@ -243,7 +243,7 @@ export default function Hero() {
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute right-0 bottom-10 z-20 md:bottom-0 md:hidden md:w-[60%]"
+          className="absolute bottom-10 right-0 z-20 md:bottom-0 md:hidden md:w-[60%]"
           data-aos="fade-up"
           data-aos-duration="500"
           data-aos-delay="500"
@@ -254,42 +254,42 @@ export default function Hero() {
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute bottom-10 -left-10 z-20 md:-bottom-10 md:left-0 md:w-[70%]"
+          className="absolute -left-10 bottom-10 z-20 md:-bottom-10 md:left-0 md:w-[70%]"
         />
         <Image
           src="/images/landing/tentang/awan-bawah-mobile.png"
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute bottom-0 -left-10 z-20 scale-125 md:-bottom-10 md:left-0 md:w-[70%] lg:hidden"
+          className="absolute -left-10 bottom-0 z-20 scale-125 md:-bottom-10 md:left-0 md:w-[70%] lg:hidden"
         />
         <Image
           src="/images/landing/tentang/awan-bawah-mobile.png"
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute bottom-0 -left-10 z-20 scale-125 md:right-0 md:-bottom-5 md:left-0 md:w-[70%] lg:hidden"
+          className="absolute -left-10 bottom-0 z-20 scale-125 md:-bottom-5 md:left-0 md:right-0 md:w-[70%] lg:hidden"
         />
         <Image
           src="/images/landing/tentang/awan-bawah-desktop.png"
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute right-0 -bottom-10 z-[32] max-lg:hidden xl:-bottom-24"
+          className="absolute -bottom-10 right-0 z-[32] max-lg:hidden xl:-bottom-24"
         />
         <Image
           src="/images/landing/tentang/awan-bawah-desktop.png"
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute right-0 -bottom-32 z-[32] max-lg:hidden xl:-bottom-40"
+          className="absolute -bottom-32 right-0 z-[32] max-lg:hidden xl:-bottom-40"
         />
         <Image
           src="/images/landing/tentang/awan-bawah-desktop.png"
           width={2358}
           height={1142}
           alt="assets"
-          className="absolute right-0 -bottom-32 z-[32] max-lg:hidden xl:-bottom-40 xl:w-[70%]"
+          className="absolute -bottom-32 right-0 z-[32] max-lg:hidden xl:-bottom-40 xl:w-[70%]"
         />
         <div className="z-40 flex flex-col items-center space-y-2 max-lg:w-[80%] lg:ml-32 lg:items-start">
           <div
@@ -312,7 +312,7 @@ export default function Hero() {
             font="CinzelDecorative"
             weight="bold"
             variant="h3"
-            className="text-[#284269] shadow-2xs max-md:text-3xl"
+            className="shadow-2xs text-[#284269] max-md:text-3xl"
             data-aos="fade-right"
             data-aos-duration="500"
             data-aos-delay="500"
@@ -337,14 +337,14 @@ export default function Hero() {
           </Typography>
         </div>
 
-        <div className="absolute right-0 bottom-15 w-[80%] md:-bottom-10 lg:bottom-0 lg:w-[60%]">
+        <div className="bottom-15 absolute right-0 w-[80%] md:-bottom-10 lg:bottom-0 lg:w-[60%]">
           <div className="relative flex justify-center">
             <Image
               src="/images/landing/tentang/omits-atas.png"
               width={696}
               height={390}
               alt="assets"
-              className="animated-vertical absolute bottom-35 z-30 w-[50%] md:bottom-60 md:w-[35%] lg:right-32 xl:bottom-85 2xl:bottom-92"
+              className="animated-vertical bottom-35 xl:bottom-85 2xl:bottom-92 absolute z-30 w-[50%] md:bottom-60 md:w-[35%] lg:right-32"
               data-aos="fade-up"
               data-aos-duration="600"
               data-aos-delay="500"
@@ -356,7 +356,7 @@ export default function Hero() {
               width={696}
               height={390}
               alt="assets"
-              className="absolute bottom-20 z-30 w-[50%] md:bottom-40 md:w-[40%] lg:right-32 lg:bottom-52 xl:bottom-60"
+              className="absolute bottom-20 z-30 w-[50%] md:bottom-40 md:w-[40%] lg:bottom-52 lg:right-32 xl:bottom-60"
               data-aos="fade-up"
               data-aos-duration="400"
               data-aos-delay="500"
@@ -378,7 +378,7 @@ export default function Hero() {
               width={2195}
               height={907}
               alt="assets"
-              className="absolute right-0 -bottom-20 max-lg:hidden xl:-bottom-40 2xl:-bottom-52"
+              className="absolute -bottom-20 right-0 max-lg:hidden xl:-bottom-40 2xl:-bottom-52"
               data-aos="fade-up"
               data-aos-duration="200"
               data-aos-delay="500"
