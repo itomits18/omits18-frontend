@@ -8,11 +8,11 @@ import { cn } from '@/lib/utils';
 
 import Typography from '@/components/Typography';
 import { DialogPortal } from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import React, { SetStateAction, useState } from 'react';
 import DetailPendaftar from './DetailPendaftar';
 import PesertaDetail from './PesertaDetail';
 import WizardProgress from './WizardProgress';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 import useParticipantStore from '@/app/store/useParticipantStore';
 import { Participant } from '@/types/participants';
@@ -126,13 +126,13 @@ export default function ModalConfirm({ type, open, setOpen }: ModalType) {
                         : ({} as Participant)
                     }
                   />
-                  <PesertaDetail
+                  {/* <PesertaDetail
                     number={number + 1}
                     type={type}
                     data={
                       participant ? participant[number] : ({} as Participant)
                     }
-                  />
+                  /> */}
                 </>
               ) : (
                 <PesertaDetail

@@ -10,8 +10,6 @@ import Tutorial from './(container)/landing/Tutorial';
 export default function page() {
   return (
     <Layout withFooter withNavbar>
-      <ModalInfo />
-
       <Hero />
       <Kompetisi />
       <Timeline />
