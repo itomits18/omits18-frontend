@@ -121,7 +121,7 @@ export default function Page() {
           weight="bold"
           className="text-additions-brown-200 mb-8 text-center"
         >
-          PARTICIPANT REGISTRATION
+          REGISTRASI PESERTA
         </Typography>
 
         <form
@@ -165,9 +165,7 @@ export default function Page() {
         {foundParticipant && !isSearching && (
           <div className="animate-in fade-in duration-500">
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <DisplayField label="Nama" value={foundParticipant.name} />
-              </div>
+              <DisplayField label="Nama" value={foundParticipant.name} />
               <DisplayField
                 label="Jenjang Kompetisi"
                 value={foundParticipant.participant_detail.sub_type}
@@ -182,7 +180,11 @@ export default function Page() {
               />
               <DisplayField
                 label="Nama Sekolah"
-                value={foundParticipant.instance_name}
+                value={foundParticipant.instance_name.split('|')[0]}
+              />
+              <DisplayField
+                label="Ruang Ujian"
+                value={foundParticipant.instance_name.split('|')[1]}
               />
             </div>
 
