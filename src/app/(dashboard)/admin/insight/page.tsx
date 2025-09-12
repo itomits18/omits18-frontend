@@ -2,9 +2,11 @@
 
 import Typography from '@/components/Typography';
 
+import useAuthStore from '@/app/store/useAuthStore';
 import { DashboardStatsResponse } from '@/types/DashboardStatistics';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import useGetStatistics from '../hooks/useGetStatistics';
 import FilterByJenjang from './(container)/FilterByJenjang';
 import FilterByMISSION from './(container)/FilterByMISSION';
@@ -13,6 +15,11 @@ import FilterByRegion from './(container)/FilterByRegion';
 
 export default function page() {
   const { data, isLoading } = useGetStatistics();
+  const { user } = useAuthStore();
+
+  if (user?.email === 'admin@omits.com') {
+    return redirect('/registrasi-penyisihan');
+  }
 
   return (
     !isLoading && (
