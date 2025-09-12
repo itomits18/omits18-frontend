@@ -132,7 +132,7 @@ export default function Page() {
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari nomor peserta atau nama..."
+            placeholder="Masukkan Nomor Peserta (ex: 180101001)"
             className="h-12 w-full rounded-md border border-gray-300 bg-white px-4 pr-14 text-base shadow-sm focus:border-green-500 focus:ring-green-500"
             disabled={isSearching}
           />
