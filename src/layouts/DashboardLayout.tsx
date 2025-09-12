@@ -88,7 +88,7 @@ const ADMIN = {
   registrasi: [
     {
       title: 'Registrasi Penyisihan',
-      link: '/registrasi/penyisihan',
+      link: '/registrasi-penyisihan',
       icon: <NotepadText size={24} className="text-additions-brown-200" />,
     },
     {
