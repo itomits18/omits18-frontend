@@ -14,7 +14,7 @@ export default function page() {
       <Kompetisi />
       <Timeline />
       <Tutorial />
-      <Testimonial />
+      {/* <Testimonial /> */}
       <Sponsor />
       <ModalInfo />
     </Layout>

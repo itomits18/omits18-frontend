@@ -64,7 +64,7 @@ export default function Tutorial() {
         alt="mashroom"
         className="absolute bottom-0 z-10 md:hidden"
       />
-      <div className="absolute top-[15%] aspect-video w-full max-w-4xl md:top-[10%] md:left-15 xl:top-[17%] xl:left-[25%] xl:max-w-5xl 2xl:top-[20%] 2xl:left-[30%] 2xl:max-w-7xl">
+      <div className="absolute top-[15%] z-30 aspect-video w-full max-w-4xl md:top-[10%] md:left-15 xl:top-[17%] xl:left-[25%] xl:max-w-5xl 2xl:top-[20%] 2xl:left-[30%] 2xl:max-w-7xl">
         <Image
           src="/images/landing/tutorial/frame.png"
           alt="Video Frame"
@@ -73,7 +73,7 @@ export default function Tutorial() {
         />
         <iframe
           className="absolute top-[59%] left-1/2 z-30 h-[69%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-md md:h-[70%] md:w-[63%] xl:h-[69%]"
-          src="https://www.youtube.com/embed/2vBtlkyFN0w?si=Yj6b_BrdiYQAZthE"
+          src="https://www.youtube.com/embed/OqjDsyew6so"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"

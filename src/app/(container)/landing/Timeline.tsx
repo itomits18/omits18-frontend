@@ -160,9 +160,9 @@ export default function Timeline() {
         alt="buah"
         className="absolute -right-5 bottom-10 z-10 w-[42%] md:right-0 md:w-[23%]"
       />
-      <div className="absolute top-0 z-20 flex w-full max-w-xs justify-center md:max-w-2xl lg:max-w-3xl">
+      {/* <div className="absolute top-0 z-20 flex w-full max-w-xs justify-center md:max-w-2xl lg:max-w-3xl">
         {isClient && <CountdownTimer />}
-      </div>
+      </div> */}
     </section>
   );
 }

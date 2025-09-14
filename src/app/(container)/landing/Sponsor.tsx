@@ -217,7 +217,7 @@ export default function Sponsor() {
         data-aos-delay="100"
         className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-y-8 px-6"
       >
-        <div className="w-full max-w-4xl rounded-3xl border border-white/30 bg-white/20 p-8 shadow-lg backdrop-blur-md">
+        {/* <div className="w-full max-w-4xl rounded-3xl border border-white/30 bg-white/20 p-8 shadow-lg backdrop-blur-md">
           <Typography
             variant="h3"
             weight="bold"
@@ -239,7 +239,7 @@ export default function Sponsor() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         <div className="w-full max-w-4xl rounded-3xl border border-white/30 bg-white/20 p-8 shadow-lg backdrop-blur-md">
           <Typography
             variant="h3"
