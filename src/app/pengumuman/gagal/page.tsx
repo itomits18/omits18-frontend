@@ -461,7 +461,7 @@ export default function GagalLolosSemifinal() {
               <span className="mx-1 rounded-xl bg-[#9C3022] px-2 py-1 text-white">
                 Tidak Lolos
               </span>{' '}
-              ke tahap Semi Final Jangan Putus Asa dan Tetap Semangat!
+              ke tahap Semi Final. Jangan Putus Asa dan Tetap Semangat!
             </Typography>
           </div>
 

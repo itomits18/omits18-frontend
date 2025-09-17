@@ -33,6 +33,7 @@ export const useSemifinal = () => {
     data,
     isLoading: isSearching,
     error,
+    refetch,
   } = useQuery<ApiResponse, Error>({
     queryKey: [
       'semifinal-status',
@@ -49,12 +50,19 @@ export const useSemifinal = () => {
     },
     enabled: !!searchParams,
     refetchOnWindowFocus: false,
+    retry: false,
   });
 
   useEffect(() => {
     if (data) {
       if (data.code !== 200) {
-        toast.error(data.message || 'Terjadi kesalahan');
+        if (data.code === 404) {
+          toast.error('Peserta tidak ditemukan');
+        } else if (data.code === 401) {
+          toast.error('Silakan login terlebih dahulu');
+        } else {
+          toast.error(data.message || 'Terjadi kesalahan');
+        }
         return;
       }
 
@@ -86,6 +94,7 @@ export const useSemifinal = () => {
 
   const checkSemifinalStatus = (params: SearchParams) => {
     setSearchParams(params);
+    refetch();
   };
 
   return {
