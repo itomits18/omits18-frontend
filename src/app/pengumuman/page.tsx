@@ -1,34 +1,53 @@
 'use client';
 
 import Typography from '@/components/Typography';
+import Input from '@/components/form/Input';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useSemifinal } from './hooks/useSemifinal';
+
+type FormFields = {
+  inputNoPeserta: string;
+  inputKodePos: string;
+};
 
 export default function Pengumuman() {
-  const methods = useForm({
-    mode: 'onBlur',
-    // resolver: zodResolver(LoginSchema),
-  });
-
+  const methods = useForm<FormFields>({ mode: 'onBlur' });
   const { handleSubmit } = methods;
+  const { checkSemifinalStatus, isSearching } = useSemifinal();
 
-  const onSubmit = () => {
-    // mutate(data);
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    const nomorPeserta = data.inputNoPeserta?.trim();
+    const kodePos = data.inputKodePos?.trim();
+
+    if (!nomorPeserta) {
+      methods.setError('inputNoPeserta', {
+        message: 'Nomor peserta wajib diisi',
+      });
+      return;
+    }
+
+    if (!kodePos) {
+      methods.setError('inputKodePos', { message: 'Kode pos wajib diisi' });
+      return;
+    }
+
+    checkSemifinalStatus({
+      participant_number: nomorPeserta,
+      postal: kodePos,
+    });
   };
 
   return (
-    <div
-      className="relative w-full h-screen overflow-hidden 
-      bg-gradient-to-t from-[#D99417] via-[rgba(207,142,21,0.65)] to-[rgb(207,142,21,0.2)]"
-    >
+    <div className="relative h-screen w-full overflow-hidden bg-gradient-to-t from-[#D99417] to-[#E0C47D]">
       {/* Mobile*/}
       <Image
         src="/images/semifinal/Group 217.png"
         width={303}
         height={252}
         alt="cloud"
-        className="absolute top-[34%] right-0 md:hidden object-contain"
+        className="absolute top-[34%] right-0 object-contain md:hidden"
       />
 
       <Image
@@ -36,7 +55,7 @@ export default function Pengumuman() {
         width={321}
         height={262}
         alt="cloud"
-        className="absolute top-[14%] md:hidden object-contain"
+        className="absolute top-[14%] object-contain md:hidden"
       />
 
       <Image
@@ -44,7 +63,7 @@ export default function Pengumuman() {
         width={236}
         height={153}
         alt="cloud"
-        className="absolute top-[14%] right-0 md:hidden object-contain"
+        className="absolute top-[14%] right-0 object-contain md:hidden"
       />
 
       <Image
@@ -52,7 +71,7 @@ export default function Pengumuman() {
         width={390}
         height={188}
         alt="cloud"
-        className="absolute right-0 md:hidden object-contain"
+        className="absolute right-0 object-contain md:hidden"
       />
 
       <Image
@@ -60,7 +79,7 @@ export default function Pengumuman() {
         width={381}
         height={162}
         alt="star"
-        className="absolute z-10 object-contain mx-auto left-0 right-0"
+        className="absolute right-0 left-0 z-10 mx-auto object-contain"
       />
 
       <Image
@@ -68,7 +87,7 @@ export default function Pengumuman() {
         width={230}
         height={250}
         alt="pohon"
-        className="absolute top-[10%] md:hidden object-contain"
+        className="absolute top-[10%] object-contain md:hidden"
       />
 
       <Image
@@ -76,7 +95,7 @@ export default function Pengumuman() {
         width={164}
         height={207}
         alt="book"
-        className="absolute bottom-0 md:hidden object-contain"
+        className="absolute bottom-0 object-contain md:hidden"
       />
 
       <Image
@@ -84,15 +103,15 @@ export default function Pengumuman() {
         width={162}
         height={258}
         alt="jamur"
-        className="absolute right-0 bottom-0 md:hidden object-contain"
+        className="absolute right-0 bottom-0 object-contain md:hidden"
       />
 
       <Image
-        src="/images/semifinal/logo.png"
-        width={205}
-        height={56}
+        src="/images/semifinal/omits-logo.png"
+        width={576}
+        height={144}
         alt="logo"
-        className="absolute left-1/2 transform -translate-x-1/2 top-[5%] object-contain"
+        className="absolute top-[5%] left-1/2 z-10 w-[25vh] -translate-x-1/2 transform object-contain md:w-[30vh]"
       />
 
       {/* Desktop*/}
@@ -101,7 +120,7 @@ export default function Pengumuman() {
         width={1440}
         height={417}
         alt="cloud"
-        className="absolute hidden md:block object-cover w-full"
+        className="absolute hidden w-full object-cover md:block"
       />
 
       <Image
@@ -109,7 +128,7 @@ export default function Pengumuman() {
         width={1440}
         height={473}
         alt="cloud"
-        className="absolute hidden md:block top-[30%] object-cover w-full"
+        className="absolute top-[30%] hidden w-full object-cover md:block"
       />
 
       <Image
@@ -117,7 +136,7 @@ export default function Pengumuman() {
         width={289}
         height={499}
         alt="jamur"
-        className="absolute top-[10%] right-0 hidden md:block object-contain"
+        className="absolute top-[10%] right-0 hidden object-contain md:block"
       />
 
       <Image
@@ -125,7 +144,7 @@ export default function Pengumuman() {
         width={389}
         height={550}
         alt="tree"
-        className="absolute top-[20%] hidden md:block object-contain"
+        className="absolute top-[20%] hidden object-contain md:block"
       />
 
       <Image
@@ -133,7 +152,7 @@ export default function Pengumuman() {
         width={124}
         height={257}
         alt="lilin"
-        className="absolute left-1/2 transform -translate-x-1/2 bottom-0 hidden md:block object-contain"
+        className="absolute bottom-0 left-1/2 hidden -translate-x-1/2 transform object-contain md:block"
       />
 
       <Image
@@ -141,7 +160,7 @@ export default function Pengumuman() {
         width={155}
         height={221}
         alt="bola"
-        className="absolute bottom-0 hidden md:block object-contain"
+        className="absolute bottom-0 hidden object-contain md:block"
       />
 
       <Image
@@ -149,7 +168,7 @@ export default function Pengumuman() {
         width={243}
         height={480}
         alt="bola"
-        className="absolute right-0 bottom-0 hidden md:block object-contain"
+        className="absolute right-0 bottom-0 hidden object-contain md:block"
       />
 
       <Image
@@ -157,86 +176,98 @@ export default function Pengumuman() {
         width={385}
         height={150}
         alt="book"
-        className="absolute left-1/2 transform -translate-x-1/2 bottom-[16%] hidden md:block object-contain"
-      />
-
-      <Image
-        src="/images/semifinal/map.png"
-        width={92}
-        height={76}
-        alt="map"
-        className="absolute left-1/2 transform -translate-x-1/2 z-30 top-[20%] hidden md:block object-contain"
+        className="absolute bottom-[16%] left-1/2 hidden -translate-x-1/2 transform object-contain md:block"
       />
 
       {/* Frame */}
-      <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-       bg-white px-8 py-6 rounded-2xl shadow-md w-[300px] h-[380px] md:w-[400px] md:h-[420px] 
-       opacity-90 flex flex-col z-10"
-      >
-        <Typography
-          font="Lora"
-          weight="bold"
-          variant="h1"
-          className="text-2xl md:text-4xl text-[#E3BF90] text-center font-bold [text-shadow:_2px_3px_0_rgb(0_0_0_/_100%)]"
-        >
-          PENGUMUMAN
-        </Typography>
+      <div className="absolute top-1/2 left-1/2 z-10 flex w-full max-w-xs -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-2xl bg-white px-8 py-8 opacity-90 shadow-md md:max-w-md md:py-10">
+        <div className="flex items-center justify-center">
+          <Image
+            src="/images/semifinal/gulungan-map.png"
+            width={304}
+            height={152}
+            alt="map"
+            className="absolute -top-10 left-1/2 z-30 hidden w-[18vh] -translate-x-1/2 transform object-contain md:block lg:w-[20vh]"
+          />
+          <Typography
+            font="Cinzel"
+            weight="bold"
+            variant="h4"
+            className="text-center text-[#E3BF90] [text-shadow:_2px_3px_0_rgb(0_0_0_/_100%)] max-md:text-[32px]"
+          >
+            PENGUMUMAN
+          </Typography>
+        </div>
 
         <Typography
           font="Lora"
           weight="semibold"
           variant="h3"
-          className="text-sm md:text-lg text-center px-2 mt-3"
+          className="mt-3 px-2 text-center text-sm text-[#5C2921] md:text-lg"
         >
-          Silahkan Masukkan Nomor ID dan Nama Lengkap untuk Mengetahui
+          Silahkan Masukkan Nomor Peserta dan Kode Pos untuk Mengetahui
           Pengumuman
         </Typography>
 
         <FormProvider {...methods}>
           <form
-            className="mt-4 space-y-4 flex-1"
+            className="mt-4 flex-1 space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div>
               <Typography
                 font="Lora"
                 weight="bold"
-                variant="h4"
-                className="text-[#5C2921] text-base md:text-lg text-left"
+                variant="p"
+                className="mb-2 text-left text-[#5C2921]"
               >
                 Nomor Peserta
               </Typography>
-              <input
-                type="text"
+              <Input
+                {...methods.register('inputNoPeserta', {
+                  required: 'Nomor peserta wajib diisi',
+                })}
+                id="inputNoPeserta"
+                sizes="lg"
                 placeholder="0171701001"
-                className="w-full px-3 py-2 bg-gray-100 rounded-md focus:outline-none 
-                focus:ring-2 focus:ring-[#B2AAA0] mt-1 border border-gray-300"
-                required
+                className="rounded-md border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-[#B2AAA0] focus:outline-none"
               />
-            </div>
-            <div>
               <Typography
                 font="Lora"
                 weight="bold"
-                variant="h4"
-                className="text-[#5C2921] text-base md:text-lg text-left"
+                variant="p"
+                className="mt-2 mb-2 text-left text-[#5C2921]"
               >
-                Nama Lengkap
+                Kode Pos
               </Typography>
-              <input
-                type="text"
-                placeholder="Nama Lengkap"
-                className="w-full px-3 py-2 bg-gray-100 rounded-md focus:outline-none 
-                         focus:ring-2 focus:ring-[#B2AAA0] mt-1 border border-gray-300"
-                required
+              <Input
+                {...methods.register('inputKodePos', {
+                  required: 'Kode pos wajib diisi',
+                  pattern: {
+                    value: /^[0-9]{5}$/,
+                    message: 'Kode pos harus berupa 5 digit angka',
+                  },
+                })}
+                id="inputKodePos"
+                sizes="lg"
+                placeholder="45575"
+                className="rounded-md border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-[#B2AAA0] focus:outline-none"
               />
             </div>
             <Button
-              type="submit"
-              className="rounded-md bg-[#CCA459] w-full text-base font-Lora font-bold hover:bg-[#FAEDC8] py-2 mt-4"
+              variant="yellow"
+              size="md"
+              className="w-full rounded-md md:py-3"
+              disabled={isSearching}
             >
-              Submit
+              <Typography
+                font="Lora"
+                weight="bold"
+                variant="p"
+                className="text-center text-white max-md:text-[18px]"
+              >
+                {isSearching ? 'Mencari...' : 'Submit'}
+              </Typography>
             </Button>
           </form>
         </FormProvider>
