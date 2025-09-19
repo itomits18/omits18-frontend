@@ -180,7 +180,7 @@ export default function Pengumuman() {
       />
 
       {/* Frame */}
-      <div className="absolute top-1/2 left-1/2 z-10 flex w-full max-w-xs -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-2xl bg-white px-8 py-8 opacity-90 shadow-md md:max-w-md md:py-10">
+      <div className="absolute top-1/2 left-1/2 z-30 flex w-full max-w-xs -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-2xl bg-white px-8 py-8 opacity-90 shadow-md md:max-w-md md:py-10">
         <div className="flex items-center justify-center">
           <Image
             src="/images/semifinal/gulungan-map.png"

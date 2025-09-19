@@ -13,6 +13,7 @@ export default function LolosSemifinal() {
   const region = searchParams.get('region');
   const skLink = searchParams.get('skLink') || '';
   const groupSemiFinal = searchParams.get('groupSemiFinal') || '';
+  const scoreLink = searchParams.get('scoreLink') || '';
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-t from-[#86ABC0] to-[#35547B]">
       {/* Mobile*/}
@@ -467,7 +468,7 @@ export default function LolosSemifinal() {
             </Typography>
           </div>
 
-          <div className="mt-4 flex flex-row justify-center gap-2 text-center">
+          <div className="mt-4 flex flex-col flex-wrap justify-center gap-2 text-center sm:flex-row">
             <Link
               href={groupSemiFinal}
               target="_blank"
@@ -475,15 +476,23 @@ export default function LolosSemifinal() {
             >
               <Button
                 variant="green"
-                className="w-fit rounded-md px-2 py-1 text-xs text-white hover:bg-green-600 md:px-4 md:py-2 md:text-base"
+                className="w-fit rounded-md px-2 py-1.5 text-xs text-white hover:bg-green-600 md:px-4 md:py-2 md:text-base"
               >
                 Gabung Grup WA
+              </Button>
+            </Link>
+            <Link href={scoreLink} target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="yellow"
+                className="w-fit rounded-md px-2 py-1.5 text-xs text-white hover:bg-yellow-600 md:px-4 md:py-2 md:text-base"
+              >
+                Lihat Nilai
               </Button>
             </Link>
             <Link href={skLink} target="_blank" rel="noopener noreferrer">
               <Button
                 variant="blue"
-                className="w-fit rounded-md px-2 py-1 text-xs text-white hover:bg-blue-800 md:px-4 md:py-2 md:text-base"
+                className="w-fit rounded-md px-2 py-1.5 text-xs text-white hover:bg-blue-800 md:px-4 md:py-2 md:text-base"
               >
                 SK Pengumuman
               </Button>

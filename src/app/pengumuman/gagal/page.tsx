@@ -11,7 +11,7 @@ export default function GagalLolosSemifinal() {
   const participantNumber = searchParams.get('participantNumber')!;
   const name = searchParams.get('name')!;
   const region = searchParams.get('region')!;
-  const skLink = searchParams.get('skLink') || '';
+  const scoreLink = searchParams.get('scoreLink') || '';
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-t from-[#5180BB] via-[#EEE2DF] via-35% to-[#9C3022]">
       {/* Mobile*/}
@@ -465,19 +465,13 @@ export default function GagalLolosSemifinal() {
             </Typography>
           </div>
 
-          <div className="mt-4 flex flex-row justify-center gap-2 text-center">
-            <Link href="/dashboard" passHref>
+          <div className="mt-3 flex flex-row justify-center text-center">
+            <Link href={scoreLink} target="_blank" rel="noopener noreferrer">
               <Button
                 variant="brown"
-                className="w-fit rounded-md px-2 py-1 text-xs text-white md:px-4 md:py-2 md:text-base"
+                className="hover:bg-additions-brown-200 rounded-md border border-gray-300 px-5 py-1.5 text-xs text-white md:px-8 md:py-2 md:text-base"
               >
-                Kembali ke Beranda
-              </Button>
-            </Link>
-
-            <Link href={skLink} target="_blank" rel="noopener noreferrer">
-              <Button className="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 hover:bg-gray-100 md:px-4 md:py-2 md:text-base">
-                SK Pengumuman
+                Lihat Nilai
               </Button>
             </Link>
           </div>
