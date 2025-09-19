@@ -12,6 +12,7 @@ export type ParticipantData = {
   result: 'Lolos' | string;
   group_semi_final: string;
   sk_link: string;
+  score_link: string;
 };
 
 type ApiResponse = {
@@ -33,16 +34,10 @@ export const useSemifinal = () => {
     data,
     isLoading: isSearching,
     error,
-    refetch,
   } = useQuery<ApiResponse, Error>({
-    queryKey: [
-      'semifinal-status',
-      searchParams?.participant_number,
-      searchParams?.postal,
-    ],
+    queryKey: ['semifinal-status', searchParams],
     queryFn: async () => {
       if (!searchParams) throw new Error('No search parameters');
-
       const { data } = await api.get(
         `/participants/announcement?participant_number=${searchParams.participant_number}&postal=${searchParams.postal}`,
       );
@@ -54,34 +49,44 @@ export const useSemifinal = () => {
   });
 
   useEffect(() => {
-    if (data) {
-      if (data.code !== 200) {
-        if (data.code === 404) {
+    if (!data) return;
+
+    if (data.code !== 200) {
+      switch (data.code) {
+        case 404:
           toast.error('Peserta tidak ditemukan');
-        } else if (data.code === 401) {
+          break;
+        case 401:
           toast.error('Silakan login terlebih dahulu');
-        } else {
+          break;
+        default:
           toast.error(data.message || 'Terjadi kesalahan');
-        }
-        return;
       }
-
-      const participant = data.data;
-
-      const params = new URLSearchParams({
-        participantNumber: participant.participant_number,
-        name: participant.name,
-        region: participant.region,
-        groupSemiFinal: participant.group_semi_final || '',
-        skLink: participant.sk_link || '',
-      }).toString();
-
-      if (participant.status === 'SEMI_FINAL') {
-        router.push(`/pengumuman/lolos?${params}`);
-      } else {
-        router.push(`/pengumuman/gagal?${params}`);
-      }
+      return;
     }
+
+    const {
+      participant_number,
+      name,
+      region,
+      group_semi_final,
+      sk_link,
+      score_link,
+      status,
+    } = data.data;
+
+    const params = new URLSearchParams({
+      participantNumber: participant_number,
+      name,
+      region,
+      groupSemiFinal: group_semi_final || '',
+      skLink: sk_link || '',
+      scoreLink: score_link || '',
+    }).toString();
+
+    const path =
+      status === 'SEMI_FINAL' ? '/pengumuman/lolos' : '/pengumuman/gagal';
+    router.push(`${path}?${params}`);
   }, [data, router]);
 
   useEffect(() => {
@@ -94,7 +99,6 @@ export const useSemifinal = () => {
 
   const checkSemifinalStatus = (params: SearchParams) => {
     setSearchParams(params);
-    refetch();
   };
 
   return {
