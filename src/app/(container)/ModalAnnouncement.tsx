@@ -2,7 +2,12 @@
 
 import Typography from '@/components/Typography';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ArrowRight } from 'lucide-react';
@@ -15,6 +20,8 @@ export default function ModalAnn() {
 
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <DialogOverlay className="bg-black-200/30 fixed inset-0 z-50 backdrop-blur-sm" />
+
       <DialogContent
         className={cn(
           'max-h-screen max-w-[95%] overflow-auto rounded-2xl max-md:h-[90%] md:h-[70%] md:max-w-[80%] xl:h-[80%] 2xl:h-[90%]',

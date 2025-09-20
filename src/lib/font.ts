@@ -110,6 +110,63 @@ export const OZWizard = localFont({
 //   variable: '--font-lora',
 // });
 
+// export const LoraFont = Lora({
+//   subsets: ['latin'],
+//   weight: ['400', '500', '600', '700'],
+//   display: 'swap',
+//   variable: '--font-Lora',
+// });
+
+// Lora (12 styles: normal + italic)
+// export const LoraFont = localFont({
+//   src: [
+//     {
+//       path: '../app/fonts/Lora/Lora-Regular.ttf',
+//       weight: '400',
+//       style: 'normal',
+//     },
+//     {
+//       path: '../app/fonts/Lora/Lora-Italic.ttf',
+//       weight: '400',
+//       style: 'italic',
+//     },
+
+//     {
+//       path: '../app/fonts/Lora/Lora-Medium.ttf',
+//       weight: '500',
+//       style: 'normal',
+//     },
+//     {
+//       path: '../app/fonts/Lora/Lora-MediumItalic.ttf',
+//       weight: '500',
+//       style: 'italic',
+//     },
+
+//     {
+//       path: '../app/fonts/Lora/Lora-SemiBold.ttf',
+//       weight: '600',
+//       style: 'normal',
+//     },
+//     {
+//       path: '../app/fonts/Lora/Lora-SemiBoldItalic.ttf',
+//       weight: '600',
+//       style: 'italic',
+//     },
+
+//     {
+//       path: '../app/fonts/Lora/Lora-Bold.ttf',
+//       weight: '700',
+//       style: 'normal',
+//     },
+//     {
+//       path: '../app/fonts/Lora/Lora-BoldItalic.ttf',
+//       weight: '700',
+//       style: 'italic',
+//     },
+//   ],
+//   variable: '--font-lora',
+// });
+
 export const LoraFont = Lora({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],

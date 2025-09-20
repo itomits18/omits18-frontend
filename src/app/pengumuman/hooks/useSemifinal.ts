@@ -65,6 +65,8 @@ export const useSemifinal = () => {
       return;
     }
 
+    if (data.code === 200) toast.success('Data peserta telah ditemukan');
+
     const {
       participant_number,
       name,

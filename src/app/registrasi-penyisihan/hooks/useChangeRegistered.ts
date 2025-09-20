@@ -87,7 +87,6 @@ export const useParticipantRegistration = () => {
           status: 'REGISTERED',
         },
       };
-
       const { data } = await api.put(
         `/participants/${participantData.id}`,
         payload,
