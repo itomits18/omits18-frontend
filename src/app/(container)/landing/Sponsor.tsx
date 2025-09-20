@@ -9,113 +9,113 @@ export default function Sponsor() {
   React.useEffect(() => {
     AOS.init();
   }, []);
-  const mediaPartners = [
-    {
-      id: 1,
-      src: '/images/landing/sponsor/logo-media-partner/domath_its.png',
-      alt: 'Domath ITS',
-    },
-    {
-      id: 2,
-      src: '/images/landing/sponsor/logo-media-partner/himatika_itera.png',
-      alt: 'Himatika ITERA',
-    },
-    {
-      id: 3,
-      src: '/images/landing/sponsor/logo-media-partner/Logo_Himatika_Unsoed.png',
-      alt: 'Himatika Unsoed',
-    },
-    {
-      id: 4,
-      src: '/images/landing/sponsor/logo-media-partner/HIMATIKA_UB.png',
-      alt: ' HIMATIKA UB',
-    },
-    {
-      id: 5,
-      src: '/images/landing/sponsor/logo-media-partner/BEM_FTEIC_ITS.png',
-      alt: 'BEM FTEIC ITS',
-    },
-    {
-      id: 6,
-      src: '/images/landing/sponsor/logo-media-partner/BEM_FDKBD_ITS.png',
-      alt: 'BEM FDKBD ITS',
-    },
-    {
-      id: 7,
-      src: '/images/landing/sponsor/logo-media-partner/Bemfa.png',
-      alt: 'BEM FMIPA UMM',
-    },
-    {
-      id: 8,
-      src: '/images/landing/sponsor/logo-media-partner/BEMFMIPA_UNJ.png',
-      alt: 'BEM FMIPA UNJ',
-    },
-    {
-      id: 9,
-      src: '/images/landing/sponsor/logo-media-partner/Mahasiswa_Malang.jpg',
-      alt: 'Mahasiswa Malang',
-    },
-    {
-      id: 10,
-      src: '/images/landing/sponsor/logo-media-partner/Love_Suroboyo.png',
-      alt: 'Love Suroboyo',
-    },
-    {
-      id: 11,
-      src: '/images/landing/sponsor/logo-media-partner/infoeventjatim.png',
-      alt: 'Info Event Jatim',
-    },
-    {
-      id: 12,
-      src: '/images/landing/sponsor/logo-media-partner/eventbandunginfo.png',
-      alt: 'Event Bandung Info',
-    },
-    {
-      id: 13,
-      src: '/images/landing/sponsor/logo-media-partner/pekanbaru_info_2.jpg',
-      alt: 'Pekanbaru Info',
-    },
-    {
-      id: 14,
-      src: '/images/landing/sponsor/logo-media-partner/pekanbaru_info_1.jpg',
-      alt: 'Pekanbaru Info',
-    },
-    {
-      id: 15,
-      src: '/images/landing/sponsor/logo-media-partner/elekktro.png',
-      alt: 'ELektro ITS',
-    },
-    {
-      id: 16,
-      src: '/images/landing/sponsor/logo-media-partner/eventsurabaya.png',
-      alt: 'Event Surabaya',
-    },
-    {
-      id: 17,
-      src: '/images/landing/sponsor/logo-media-partner/Event_Jogjakartans.jpg',
-      alt: 'Event Jogjakartans',
-    },
-    {
-      id: 18,
-      src: '/images/landing/sponsor/logo-media-partner/HMSI.png',
-      alt: 'HMSI',
-    },
-    {
-      id: 19,
-      src: '/images/landing/sponsor/logo-media-partner/Expojogja_New.png',
-      alt: 'Expo Jogja',
-    },
-    {
-      id: 20,
-      src: '/images/landing/sponsor/logo-media-partner/ITS_TV.png',
-      alt: 'ITS TV',
-    },
-    {
-      id: 21,
-      src: '/images/landing/sponsor/logo-media-partner/Logo_BM.png',
-      alt: 'Berita Magetan',
-    },
-  ];
+  // const _mediaPartners = [
+  //   {
+  //     id: 1,
+  //     src: '/images/landing/sponsor/logo-media-partner/domath_its.png',
+  //     alt: 'Domath ITS',
+  //   },
+  //   {
+  //     id: 2,
+  //     src: '/images/landing/sponsor/logo-media-partner/himatika_itera.png',
+  //     alt: 'Himatika ITERA',
+  //   },
+  //   {
+  //     id: 3,
+  //     src: '/images/landing/sponsor/logo-media-partner/Logo_Himatika_Unsoed.png',
+  //     alt: 'Himatika Unsoed',
+  //   },
+  //   {
+  //     id: 4,
+  //     src: '/images/landing/sponsor/logo-media-partner/HIMATIKA_UB.png',
+  //     alt: ' HIMATIKA UB',
+  //   },
+  //   {
+  //     id: 5,
+  //     src: '/images/landing/sponsor/logo-media-partner/BEM_FTEIC_ITS.png',
+  //     alt: 'BEM FTEIC ITS',
+  //   },
+  //   {
+  //     id: 6,
+  //     src: '/images/landing/sponsor/logo-media-partner/BEM_FDKBD_ITS.png',
+  //     alt: 'BEM FDKBD ITS',
+  //   },
+  //   {
+  //     id: 7,
+  //     src: '/images/landing/sponsor/logo-media-partner/Bemfa.png',
+  //     alt: 'BEM FMIPA UMM',
+  //   },
+  //   {
+  //     id: 8,
+  //     src: '/images/landing/sponsor/logo-media-partner/BEMFMIPA_UNJ.png',
+  //     alt: 'BEM FMIPA UNJ',
+  //   },
+  //   {
+  //     id: 9,
+  //     src: '/images/landing/sponsor/logo-media-partner/Mahasiswa_Malang.jpg',
+  //     alt: 'Mahasiswa Malang',
+  //   },
+  //   {
+  //     id: 10,
+  //     src: '/images/landing/sponsor/logo-media-partner/Love_Suroboyo.png',
+  //     alt: 'Love Suroboyo',
+  //   },
+  //   {
+  //     id: 11,
+  //     src: '/images/landing/sponsor/logo-media-partner/infoeventjatim.png',
+  //     alt: 'Info Event Jatim',
+  //   },
+  //   {
+  //     id: 12,
+  //     src: '/images/landing/sponsor/logo-media-partner/eventbandunginfo.png',
+  //     alt: 'Event Bandung Info',
+  //   },
+  //   {
+  //     id: 13,
+  //     src: '/images/landing/sponsor/logo-media-partner/pekanbaru_info_2.jpg',
+  //     alt: 'Pekanbaru Info',
+  //   },
+  //   {
+  //     id: 14,
+  //     src: '/images/landing/sponsor/logo-media-partner/pekanbaru_info_1.jpg',
+  //     alt: 'Pekanbaru Info',
+  //   },
+  //   {
+  //     id: 15,
+  //     src: '/images/landing/sponsor/logo-media-partner/elekktro.png',
+  //     alt: 'ELektro ITS',
+  //   },
+  //   {
+  //     id: 16,
+  //     src: '/images/landing/sponsor/logo-media-partner/eventsurabaya.png',
+  //     alt: 'Event Surabaya',
+  //   },
+  //   {
+  //     id: 17,
+  //     src: '/images/landing/sponsor/logo-media-partner/Event_Jogjakartans.jpg',
+  //     alt: 'Event Jogjakartans',
+  //   },
+  //   {
+  //     id: 18,
+  //     src: '/images/landing/sponsor/logo-media-partner/HMSI.png',
+  //     alt: 'HMSI',
+  //   },
+  //   {
+  //     id: 19,
+  //     src: '/images/landing/sponsor/logo-media-partner/Expojogja_New.png',
+  //     alt: 'Expo Jogja',
+  //   },
+  //   {
+  //     id: 20,
+  //     src: '/images/landing/sponsor/logo-media-partner/ITS_TV.png',
+  //     alt: 'ITS TV',
+  //   },
+  //   {
+  //     id: 21,
+  //     src: '/images/landing/sponsor/logo-media-partner/Logo_BM.png',
+  //     alt: 'Berita Magetan',
+  //   },
+  // ];
   const sponsors = [
     {
       id: 1,
@@ -169,7 +169,7 @@ export default function Sponsor() {
     },
   ];
   return (
-    <section className="relative grid min-h-[115vh] w-full place-items-center bg-gradient-to-b from-[#DCAE57] from-[3%] via-[#E0C994] via-[35%] to-[#E5AE66] to-[100%] xl:min-h-[130vh] 2xl:min-h-[170vh]">
+    <section className="relative grid min-h-[115vh] w-full place-items-center bg-gradient-to-b from-purple-800 from-[20%] via-[#E0C994] via-[35%] to-[#E5AE66] to-[100%] xl:min-h-[130vh] 2xl:min-h-[170vh]">
       <Image
         src="/images/landing/sponsor/awan-bottom.png"
         width={2878}

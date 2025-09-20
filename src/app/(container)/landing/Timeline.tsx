@@ -1,68 +1,67 @@
 'use client';
-import Typography from '@/components/Typography';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const CountdownTimer = () => {
-  const targetDate = new Date('2025-10-05T00:00:00');
+// const CountdownTimer = () => {
+//   const targetDate = new Date('2025-10-05T00:00:00');
 
-  const calculateTimeLeft = () => {
-    const difference = +targetDate - +new Date();
-    let timeLeft = { Hari: 0, Jam: 0, Menit: 0, Detik: 0 };
+//   const calculateTimeLeft = () => {
+//     const difference = +targetDate - +new Date();
+//     let timeLeft = { Hari: 0, Jam: 0, Menit: 0, Detik: 0 };
 
-    if (difference > 0) {
-      timeLeft = {
-        Hari: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        Jam: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        Menit: Math.floor((difference / 1000 / 60) % 60),
-        Detik: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return timeLeft;
-  };
+//     if (difference > 0) {
+//       timeLeft = {
+//         Hari: Math.floor(difference / (1000 * 60 * 60 * 24)),
+//         Jam: Math.floor((difference / (1000 * 60 * 60)) % 24),
+//         Menit: Math.floor((difference / 1000 / 60) % 60),
+//         Detik: Math.floor((difference / 1000) % 60),
+//       };
+//     }
+//     return timeLeft;
+//   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+//   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearTimeout(timer);
-  });
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setTimeLeft(calculateTimeLeft());
+//     }, 1000);
+//     return () => clearTimeout(timer);
+//   });
 
-  return (
-    <div className="inline-block rounded-xl border border-white bg-[#F9DDD8]/50 p-4 shadow-lg backdrop-blur-xl md:px-6 md:py-4">
-      <div className="flex justify-center space-x-3 md:space-x-4">
-        {Object.entries(timeLeft).map(([unit, value]) => (
-          <div key={unit} className="flex flex-col items-center space-y-2">
-            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-[#435980] shadow-md md:h-20 md:w-20">
-              <Typography
-                font="CinzelDecorative"
-                variant="h5"
-                weight="black"
-                className="text-pink-100 max-md:text-xl"
-              >
-                {String(value).padStart(2, '0')}
-              </Typography>
-            </div>
+//   return (
+//     <div className="inline-block rounded-xl border border-white bg-[#F9DDD8]/50 p-4 shadow-lg backdrop-blur-xl md:px-6 md:py-4">
+//       <div className="flex justify-center space-x-3 md:space-x-4">
+//         {Object.entries(timeLeft).map(([unit, value]) => (
+//           <div key={unit} className="flex flex-col items-center space-y-2">
+//             <div className="flex h-14 w-14 items-center justify-center rounded-md bg-[#435980] shadow-md md:h-20 md:w-20">
+//               <Typography
+//                 font="CinzelDecorative"
+//                 variant="h5"
+//                 weight="black"
+//                 className="text-pink-100 max-md:text-xl"
+//               >
+//                 {String(value).padStart(2, '0')}
+//               </Typography>
+//             </div>
 
-            <Typography
-              variant="p"
-              font="Lora"
-              weight="semibold"
-              className="text-additions-brown-200"
-            >
-              {unit}
-            </Typography>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//             <Typography
+//               variant="p"
+//               font="Lora"
+//               weight="semibold"
+//               className="text-additions-brown-200"
+//             >
+//               {unit}
+//             </Typography>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
 export default function Timeline() {
-  const [isClient, setIsClient] = useState(false);
+  const [_isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
   }, []);
