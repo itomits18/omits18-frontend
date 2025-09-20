@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function GagalLolosSemifinal() {
+function GagalLolosSemifinal() {
   const searchParams = useSearchParams();
 
   const participantNumber = searchParams.get('participantNumber')!;
@@ -478,5 +479,13 @@ export default function GagalLolosSemifinal() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GagalLolosSemifinal />
+    </Suspense>
   );
 }
