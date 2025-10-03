@@ -73,9 +73,15 @@ export const useParticipantRegistration = () => {
   const { mutate: updateRegistration, isPending: isUpdating } = useMutation({
     mutationFn: async (participantData: Participant) => {
       const baseString = participantData.participant_detail.student_id_url;
-      const sliceString = baseString.startsWith('https://s3.jkt.dewavps.com')
-        ? baseString.slice('https://s3.jkt.dewavps.com/omits-storage/'.length)
-        : baseString;
+      const sliceString =
+        baseString.startsWith('https://s3.jkt.dewavps.com') ||
+        baseString.startsWith('https%253A//s3.jkt.dewavps.com')
+          ? baseString.slice(
+              0,
+              'https://s3.jkt.dewavps.com/omits-storage/01K3RCYA6DJTR66X2XR1A8SYZP.jpg'
+                .length + 5,
+            )
+          : baseString;
 
       const payload = {
         ...participantData,
