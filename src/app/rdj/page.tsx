@@ -60,6 +60,7 @@ export default function Page() {
     category: 0,
     estimated_score: 0,
     nomor_peserta: '',
+    participant_name: '',
     res_soal: [],
     sisa_waktu: 0,
   });
@@ -84,7 +85,7 @@ export default function Page() {
         const text = e.target?.result as string;
         const json = JSON.parse(text);
 
-        if (PesertaSchema.parse(json)) setJsonData(json);
+        if (PesertaSchema.safeParse(json).success) setJsonData(json);
         else toast.error('Invalid Format File');
       } catch (err: any) {
         setError('Invalid JSON file: ' + err.message);
@@ -104,7 +105,7 @@ export default function Page() {
 
   const handleClick = () => {
     const answerData: answerType = {
-      name: jsonData.nomor_peserta,
+      name: jsonData.participant_name,
       participant_number: jsonData.nomor_peserta,
       answer: jsonData.res_soal.map((x) => x.user_answer?.toString() as string),
       validation: jsonData.res_soal.map((x) => x.correct_answer as boolean),
@@ -180,7 +181,7 @@ export default function Page() {
         className="absolute right-0 bottom-[10%] hidden md:block xl:bottom-[18%] 2xl:bottom-[25%]"
       />
 
-      {!jsonData.category ? (
+      {!jsonData.participant_name ? (
         <div className="relative w-full max-w-4xl rounded-2xl bg-[#FFFDF0] p-6 shadow-2xl md:p-10">
           <label className="relative flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-green-100 bg-green-50 transition">
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -204,6 +205,10 @@ export default function Page() {
           <div className="relative w-full max-w-4xl rounded-2xl bg-[#FFFDF0] p-6 shadow-2xl md:p-10">
             <div className="grid w-full grid-cols-2 gap-5 py-4">
               <DisplayField
+                label="Nama Peserta"
+                value={jsonData.participant_name}
+              />
+              <DisplayField
                 label="Nomor Peserta"
                 value={jsonData.nomor_peserta}
               />
@@ -211,12 +216,10 @@ export default function Page() {
                 label="Jenjang"
                 value={cekJenjang(jsonData.nomor_peserta)}
               />
-              <div className="col-span-2">
-                <DisplayField
-                  label="Sisa Waktu"
-                  value={`${timeFormat.hh} Jam, ${timeFormat.mm} Menit, ${timeFormat.ss} Detik`}
-                />
-              </div>
+              <DisplayField
+                label="Sisa Waktu"
+                value={`${timeFormat.hh} Jam, ${timeFormat.mm} Menit, ${timeFormat.ss} Detik`}
+              />
             </div>
           </div>
 

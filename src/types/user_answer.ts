@@ -12,6 +12,7 @@ export const PesertaSchema = z.object({
   category: z.number(),
   estimated_score: z.number().nullable(),
   nomor_peserta: z.string(),
+  participant_name: z.string(),
   res_soal: z.array(ResSoalSchema),
   sisa_waktu: z.number(),
 });
