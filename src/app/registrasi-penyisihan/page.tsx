@@ -189,7 +189,7 @@ export default function Page() {
             </div>
 
             <div className="mt-8 text-center">
-              {foundParticipant.participant_detail.status === 'SEMI_FINAL' ? (
+              {foundParticipant.participant_detail.status === 'FINAL' ? (
                 <Button
                   onClick={markAsRegistered}
                   disabled={isUpdating}
