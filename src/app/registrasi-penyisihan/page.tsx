@@ -189,7 +189,7 @@ export default function Page() {
             </div>
 
             <div className="mt-8 text-center">
-              {foundParticipant.participant_detail.status === 'VERIFIED' ? (
+              {foundParticipant.participant_detail.status === 'FINAL' ? (
                 <Button
                   onClick={markAsRegistered}
                   disabled={isUpdating}
@@ -197,17 +197,16 @@ export default function Page() {
                 >
                   {isUpdating ? 'Menyimpan...' : 'Tandai Telah Registrasi'}
                 </Button>
-              ) : ['PAYMENT', 'REJECTED'].includes(
-                  foundParticipant.participant_detail.status,
-                ) ? (
-                <div className="animate-in fade-in zoom-in-95 text-additions-brown-200 inline-flex items-center gap-2 text-lg font-semibold">
-                  <XCircle size={24} />
-                  Peserta Belum Terdaftar
-                </div>
-              ) : (
+              ) : foundParticipant.participant_detail.status ===
+                'REGISTERED' ? (
                 <div className="animate-in fade-in zoom-in-95 inline-flex items-center gap-2 text-lg font-semibold text-green-600">
                   <CheckCircle size={24} />
                   Peserta Telah Teregistrasi
+                </div>
+              ) : (
+                <div className="animate-in fade-in zoom-in-95 text-additions-brown-200 inline-flex items-center gap-2 text-lg font-semibold">
+                  <XCircle size={24} />
+                  Peserta Tidak Terdaftar Final
                 </div>
               )}
             </div>

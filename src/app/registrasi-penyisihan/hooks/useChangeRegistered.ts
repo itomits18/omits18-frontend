@@ -11,7 +11,7 @@ export type Participant = {
   participant_detail: {
     id: number;
     sub_type: string;
-    status: 'VERIFIED' | 'REGISTERED' | string;
+    status: 'FINAL' | 'REGISTERED' | string;
     student_id_url: string;
     guardian_phone: string;
   };
@@ -111,6 +111,10 @@ export const useParticipantRegistration = () => {
 
   const markAsRegistered = () => {
     if (!foundParticipant) return;
+    if (foundParticipant.participant_detail.status !== 'FINAL') {
+      toast.error('Peserta tidak terdaftar sebagai FINAL.');
+      return;
+    }
     updateRegistration(foundParticipant);
   };
 
