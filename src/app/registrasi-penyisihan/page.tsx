@@ -197,17 +197,16 @@ export default function Page() {
                 >
                   {isUpdating ? 'Menyimpan...' : 'Tandai Telah Registrasi'}
                 </Button>
-              ) : ['PAYMENT', 'REJECTED', 'REGISTERED'].includes(
-                  foundParticipant.participant_detail.status,
-                ) ? (
-                <div className="animate-in fade-in zoom-in-95 text-additions-brown-200 inline-flex items-center gap-2 text-lg font-semibold">
-                  <XCircle size={24} />
-                  Peserta Tidak Terdaftar Semi Final
-                </div>
-              ) : (
+              ) : foundParticipant.participant_detail.status ===
+                'REGISTERED' ? (
                 <div className="animate-in fade-in zoom-in-95 inline-flex items-center gap-2 text-lg font-semibold text-green-600">
                   <CheckCircle size={24} />
                   Peserta Telah Teregistrasi
+                </div>
+              ) : (
+                <div className="animate-in fade-in zoom-in-95 text-additions-brown-200 inline-flex items-center gap-2 text-lg font-semibold">
+                  <XCircle size={24} />
+                  Peserta Tidak Terdaftar Final
                 </div>
               )}
             </div>
